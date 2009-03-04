@@ -2,6 +2,7 @@ import feedparser
 import post
 import web
 import whois
+import db
 
 version = "0.01"
 
@@ -45,15 +46,13 @@ class name:
 class GoogleNews:
     def GET(self, hostname):
         schoolName = whois.getEduWHOIS(hostname)
-        data = post.GoogleNewsQuery(schoolName)
-        parsedData = feedparser.parse(data)
+        schoolData = db.SchoolData(schoolName)
 
-        output = ""
-        for entry in parsedData['entries']:
-            output += entry['summary']
-            output += "\n"
+        # TODO
+        # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
+        # This means we need to come up with a REST api, as well as return error messages
 
-        return output
+        return schoolData.getGoogleNews()
 
 class about:
     def GET(self):

@@ -2,8 +2,18 @@ import cookielib
 import os
 import urllib
 import urllib2
+import re
 
 COOKIEFILE = "cookies.lwp"
+
+# Pre-comile all of our regular expressions
+SPLIT_STRING = "           **********************************************************************          \r\n"
+PRO_TITLE = re.compile("PRO_TITLE:(.+?)\r\n")
+PK_AWARDS = re.compile("PK_AWARDS:(.+?)\r\n")
+FIRM = re.compile("FIRM:(.+?)\r\n")
+URL = re.compile("URL:(.+?)\r\n")
+PI_NAME = re.compile("PI_NAME:(.+?)\r\n")
+AWARD_AMT = re.compile("AWARD_AMT:(.+?)\r\n")
 
 def STTRQuery(query):
     params = {'CRITERIA': query,
@@ -40,11 +50,31 @@ def STTRQuery(query):
     response = opener.open('http://www.dodsbir.net/Awards/PrintFile1.asp?FromBorC=B')
     result = response.read()
     opener.close()
+    
+    return parseSTTRResult(result)
+    #fp = open(query + " STTR.txt", "w")
+    #fp.write(result)
+    #fp.close()
 
-    fp = open(query + " STTR.txt", "w")
-    fp.write(result)
-    fp.close()
 
+def parseSTTRResult(result):
+    # First, split the data based on the delimited in the file
+    resultSplit = result.split(SPLIT_STRING)
+
+    parsedResults = []
+    for item in resultSplit:
+        
+        itemParsed = {}
+        # Now go through each line of our item and add it to our dictionary
+        for newItem in item.split("\r\n"):
+            data = newItem.split(":")
+            if (len(data) == 2):
+                itemParsed[data[0]] = data[1]
+
+        if (len(itemParsed) > 0):
+            parsedResults.append(itemParsed)
+
+    return parsedResults
 
 def USASpendingQuery(query):
     # TODO
