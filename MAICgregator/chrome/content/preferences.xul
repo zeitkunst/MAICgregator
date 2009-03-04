@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay SYSTEM "chrome://MAICgregator/locale/MAICgregator.dtd">
+
+<overlay id="MAICgregatorPreferencesOverlay"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <?xml-stylesheet href="preferences.css" type="text/css"?>
+
+        <script type="application/x-javascript" src="chrome://MAICgregator/content/MAICgregator.js" />
+        <script type="application/x-javascript" src="chrome://MAICgregator/content/preferences.js" />
+
+
+    <prefwindow id="BrowserPreferences">
+   
+        <prefpane id="MAICgregatorPane" label="&preferences.name;"
+            onpaneload="populate();">
+            <!-- Intermediary between GUI and preferences system -->
+            <preferences>
+                           <!-- <preference id="MAICgregatorInterject"
+                                    name="extensions.MAICgregator.interject"
+                                    type="string" /> -->
+                           <preference id="DoDBR"
+                                    name="extensions.MAICgregator.DoDBR"
+                                    type="bool" />
+            </preferences>
+
+<!-- <window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"> -->
+            <!-- GUI Elements... -->
+            <groupbox id="MAICgregatorInterjectGroupbox">
+                <caption label="&preferences.Interject;"/>
+                <radiogroup id="MAICgregatorInterject">
+                    <radio label="&preferences.Any;" value="All" />
+                    <radio label="&preferences.OnlyHome;" value="Home" />
+                    <radio label="&preferences.OnlyNews;" value="News" />
+                </radiogroup>
+            </groupbox>
+
+            <groupbox id="MAICgregatorIncludeGroupbox">
+                <caption label="&preferences.include;"/>
+                <hbox>
+                   <checkbox label="&preferences.DoD;" checked="false" tooltiptext="&preferences.DoDTooltip;" id="DoDBR" preference="DoDBR" onsynctopreference="return saveDoDBR"/>
+                </hbox>
+                <hbox>
+                    <checkbox label="&preferences.DoDSTTR;" checked="false" tooltiptext="&preferences.DoDSTTRTooltip;" id="DoDSTTR" preference="DoDSTTR" onsynctopreference="return saveDoDSTTR"/>
+                </hbox>
+                <hbox>
+                    <checkbox label="&preferences.DHS;" checked="false" tooltiptext="&preferences.DHSTooltip;" id="DHS" preference="DHS" onsynctopreference="return saveDHS"/>
+                </hbox>
+                <hbox>
+                    <checkbox label="&preferences.GoogleNews;" checked="false" tooltiptext="&preferences.GoogleNewsTooltip;" id="GoogleNewsSearch" preference="GoogleNewsSearch" onsynctopreference="return saveGoogleNewsSearch"/>
+                </hbox>
+                <hbox>
+                    <checkbox label="&preferences.PR;" checked="false" tooltiptext="&preferences.PRTooltip;" id="PRNewsSearch" preference="PRNewsSearch" onsynctopreference="return savePRNewsSearch"/>
+                </hbox>
+                <hbox>
+                    <checkbox label="&preferences.Trustees;" checked="false" tooltiptext="&preferences.TrusteesTooltip;" id="TrustreeRelationshipSearch" preference="TrusteeRelationshipSearch" onsynctopreference="return saveTrusteeRelationshipSearch"/>
+                </hbox>
+            </groupbox>
+            <description id="preferencesMAICgregatorInfo" value="&preferences.Info;"/>
+            <!--
+            <hbox pack="center">
+                <button id="saveButton" label="&preferences.save;" oncommand="saveMAICgregatorPreferences();" />
+                <button id="cancelButton" label="&preferences.cancel;" oncommand="cancelMAICgregatorPreferences();" />
+            </hbox>
+            -->
+       </prefpane>
+    </prefwindow>
+</overlay>
+<!--
+</window>
+-->

@@ -1,0 +1,35 @@
+* Look to see if IRS records of universities give a list of trustees
+    * YUP, through the 990 form.  But have to do OCR and OCR cleanup
+    * Other sources of looking up trustees?  Open govt sources?
+* See how to lookup university names: WHOIS?  Geolocation search?
+    *  whois.educause.net, port 43
+    * DONE!!!, but we need to make sure that we only pass it a domain name, and not a url or something else like that; will use urlparse to make sure
+* Write code that interacts with STTR and USASpending POST interfaces (How can we do this in PHP?)
+    * DONE!!!
+    * Need to figure out best way to save to persistent store
+* Write code to deal with XML database (Can we connect this to more traditional database?  i.e., getting things from the STTR database?  and can we use an XML serialization of RDF for storing trustee data?) (and thsi should take care of returning XML data via ajax)
+    * Take REST request, lookup data in key/value database, if doesn't exist, download and save XML data and return messages saying we're looking, otherwise if it does exist, just lookup in XML database and return what the user wants
+* Have list of key-value pairs that check and see if we've done lookups for the various types of data for a given university name; if not, send back response that says that we're going to lookup the data and to try back again shortly
+    * Need to understand berkeley DB interface in python
+    * Save data in data/
+* Next, make some sort of REST interface that the clients can connect to to get information
+    * DONE!!!
+
+XML Storage with Berkeley DB XML:
+http://commandline.org.uk/linux/native-xml-storage-db-xml-part-one/
+http://www.oracle.com/technology/products/berkeley-db/xml/index.html
+
+Some python code:
+from bsddb.db import *
+from dbxml import *
+mgr = XmlManager()
+container = mgr.createContainer("test.MAICxml")
+container.putDocument(bookName, foobar, uc)
+document = container.getDocument(bookName)
+s = document.getContent()
+document.getName()
+container.sync()
+qc = mgr.createQueryContext()
+results = mgr.query("collection('test.MAICxml')//project_and_award_info[maj_agency_cat='Department of Defense']", qc)
+for value in results:
+    print value.asString()

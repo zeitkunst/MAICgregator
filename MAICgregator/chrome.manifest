@@ -1,0 +1,5 @@
+content		MAICgregator    chrome/content/
+
+overlay		chrome://browser/content/browser.xul		chrome://MAICgregator/content/overlay.xul
+
+locale    MAICgregator  en-US   chrome/locale/en-US/

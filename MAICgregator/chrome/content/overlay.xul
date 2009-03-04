@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://MAICgregator/content/MAICgregator.css"?>
+
+<!DOCTYPE window SYSTEM "chrome://MAICgregator/locale/MAICgregator.dtd">
+
+<overlay id="MAICgregatorOverlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script src="chrome://MAICgregator/content/MAICgregator.js"/>
+
+<menupopup id="menu_ToolsPopup">
+    <menuitem id="MAICgregatorToolsMenu" label="&browser.menuItem;" 
+        oncommand="showPreferencesDialog();"
+        insertafter="javascriptConsole,devToolsSeparator" />
+</menupopup>
+
+</overlay>

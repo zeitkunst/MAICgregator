@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://MAICgregator/locale/MAICgregator.dtd">
+
+<dialog id="MAICgregatorOptions"
+    title="MAICgregator"
+    ondialogaccept="savePreferences()"
+    orient="vertical"
+    autostretch="always"
+    persist="screenX screenY"
+    buttons="accept,cancel" flex="1"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <script type="application/x-javascript" src="chrome://MAICgregator/content/MAICgregator.js" />
+    <script type="application/x-javascript" src="chrome://MAICgregator/content/preferences.js" />
+
+    <!-- GUI Elements... -->
+    <groupbox id="MAICgregatorInterjectGroupbox">
+        <caption label="&preferences.Interject;"/>
+        <radiogroup id="MAICgregatorInterject">
+            <radio label="&preferences.Any;" value="All" />
+            <radio label="&preferences.OnlyHome;" value="Home" />
+            <radio label="&preferences.OnlyNews;" value="News" />
+        </radiogroup>
+    </groupbox>
+
+    <groupbox id="MAICgregatorIncludeGroupbox">
+        <caption label="&preferences.include;"/>
+        <hbox>
+           <checkbox label="&preferences.DoD;" checked="false" tooltiptext="&preferences.DoDTooltip;" id="DoDBR" />
+        </hbox>
+        <hbox>
+            <checkbox label="&preferences.DoDSTTR;" checked="false" tooltiptext="&preferences.DoDSTTRTooltip;" id="DoDSTTR" preference="DoDSTTR" onsynctopreference="return saveDoDSTTR"/>
+        </hbox>
+        <hbox>
+            <checkbox label="&preferences.DHS;" checked="false" tooltiptext="&preferences.DHSTooltip;" id="DHS" preference="DHS" onsynctopreference="return saveDHS"/>
+        </hbox>
+        <hbox>
+            <checkbox label="&preferences.GoogleNews;" checked="false" tooltiptext="&preferences.GoogleNewsTooltip;" id="GoogleNewsSearch" preference="GoogleNewsSearch" onsynctopreference="return saveGoogleNewsSearch"/>
+        </hbox>
+        <hbox>
+            <checkbox label="&preferences.PR;" checked="false" tooltiptext="&preferences.PRTooltip;" id="PRNewsSearch" preference="PRNewsSearch" onsynctopreference="return savePRNewsSearch"/>
+        </hbox>
+        <hbox>
+            <checkbox label="&preferences.Trustees;" checked="false" tooltiptext="&preferences.TrusteesTooltip;" id="TrusteeRelationshipSearch" preference="TrusteeRelationshipSearch" onsynctopreference="return saveTrusteeRelationshipSearch"/>
+        </hbox>
+    </groupbox>
+    <description id="preferencesMAICgregatorInfo" value="&preferences.Info;"/>
+
+</dialog>
