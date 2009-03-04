@@ -79,15 +79,10 @@ class SchoolData(object):
             # TODO
             # HEINOUS: need to sort the keys before we return this, or
             # only return the interesting data
-            for item in data:
-                result += "\t".join(item.values()) + "\n"
-            return result
+            return data
         else:
             data = self.schoolMetadata['STTR']['data']
-            result = ""
-            for item in data:
-                result += "\t".join(item.values()) + "\n"
-            return result
+            return data 
 
 
     def getGoogleNews(self):

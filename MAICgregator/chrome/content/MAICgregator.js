@@ -58,8 +58,10 @@ var MAICgregator = {
                 MAICgregator.request.channel.priority = Components.interfaces.nsISupportsPriority.PRIORITY_LOWEST;
               }
 
-            MAICgregator.request.open("GET", "http://localhost:8080/MAICgregator/GoogleNews/" + schoolHost, true);
-            MAICgregator.request.onreadystatechange = MAICgregator.processRequest;
+            //MAICgregator.request.open("GET", "http://localhost:8080/MAICgregator/GoogleNews/" + schoolHost, true);
+            //MAICgregator.request.onreadystatechange = MAICgregator.processRequest;
+            MAICgregator.request.open("GET", "http://localhost:8080/MAICgregator/STTR/" + schoolHost, true);
+            MAICgregator.request.onreadystatechange = MAICgregator.processSTTRRequest;
             MAICgregator.request.send(null);
             //MAICgregator._log("testing");
             //p.appendChild(doc.createTextNode(schoolHost));
@@ -99,7 +101,91 @@ var MAICgregator = {
             newsNode.innerHTML = results;
         }
     },
-    
+ 
+    processSTTRRequest: function() {
+        if (MAICgregator.request.readyState < 4) {
+            return;
+        }
+
+        if (!MAICgregator.DoDSTTR) {
+            return;
+        }
+
+        var results = MAICgregator.request.responseText;
+        var newsNode = MAICgregator.doc.getElementById("news");
+
+        // Start cascade of other options
+        // Also, headlines, events, NewsContainer, etc.            
+        // TODO
+        //  * make this less brittle :-) 
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("headlines");
+        }
+       
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("events");
+        }
+
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("highlights");
+        }
+
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("NewsContainer");
+        }
+
+        if (newsNode != null) {
+            // Parse our formatted STTR data
+            itemArray = results.split("\n");
+
+            // Get a random item from our result
+            randomIndex = Math.floor(Math.random() * itemArray.length);
+            
+            // Save our methods
+            //createElement = MAICgregator.doc.createElement;
+            //createTextNode = MAICgregator.doc.createTextNode;
+
+            divNode = MAICgregator.doc.createElement("div");
+            h3Node = MAICgregator.doc.createElement("h3");
+            h3Node.appendChild(MAICgregator.doc.createTextNode("Department of Defense STTR grants"));
+            divNode.appendChild(h3Node);
+
+            data = itemArray[randomIndex].split("\t");
+            PK_AWARDS = data[0];
+            AGENCY = data[1];
+            CONTRACT = data[2];
+            AWARD_AMT = data[3];
+            PI_NAME = data[4];
+            FIRM = data[5];
+            URL = data[6];
+            PRO_TITLE = data[7];
+            WholeAbstract = data[8];
+            
+            h4Node = MAICgregator.doc.createElement("h4");
+            h4Node.innerHTML = "<a href=\"http://www.dodsbir.net/Awards/SrchResultsDtlsForm.asp?RanNo=0&bookmark=" + PK_AWARDS.trim() + "\">" + PRO_TITLE.trim() + "</a>";
+            //h4Node.appendChild(createTextNode(PRO_TITLE.trim());
+            divNode.appendChild(h4Node);
+
+            // TODO
+            // Highlight "military" words in the following, like:
+            // military, civilian, army, radar, defense, war, etc.
+            // Use methods like indexOf, substr, etc to split the text up
+            pNode = MAICgregator.doc.createElement("p");
+            textToInsert = "<strong>$" + AWARD_AMT.trim() + "</strong> from the <strong>" + AGENCY.trim() + "</strong> to <a href=\"http://www.google.com/search?q=" + escape(FIRM.trim()) + "\">" + FIRM.trim() + "</a> and <a href=\"http://www.google.com/search?q=" + escape(PI_NAME.trim()) + "\">" + PI_NAME.trim() + "</a>";
+
+            //textToInsert = "<strong>" + AGENCY.trim() + "</strong>" + "<em>" + PRO_TITLE.trim() + "</em>" + " <strong>$" + AWARD_AMT.trim() + "</strong>" + WholeAbstract.trim();
+            pNode.innerHTML = textToInsert;
+            divNode.appendChild(pNode);
+            
+            pNode = MAICgregator.doc.createElement("p");
+            pNode.appendChild(MAICgregator.doc.createTextNode(WholeAbstract.trim()));
+            divNode.appendChild(pNode);
+
+            newsNode.innerHTML = "";
+            newsNode.appendChild(divNode);
+        }
+    },
+   
     _cout: function(msg) {
         var consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
         consoleService.logStringMessage(msg);
@@ -132,7 +218,6 @@ var MAICgregator = {
         prefs.setBoolPref("GoogleNewsSearch", this.GoogleNewsSearch);
         prefs.setBoolPref("PRNewsSearch", this.PRNewsSearch);
         prefs.setBoolPref("TrusteeRelationshipSearch", this.TrusteeRelationshipSearch);
-
     },
     
     _foo: function() {
@@ -198,6 +283,11 @@ var MAICgregator = {
 function showPreferencesDialog(){
       window.open("chrome://MAICgregator/content/options.xul", "MAICgregatorPreferences", "chrome,dialog,centerscreen,alwaysRaised");
 }
+
+String.prototype.trim = function() {
+      return this.replace(/^\s+|\s+$/g, "");
+}
+
 
 function testAJAX() {
     if (this.request.readyState < 4) {

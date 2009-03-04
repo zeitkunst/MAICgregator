@@ -70,6 +70,8 @@ def parseSTTRResult(result):
             data = newItem.split(":")
             if (len(data) == 2):
                 itemParsed[data[0]] = data[1]
+            elif (len(data) > 2):
+                itemParsed[data[0]] = "".join(data[1:])
 
         if (len(itemParsed) > 0):
             parsedResults.append(itemParsed)

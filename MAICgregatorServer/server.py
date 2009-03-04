@@ -25,6 +25,7 @@ urls = (
     '/MAICgregator/help', 'help',
     '/MAICgregator/name/(.*?)', 'name',
     '/MAICgregator/DoDBR/(.*?)', 'DoDBR',
+    '/MAICgregator/STTR/(.*?)', 'STTR',
     '/MAICgregator/GoogleNews/(.*?)', 'GoogleNews'
 )
 
@@ -53,6 +54,24 @@ class GoogleNews:
         # This means we need to come up with a REST api, as well as return error messages
 
         return schoolData.getGoogleNews()
+
+class STTR:
+    def GET(self, hostname):
+        # Interesting keys to return in our result
+        usefulKeys = ["PK_AWARDS", "AGENCY", "CONTRACT", "AWARD_AMT", "PI_NAME", "FIRM", "URL", "PRO_TITLE", "WholeAbstract"]
+        # TODO
+        # Deal with case when we don't get a school name back
+        schoolName = whois.getEduWHOIS(hostname)
+        schoolData = db.SchoolData(schoolName)
+
+        STTRData = schoolData.getSTTR()
+        
+        output = ""
+        for contract in STTRData:
+            output += "\t".join(contract[key] for key in usefulKeys) + "\n"
+
+        web.header('Content-Encoding', 'utf-8')
+        return output
 
 class about:
     def GET(self):
