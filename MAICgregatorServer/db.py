@@ -4,6 +4,7 @@ import time
 from bsddb.db import *
 from dbxml import *
 import feedparser
+from BeautifulSoup import BeautifulSoup
 
 import post
 
@@ -75,13 +76,38 @@ class SchoolData(object):
             self.schoolMetadata['STTR']['timestamp'] = time.time()
             self.sync()
 
-            result = ""
-            # TODO
-            # HEINOUS: need to sort the keys before we return this, or
-            # only return the interesting data
             return data
         else:
             data = self.schoolMetadata['STTR']['data']
+            return data 
+
+    def getPRNews(self):
+        timestamp = self.schoolMetadata['PRNews']['timestamp']
+
+        if ((timestamp is None) or (time.time() >= (timestamp + self.DAY))):
+            data = post.MarketwireQuery(self.schoolName)
+
+            soup = BeautifulSoup(data)
+            
+            # Get the links in the mainContent div
+            mainContent = soup.find("div", "mainContent")
+            links = mainContent.findAll("a")
+            
+            linksLength = len(links)
+            linksParsed = links[2:linksLength - 4]
+            
+            # Since each link has some newlines in it, this is going to screw up my responses later
+            linksCleaned = []
+            for item in linksParsed:
+                linksCleaned.append(str(item).replace("\n", ""))
+
+            self.schoolMetadata['PRNews']['data'] = linksCleaned
+            self.schoolMetadata['PRNews']['timestamp'] = time.time()
+            self.sync()
+
+            return linksParsed
+        else:
+            data = self.schoolMetadata['PRNews']['data']
             return data 
 
 
@@ -108,9 +134,6 @@ class SchoolData(object):
         else:
             toReturn = "\n".join(data['summary'] for data in self.schoolMetadata['GoogleNews']['data'])
             return toReturn
-
-    def getPRNews(self):
-        return self.schoolMetadata['PRNews']
 
     def createSchoolInfo(self):
         data = {}

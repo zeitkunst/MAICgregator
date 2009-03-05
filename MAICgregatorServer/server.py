@@ -26,6 +26,7 @@ urls = (
     '/MAICgregator/name/(.*?)', 'name',
     '/MAICgregator/DoDBR/(.*?)', 'DoDBR',
     '/MAICgregator/STTR/(.*?)', 'STTR',
+    '/MAICgregator/PRNews/(.*?)', 'PRNews',
     '/MAICgregator/GoogleNews/(.*?)', 'GoogleNews'
 )
 
@@ -54,6 +55,17 @@ class GoogleNews:
         # This means we need to come up with a REST api, as well as return error messages
 
         return schoolData.getGoogleNews()
+
+class PRNews:
+    def GET(self, hostname):
+        schoolName = whois.getEduWHOIS(hostname)
+        schoolData = db.SchoolData(schoolName)
+
+        # TODO
+        # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
+        # This means we need to come up with a REST api, as well as return error messages
+        web.header('Content-Encoding', 'utf-8')
+        return "\n".join(str(item) for item in schoolData.getPRNews())
 
 class STTR:
     def GET(self, hostname):

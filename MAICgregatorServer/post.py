@@ -56,6 +56,28 @@ def STTRQuery(query):
     #fp.write(result)
     #fp.close()
 
+def MarketwireQuery(query):
+    params = {'grpSearch': 'K',
+              'params': query}
+    headers = {'User-Agent': 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.6) Gecko/2009020911 Ubuntu/8.04 (hardy) Firefox/3.0.6',
+               'Referer': 'http://www.dodsbir.net/Awards/Default.asp',
+               'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'}
+
+    paramsEncoded = urllib.urlencode(params)
+
+    cj = cookielib.LWPCookieJar()
+
+    if os.path.isfile(COOKIEFILE):
+        cj.load(COOKIEFILE)
+
+    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+    url = 'http://www.marketwire.com/mw/search.do'
+    request = urllib2.Request(url, paramsEncoded, headers)
+    response = opener.open(request)
+    result = response.read()
+    opener.close()
+    
+    return result
 
 def parseSTTRResult(result):
     # First, split the data based on the delimited in the file
