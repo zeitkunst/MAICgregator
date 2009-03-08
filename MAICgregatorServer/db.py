@@ -1,4 +1,5 @@
 import cPickle
+import re
 import time
 
 from bsddb.db import *
@@ -45,6 +46,9 @@ DB_HOME = "data/"
 DB_ENV_CREATE_FLAGS = DB_CREATE | DB_INIT_LOCK | DB_INIT_LOG | DB_INIT_MPOOL | DB_INIT_TXN
 DB_ENV_FLAGS = DB_INIT_LOCK | DB_INIT_LOG | DB_INIT_MPOOL | DB_INIT_TXN
 
+# XML DB Name
+DB_XML_NAME = "MAICgregator.dbxml"
+
 class SchoolData(object):
     """Class for dealing with school data and querying our data stores."""
 
@@ -59,14 +63,112 @@ class SchoolData(object):
         self.schoolMetadataStore = SchoolMetadataStore()
 
         try:
+            self.environment = DBEnv()
+            self.environment.open(DB_HOME + "xml/", DB_ENV_CREATE_FLAGS, 0)
+
+            self.mgr = XmlManager(self.environment, 0)
+            uc = self.mgr.createUpdateContext()
+            self.container = self.mgr.createContainer(DB_XML_NAME, DBXML_TRANSACTIONAL)
+            xtxn = self.mgr.createTransaction()
+            self.container.putDocument(xtxn, r"initialization", r"<init>MAICgregator begun!</init>", uc)
+            self.container.sync()
+            xtxn.commit()
+
+        except XmlContainerExists:
+            self.environment = DBEnv()
+            self.environment.open(DB_HOME + "xml/", DB_ENV_FLAGS, 0)
+
+            self.mgr = XmlManager(self.environment, 0)
+
+            self.container = self.mgr.openContainer(DB_XML_NAME, DBXML_TRANSACTIONAL)
+
+        try:
             self.schoolMetadata = self.schoolMetadataStore.get(schoolName)
         except TypeError:
             self.schoolMetadata = self.createSchoolInfo()
 
     def getXML(self):
-        return self.schoolMetadata['XML']
+        timestamp = self.schoolMetadata['XML']['timestamp']
+        schoolNameCompact = self.schoolName.replace(" ", "")
+        schoolNameCompactGrants = schoolNameCompact + "Grants"
+        schoolNameCompactContracts = schoolNameCompact + "Contracts"
+
+        if ((timestamp is None)):
+            data = post.USASpendingQuery(self.schoolName)
+            grants = data[0]
+            contracts = data[1]
+
+            uc = self.mgr.createUpdateContext()
+            xtxn = self.mgr.createTransaction()
+            self.container.putDocument(xtxn, schoolNameCompactGrants, grants, uc)
+            self.container.sync()
+            xtxn.commit()
+
+            uc = self.mgr.createUpdateContext()
+            xtxn = self.mgr.createTransaction()
+            self.container.putDocument(xtxn, schoolNameCompactContracts, contracts, uc)
+            self.container.sync()
+            xtxn.commit()
+
+            self.schoolMetadata['XML']['timestamp'] = time.time()
+            self.sync()
+
+        else:
+            pass
+        
+        qc = self.mgr.createQueryContext() 
+        qc.setNamespace("xs", "http://www.w3.org/2001/XMLSchema")
+        grantsQuery = """for $record in doc("dbxml:/%s/%s")//record
+let $agency_name := data($record/project_and_award_info/agency_name)
+let $project_description := data($record/project_and_award_info/project_description)
+let $fed_funding_amount := number($record/action/fed_funding_amount)
+let $federal_award_id := data($record/project_and_award_info/federal_award_id)
+let $delim := "^"
+where contains($record/project_and_award_info/maj_agency_cat, "Defense")
+order by $fed_funding_amount descending
+return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_name,$delim,$fed_funding_amount}</result>"""
+        contractsQuery = """for $record in doc("dbxml:/%s/%s")//record
+let $agency_name := data($record/purchaser_information/contractingOfficeAgencyID)
+let $project_description := data($record/contract_information/descriptionOfContractRequirement)
+let $fed_funding_amount := number($record/amounts/obligatedAmount)
+let $federal_award_id := data($record/record_information/IDVPIID)
+let $delim := "^"
+where contains($record/purchaser_information/maj_agency_cat, "Defense")
+order by $fed_funding_amount descending
+return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_name,$delim,$fed_funding_amount}</result>"""
+       
+        #print xquery % (DB_XML_NAME, self.schoolName.replace(" ", ""))
+#return <results>{data($x/project_description),$delim,data($x/agency_name)}</results>"""
+        #results = self.mgr.query("collection('%s')//record/                               project_and_award_info[maj_agency_cat='Department of Defense']" % DB_XML_NAME, qc)
+        DoDGrants = self.mgr.query(grantsQuery % (DB_XML_NAME, schoolNameCompactGrants), qc)
+        DoDContracts = self.mgr.query(contractsQuery % (DB_XML_NAME, schoolNameCompactContracts), qc)
+
+        finalResults = []
+        regex = re.compile("<result>(.+?)</result")
+        for item in DoDGrants:
+            item = regex.findall(item.asString())[0]
+            toAdd = "\t".join([value.strip() for value in item.split("^")])
+            finalResults.append("grant\t" + toAdd)
+
+        for item in DoDContracts:
+            item = regex.findall(item.asString())[0]
+            toAdd = "\t".join([value.strip() for value in item.split("^")])
+            finalResults.append("contract\t" + toAdd)
+
+        return "\n".join(finalResults)
+
+    def getTrustees(self):
+        trusteeList = post.TrusteeSearch(self.schoolName)
+        
+        if (trusteeList != []):
+            return "\n".join(trusteeList)
+        else:
+            return None
 
     def getSTTR(self):
+        # TODO
+        # Need to follow at least one page of the STTR site so that we can refresh/get session cookies so that people won't be stymied by it
+        # Or, we need to figure out a better way of searching for these things...
         timestamp = self.schoolMetadata['STTR']['timestamp']
 
         if ((timestamp is None) or (time.time() >= (timestamp + self.MONTH))):
@@ -149,6 +251,7 @@ class SchoolData(object):
 
     def sync(self):
         self.schoolMetadataStore.put(self.schoolName, self.schoolMetadata)
+        self.container.sync()
 
     def close(self):
         self.sync()

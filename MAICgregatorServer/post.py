@@ -3,6 +3,10 @@ import os
 import urllib
 import urllib2
 import re
+import shutil
+import tempfile
+
+from BeautifulSoup import BeautifulSoup
 
 COOKIEFILE = "cookies.lwp"
 
@@ -104,21 +108,133 @@ def USASpendingQuery(query):
     # TODO
     # * Save this to our XML database
     # * Update so that after July 30 we move to current year (last fiscal year)
-    urlPart1 = "http://www.usaspending.gov/faads/faads.php?reptype=r&database=faads&recipient_name="
-    urlPart2 = "&duns_number=&recipient_city_name=&recipient_state_code=&recipient_cd=&recipient_zip=&recipient_county_name=&recip_cat_type=&asst_cat_type=&email=&dollar_tot=&fiscal_year=2008&first_year_range=&last_year_range=&detail=4&datype=X"
-    url = urlPart1 + urllib.quote(query) + urlPart2
+    faadsQuery = "http://www.usaspending.gov/faads/faads.php?datype=X&detail=4&sortby=f&recipient_name=%s&fiscal_year=2008" % urllib.quote(query)
+    fpdsQuery = "http://www.usaspending.gov/fpds/fpds.php?datype=X&detail=4&sortby=f&fiscal_year=2008&company_name=%s" % urllib.quote(query)
+
     cj = cookielib.LWPCookieJar()
 
     if os.path.isfile(COOKIEFILE):
         cj.load(COOKIEFILE)
 
     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
-    response = opener.open(url)
-    result = response.read()
+    response = opener.open(faadsQuery)
+    faads = response.read()
+ 
+    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+    response = opener.open(fpdsQuery)
+    fpds = response.read()
+   
+    return (faads, fpds)
 
-    fp = open(query + '.xml', 'w')
-    fp.write(result)
-    fp.close()
+def TrusteeSearch(query):
+    # get from http://foundationcenter.org/findfunders/990finder/
+    # also: http://www.muckety.com/Query
+    # foo = trustees.split("Form 990, Part V-A - Current Officers, Directors, Trustees, and Key Employees:")
+    # try this regex: regex = re.compile("([A-Z]+\s[A-Z]*\s[A-Z0-9]+).+?\s[A-Z]+\,\s[A-Z]{2}\s[0-9]{5}", flags=re.M)
+    # And then: regex = re.compile("([\sA-Z]+)", re.M)
+    params = {'990_type': 'A',
+              'action': 'Find',
+              'ei': '',
+              'fn': query,
+              'fy': '2007',
+              'st': '',
+              'zp': ''}
+    headers = {'User-Agent': 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.6) Gecko/2009020911 Ubuntu/8.04 (hardy) Firefox/3.0.6'}
+
+    paramsEncoded = urllib.urlencode(params)
+
+    cj = cookielib.LWPCookieJar()
+
+    if os.path.isfile(COOKIEFILE):
+        cj.load(COOKIEFILE)
+
+    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+    url = 'http://dynamodata.fdncenter.org/990s/990search/esearch.php'
+    request = urllib2.Request(url, paramsEncoded, headers)
+    response = opener.open(request)
+    result = response.read()
+    opener.close()
+
+    # Parse data
+    soup = BeautifulSoup(result)
+    table = soup.find(text=re.compile("documents \ndisplayed"))
+    entries = table.findParent().findNextSiblings('p')
+    schoolRegex = re.compile("\s*[^a-zA-Z0-9]+\s%s\n" % query)
+    schoolRegexFoundation = re.compile("\s*[a-zA-Z0-9]*\s%s\sFoundation[\sa-zA-Z,]*\n" % query)
+    schoolRegexSchool = re.compile("\s*[a-zA-Z0-9]*\s%s\sSchool\n" % query)
+    links = entries[0].findAll("a")    
+
+    formLink = []
+    for link in links:
+        if schoolRegex.match(link.contents[0]):
+            formLink.append(link.attrs[0])
+
+    # State schools sometimes give their names as SchoolName Foundation
+    if (len(formLink) == 0):
+        for link in links:
+            if schoolRegexFoundation.match(link.contents[0]):
+                formLink.append(link.attrs[0])
+
+    # Or as SchoolName School
+    if (len(formLink) == 0):
+        for link in links:
+            if schoolRegexSchool.match(link.contents[0]):
+                formLink.append(link.attrs[0])
+    
+    trustees = []
+    if (len(formLink) == 1):
+        href = formLink[0][1]
+        tempDir = tempfile.mkdtemp("MAICgregator990")
+
+        request = urllib2.Request(href)
+        response = opener.open(request)
+        result = response.read()
+       
+        # TODO
+        # HEINOUS, need to make cross-platform
+        pdfFilename = tempDir + "/" + query.replace(" ", "") + ".pdf"
+        fp = open(pdfFilename, "w")
+        fp.write(result)
+        fp.close()
+
+        # Convert file to text
+        txtFilename = tempDir + "/" + query.replace(" ", "") + ".txt"
+        # TODO
+        # make this less brittle
+        os.system("/usr/bin/pdftotext %s %s" % (pdfFilename, txtFilename))
+
+        fp = open(txtFilename, "r")
+        data = fp.readlines()
+        fp.close()
+        data = "".join(data)
+        split990Data = data.split("Form 990, Part V-A - Current Officers, Directors, Trustees, and Key Employees:")
+        split990Data = split990Data[1:len(split990Data) - 1]
+   
+        # TODO
+        # Fix regex that now captures "and other allowances\n\nNAME" since we're matching upper and lowercase letters now
+        trusteeRegex = re.compile("([A-Za-z\]\[]+\s*[A-Za-z]*\s+[A-Za-z]*\s*[A-Za-z0-9\'\^]+\s).+?\s[A-Za-z0-9\s']+\s*\,\s[A-Za-z]{2}\s[0-9]{5}", flags=re.M)
+        trusteeRegexNewlines = re.compile("and other allowances\\n\\n([A-Za-z\]\[]+\s*[A-Za-z]*\s+[A-Za-z]*\s*[A-Za-z0-9\'\^]+\s)")
+        stripNumbersRegex = re.compile("([A-Za-z\[\]\s]+)[0-9]*")
+        for trusteeSet in split990Data:
+            trusteeList = trusteeRegex.findall(trusteeSet)
+            # The main regex screws up the first name, so lets get that and update it
+            trusteeFirstItem = trusteeRegexNewlines.findall(trusteeSet)
+            if (len(trusteeFirstItem) > 0):
+                trusteeList[0] = trusteeFirstItem[0]
+
+            trusteeList = map(stripNumbersRegex.findall, trusteeList)
+            trusteeList = [item[0].strip() for item in trusteeList]
+            trusteeList = [item.replace("]", "") for item in trusteeList]
+            trusteeList = [item.replace("^", "") for item in trusteeList]
+            trustees.extend(trusteeList)
+        
+        # cleanup
+        # TODO
+        # enable when we're ready
+        shutil.rmtree(tempDir)
+
+    #print trustees
+    return trustees
 
 def GoogleNewsQuery(query):
     urlPart1 = "http://news.google.com/news?pz=1&ned=us&hl=en&q="

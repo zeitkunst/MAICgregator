@@ -19,5 +19,10 @@ def getEduWHOIS(domain, whoisServer = "whois.educause.net", port = 43):
 
     responseSplit = response.split("\n")
     registrantIndex = responseSplit.index("Registrant:")
-    return responseSplit[registrantIndex + 1].strip()
+    result = responseSplit[registrantIndex + 1].strip()
+    
+    # HEINOUS, but the WHOIS entry doesn't help us here
+    if (domain == "umich.edu"):
+        result = "University of Michigan"
+    return result
 
