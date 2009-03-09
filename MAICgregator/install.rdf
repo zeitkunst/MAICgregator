@@ -9,7 +9,8 @@
                    em:creator="nick knouf; http://zeitkunst.org"
                    em:description="MAICgregator"
                    em:homepageURL="http://maicgregator.org">
-    <em:optionsURL>chrome://MAICgregator/content/options.xul</em:optionsURL>
+        <em:optionsURL>chrome://MAICgregator/content/options.xul</em:optionsURL>
+        <em:iconURL>chrome://MAICgregator/skin/icon.png</em:iconURL>
     <em:targetApplication RDF:resource="rdf:#$db.xm1"/>
   </RDF:Description>
   <RDF:Description RDF:about="rdf:#$db.xm1"

@@ -46,7 +46,6 @@ def STTRQuery(query):
     url = 'http://www.dodsbir.net/Awards/SrchResultsDtlsList.asp'
     request = urllib2.Request(url, paramsEncoded, headers)
     handle = opener.open(request)
-    #print handle.read()
 
     response = opener.open('http://www.dodsbir.net/Awards/PrintSelection.asp?FromBorC=B&Cnt=30')
     opener.close()
@@ -180,7 +179,7 @@ def TrusteeSearch(query):
         for link in links:
             if schoolRegexSchool.match(link.contents[0]):
                 formLink.append(link.attrs[0])
-    print formLink 
+    
     trustees = []
     if (len(formLink) >= 1):
         href = formLink[0][1]
@@ -245,7 +244,6 @@ def TrusteeSearch(query):
         # enable when we're ready
         #shutil.rmtree(tempDir)
 
-    #print trustees
     return trustees
 
 def GoogleNewsQuery(query):

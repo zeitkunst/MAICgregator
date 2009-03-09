@@ -33,3 +33,26 @@ qc = mgr.createQueryContext()
 results = mgr.query("collection('test.MAICxml')//project_and_award_info[maj_agency_cat='Department of Defense']", qc)
 for value in results:
     print value.asString()
+
+RDF work:
+storage = RDF.HashStorage('data/trustees/MAICgregator', options="hash-type='bdb'")
+model = RDF.Model(storage)
+people = RDF.NS("http://www.maicgregator.org/people#")
+actions = RDF.NS("http://www.maicgregator.org/actions#")
+schools = RDF.NS("http://www.maicgregator.org/schools#")
+s1 = RDF.statement(people.NickKnouf, actions.IsTrusteeOf, schools.CornellUniversity)
+s1 = RDF.Statement(people.NickKnouf, actions.IsTrusteeOf, schools.CornellUniversity)
+s2 = RDF.Statement(people.NickKnouf, actions.HasBiography, "Testing bio")
+model.add_statement(s1)
+model.add_statement(s2)
+model.sync()
+model.serialise()
+for statement in model:
+    print statement
+ser = RDF.RDFXMLSerializer()
+ser.serialize_model_to_string(model)
+query = '\nPREFIX maicA: <http://www.maicgregator.org/actions#>\nPREFIX maicS: <http://www.maicgregator.org/schools#>\nSELECT $a\nWHERE\n{$a maicA:IsTrusteeOf maicS:CornellUniversity}\n'
+q1 = RDF.Query(query, query_language="sparql")
+results = q1.execute(model)
+for result in results:
+    print result['a']

@@ -26,7 +26,6 @@ var MAICgregator = {
         var appcontent = document.getElementById("appcontent");   // browser
         if(appcontent)
             appcontent.addEventListener("DOMContentLoaded", MAICgregator.onPageLoad, true);
-
     },
 
     onPageLoad: function(aEvent) {
@@ -43,15 +42,6 @@ var MAICgregator = {
             var hostParts = hostPart.split(".");
             var schoolHost = hostParts[hostParts.length - 1] + ".edu";
             
-            // Also, headlines, events, NewsContainer, etc.            
-            /*
-            var newsNode = MAICgregator.doc.getElementById("news");
-
-            if (newsNode != null) {
-                newsNode.innerHTML = "<h2>News</h2><ul><li id='testNode'>Military funding up 20%</li><li>Corporate sponsorships down 400%</li></ul>";
-            }
-            */
-
             MAICgregator.request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);
 
             if (MAICgregator.request.channel instanceof Components.interfaces.nsISupportsPriority) {
@@ -73,23 +63,80 @@ var MAICgregator = {
             }
 
             */
+            /*
             if (MAICgregator.DoDBR) {
                 MAICgregator.request.open("GET", "http://localhost:8080/MAICgregator/DoDBR/" + schoolHost, true);
                 MAICgregator.request.onreadystatechange = MAICgregator.processDoDBRRequest;
                 MAICgregator.request.send(null);
             }
-
-            /*
             if (MAICgregator.PRNewsSearch) {
                 MAICgregator.request.open("GET", "http://localhost:8080/MAICgregator/PRNews/" + schoolHost, true);
                 MAICgregator.request.onreadystatechange = MAICgregator.processPRNewsRequest;
                 MAICgregator.request.send(null);
             }
-            */
 
+            */
+            
+            queryString = "";
+                        
+            if (MAICgregator.DoDBR) {
+                queryString += "DoDBR+";
+            }
+
+            if (MAICgregator.DoDSTTR) {
+                queryString += "DoDSTTR+";
+            }
+
+            if (MAICgregator.GoogleNews) {
+                queryString += "GoogleNews+";
+            }
+
+            if (MAICgregator.PRNewsSearch) {
+                queryString += "PRNewsSearch+";
+            }
+
+            if (MAICgregator.TrusteeRelationshipSearch) {
+                queryString += "TrusteeRelationshipSearch";
+            }
+
+            if (queryString.length > 0) {
+                MAICgregator.request.open("GET", "http://localhost:8080/MAICgregator/Aggregate/" + schoolHost + "/" + queryString, true);
+                MAICgregator.request.onreadystatechange = MAICgregator.processAggregate;
+                MAICgregator.request.send(null);
+            }
+
+
+            /*
+            if (MAICgregator.TrusteeRelationshipSearch) {
+                MAICgregator.request.open("GET", "http://localhost:8080/MAICgregator/TrusteeRelationshipSearch/" + schoolHost, true);
+                MAICgregator.request.onreadystatechange = MAICgregator.processTrusteeRelationshipSearchRequest;
+                MAICgregator.request.send(null);
+            }
+            */
             //MAICgregator._log("testing");
             //p.appendChild(doc.createTextNode(schoolHost));
             //doc.body.appendChild(p);
+        }
+    },
+
+    processAggregate: function() {
+        if (MAICgregator.request.readyState < 4) {
+            return;
+        }
+        var methodMapping = {
+            'TrusteeRelationshipSearch': MAICgregator.processTrusteeRelationshipSearchResults
+        };
+
+        var results = MAICgregator.request.responseXML;
+        var newsNode = MAICgregator.findNewsNode();
+        
+        if (newsNode != null) {
+            var errorNode = results.getElementsByTagName("error")[0];
+            
+            TrusteeData = results.getElementsByTagName("TrusteeRelationshipSearch")[0];
+            method = methodMapping["TrusteeRelationshipSearch"];
+            method(getNodeValue(TrusteeData));
+            //MAICgregator.processTrusteeRelationshipSearchResults(getNodeValue(TrusteeData));
         }
     },
 
@@ -278,6 +325,76 @@ var MAICgregator = {
         }
     },
 
+    processTrusteeRelationshipSearchRequest: function() {
+        if (MAICgregator.request.readyState < 4) {
+            return;
+        }
+
+        var results = MAICgregator.request.responseText;
+        var newsNode = MAICgregator.findNewsNode();
+
+        if (newsNode != null) {
+            // Parse our formatted STTR data
+            itemArray = results.split("\n");
+
+            divNode = MAICgregator.doc.createElement("div");
+            h3Node = MAICgregator.doc.createElement("h3");
+            h3Node.appendChild(MAICgregator.doc.createTextNode("Members of the Board of Trustees"));
+            divNode.appendChild(h3Node);
+
+            ulNode = MAICgregator.doc.createElement("ul");
+            for (index in itemArray) {
+                liNode = MAICgregator.doc.createElement("ul");
+                name = itemArray[index];
+
+                aNode = MAICgregator.doc.createElement("a");
+                aNode.setAttribute("href", "http://www.google.com/search?&q=" + encodeURI(name + " trustee"));
+                textNode = MAICgregator.doc.createTextNode(name);
+                aNode.appendChild(textNode);
+
+                liNode.appendChild(aNode);
+                ulNode.appendChild(liNode);
+            }
+            divNode.appendChild(ulNode);
+
+            newsNode.innerHTML = "";
+            newsNode.appendChild(divNode);
+        }
+    },
+
+    processTrusteeRelationshipSearchResults: function(results) {
+        var newsNode = MAICgregator.findNewsNode();
+
+        if (newsNode != null) {
+            // Parse our formatted STTR data
+            itemArray = results.split("\n");
+
+            divNode = MAICgregator.doc.createElement("div");
+            h3Node = MAICgregator.doc.createElement("h3");
+            h3Node.appendChild(MAICgregator.doc.createTextNode("Members of the Board of Trustees"));
+            divNode.appendChild(h3Node);
+
+            ulNode = MAICgregator.doc.createElement("ul");
+            for (index in itemArray) {
+                liNode = MAICgregator.doc.createElement("ul");
+                name = itemArray[index];
+
+                aNode = MAICgregator.doc.createElement("a");
+                aNode.setAttribute("href", "http://www.google.com/search?&q=" + encodeURI(name + " trustee"));
+                textNode = MAICgregator.doc.createTextNode(name);
+                aNode.appendChild(textNode);
+
+                liNode.appendChild(aNode);
+                ulNode.appendChild(liNode);
+            }
+            divNode.appendChild(ulNode);
+
+            newsNode.innerHTML = "";
+            newsNode.appendChild(divNode);
+        }
+    },
+
+
     findNewsNode: function() {
         var newsNode = MAICgregator.doc.getElementById("news");
         
@@ -289,7 +406,6 @@ var MAICgregator = {
         // Also, headlines, events, NewsContainer, etc.            
         // TODO
         //  * make this less brittle :-) 
-        //  This breaks, for example, on Brown's site where the news is given in an li element, but where on Swarthmore's site the news li element is a menu item
         if (newsNode == null) {
             var newsNode = MAICgregator.doc.getElementById("headlines");
             if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
@@ -370,7 +486,6 @@ var MAICgregator = {
 
         }
 
-
         // If we can't find any seeming news entries, take over the spotlight  or feature element(s)
         if (newsNode == null) {
             var newsNode = MAICgregator.doc.getElementById("spotlight");
@@ -414,6 +529,8 @@ var MAICgregator = {
         }
 
         // And finally, since Caltech's home page is so strangely done...
+        // TODO
+        // This doesn't quite work because their news is also done by ajax and replaces _my_ content :-)
         if (newsNode == null) {
             var newsNode = MAICgregator.doc.getElementById("contentDiv");
             if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
@@ -520,6 +637,9 @@ var MAICgregator = {
 
 }
 
+function getNodeValue(node) {
+    return node.firstChild.nodeValue;
+}
 
 function showPreferencesDialog(){
       window.open("chrome://MAICgregator/content/options.xul", "MAICgregatorPreferences", "chrome,dialog,centerscreen,alwaysRaised");

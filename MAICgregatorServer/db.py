@@ -6,6 +6,7 @@ from bsddb.db import *
 from dbxml import *
 import feedparser
 from BeautifulSoup import BeautifulSoup
+import RDF
 
 import post
 
@@ -81,11 +82,17 @@ class SchoolData(object):
             self.mgr = XmlManager(self.environment, 0)
 
             self.container = self.mgr.openContainer(DB_XML_NAME, DBXML_TRANSACTIONAL)
-
+        
+        # Initialize or get metadata
         try:
             self.schoolMetadata = self.schoolMetadataStore.get(schoolName)
         except TypeError:
             self.schoolMetadata = self.createSchoolInfo()
+
+        # Get RDF model
+        self.storage = RDF.HashStorage('data/trustees/MAICgregator', options="hash-type='bdb'")
+        self.model = RDF.Model(self.storage)
+        self.maicNS = RDF.NS("http://maicgregator.org/MAIC#")
 
     def getXML(self):
         timestamp = self.schoolMetadata['XML']['timestamp']
@@ -158,12 +165,66 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
         return "\n".join(finalResults)
 
     def getTrustees(self):
-        trusteeList = post.TrusteeSearch(self.schoolName)
+        #trusteeList = post.TrusteeSearch(self.schoolName)
         
-        if (trusteeList != []):
-            return "\n".join(trusteeList)
+        try:
+            timestamp = self.schoolMetadata['Trustees']['timestamp']
+        except KeyError:
+            self.schoolMetadata['Trustees'] = {}
+            self.schoolMetadata['Trustees']['timestamp'] = None
+            timestamp = None
+        
+        trusteeResults = []
+        if ((timestamp is None) or (time.time() >= (timestamp + self.MONTH))):
+            trusteeList = post.TrusteeSearch(self.schoolName)
+            
+            if (trusteeList != []):
+                HasName = self.maicNS['HasName']
+                IsTrusteeOf = self.maicNS['IsTrusteeOf']
+                schoolNameCompact = self.schoolName.replace(" ", "")
+                for trustee in trusteeList:
+                    name = self.maicNS[trustee.replace(" ", "")]
+                    school = self.maicNS[schoolNameCompact]
+    
+                    statement = RDF.Statement(name, HasName, trustee)
+                    self.model.add_statement(statement)
+    
+                    statement = RDF.Statement(name, IsTrusteeOf, school)
+                    self.model.add_statement(statement)
+    
+                self.model.sync()
+
+                # For the moment, we only set the time if we're certain we got the right trustee results 
+                self.schoolMetadata['Trustees']['timestamp'] = time.time()
+                self.sync()
+                
+                trusteeResults = self.getTrusteeNamesFromModel()
+            else:
+                trusteeResults = []
+        else:
+            trusteeResults = self.getTrusteeNamesFromModel()
+
+        if (trusteeResults != []):
+            return "\n".join(trusteeResults)
         else:
             return None
+
+    def getTrusteeNamesFromModel(self):
+        schoolNameCompact = self.schoolName.replace(" ", "")
+        query = """
+            PREFIX maic: <http://maicgregator.org/MAIC#>
+            SELECT ?name
+            WHERE {
+                ?x maic:IsTrusteeOf maic:%s . 
+                ?x maic:HasName ?name .
+            }""" % schoolNameCompact
+
+        nameQuery = RDF.Query(query, query_language="sparql")
+
+        results = nameQuery.execute(self.model)
+
+        return [result['name'].literal_value['string'] for result in results]
+
 
     def getSTTR(self):
         # TODO
