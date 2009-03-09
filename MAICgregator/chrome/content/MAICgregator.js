@@ -73,13 +73,20 @@ var MAICgregator = {
             }
 
             */
+            if (MAICgregator.DoDBR) {
+                MAICgregator.request.open("GET", "http://localhost:8080/MAICgregator/DoDBR/" + schoolHost, true);
+                MAICgregator.request.onreadystatechange = MAICgregator.processDoDBRRequest;
+                MAICgregator.request.send(null);
+            }
 
+            /*
             if (MAICgregator.PRNewsSearch) {
                 MAICgregator.request.open("GET", "http://localhost:8080/MAICgregator/PRNews/" + schoolHost, true);
                 MAICgregator.request.onreadystatechange = MAICgregator.processPRNewsRequest;
                 MAICgregator.request.send(null);
             }
-            
+            */
+
             //MAICgregator._log("testing");
             //p.appendChild(doc.createTextNode(schoolHost));
             //doc.body.appendChild(p);
@@ -99,6 +106,85 @@ var MAICgregator = {
         }
     },
  
+    processDoDBRRequest: function() {
+        if (MAICgregator.request.readyState < 4) {
+            return;
+        }
+
+        var results = MAICgregator.request.responseText;
+        var newsNode = MAICgregator.findNewsNode();
+
+        if (newsNode != null) {
+            // Parse our formatted STTR data
+            itemArray = results.split("\n");
+
+            // Get a random item from our result
+            randomIndex = Math.floor(Math.random() * itemArray.length);
+            
+            // Save our methods
+            //createElement = MAICgregator.doc.createElement;
+            //createTextNode = MAICgregator.doc.createTextNode;
+            
+            divNode = MAICgregator.doc.createElement("div");
+            grantsArray = new Array();
+            contractsArray = new Array();
+
+            for (itemIndex in itemArray) {
+                data = itemArray[itemIndex].split("\t");
+                if (data[0] == "grant") {
+                    grantsArray.push(itemArray[itemIndex]);
+                } else if (data[0] == "contract") {
+                    contractsArray.push(itemArray[itemIndex]);
+                }
+            }
+
+            h3Node = MAICgregator.doc.createElement("h3");
+            h3Node.appendChild(MAICgregator.doc.createTextNode("Department of Defense Basic Research Grants"));
+            divNode.appendChild(h3Node);
+            ulNode = MAICgregator.doc.createElement("ul");
+
+            for (itemIndex in grantsArray) {
+                data = grantsArray[itemIndex].split("\t");
+                type = data[0];
+                title = data[1];
+                awardId = data[2];
+                agency = data[3];
+                amount = parseFloat(data[4]);
+                
+                liNode = MAICgregator.doc.createElement("li");
+                textToAdd = "<strong>$" + amount + "</strong> from the <strong>" + agency + "</strong> to study <em>" + title + "</em> with a Federal Award ID of " + awardId;
+                liNode.innerHTML = textToAdd;
+                ulNode.appendChild(liNode);
+
+            }                
+            divNode.appendChild(ulNode);
+
+            h3Node = MAICgregator.doc.createElement("h3");
+            h3Node.appendChild(MAICgregator.doc.createTextNode("Department of Defense Basic Research Contracts"));
+            divNode.appendChild(h3Node);
+            ulNode = MAICgregator.doc.createElement("ul");
+
+            for (itemIndex in contractsArray) {
+                data = contractsArray[itemIndex].split("\t");
+                type = data[0];
+                title = data[1];
+                awardId = data[2];
+                agency = data[3];
+                amount = parseFloat(data[4]);
+                
+                liNode = MAICgregator.doc.createElement("li");
+                textToAdd = "<strong>$" + amount + "</strong> from the <strong>" + agency + "</strong> to study <em>" + title + "</em> with a Federal Award ID of " + awardId;
+                liNode.innerHTML = textToAdd;
+                ulNode.appendChild(liNode);
+
+            }                
+            divNode.appendChild(ulNode);
+
+            newsNode.innerHTML = "";
+            newsNode.appendChild(divNode);
+        }
+    },
+
     processSTTRRequest: function() {
         if (MAICgregator.request.readyState < 4) {
             return;
@@ -194,30 +280,152 @@ var MAICgregator = {
 
     findNewsNode: function() {
         var newsNode = MAICgregator.doc.getElementById("news");
+        
+        if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p" && newsNode.nodeName.toLowerCase() != "table") {
+            newsNode = null;
+        }
 
         // Start cascade of other options
         // Also, headlines, events, NewsContainer, etc.            
         // TODO
         //  * make this less brittle :-) 
+        //  This breaks, for example, on Brown's site where the news is given in an li element, but where on Swarthmore's site the news li element is a menu item
         if (newsNode == null) {
             var newsNode = MAICgregator.doc.getElementById("headlines");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+
         }
-       
+ 
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("dropshadow-headlines");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+
+        }
+
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("nccontent");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+
+        }
+  
         if (newsNode == null) {
             var newsNode = MAICgregator.doc.getElementById("events");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+
         }
 
         if (newsNode == null) {
             var newsNode = MAICgregator.doc.getElementById("highlights");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+
         }
 
         if (newsNode == null) {
             var newsNode = MAICgregator.doc.getElementById("NewsContainer");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+
+        }
+
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("newsline");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+
+        }
+
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("newscenter");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+
+        }
+
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("newsAndEvents");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+
+        }
+
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("hpevents");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+
+        }
+
+
+        // If we can't find any seeming news entries, take over the spotlight  or feature element(s)
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("spotlight");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+
+        }
+
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("features");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+
+        }
+
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("sg_feats");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+
+        }
+
+
+        // Finally, check for possible li elements that have news
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("news");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "li") {
+                newsNode = null;
+            }
+        }
+        
+        // Specialness for USC
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("welcome");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "td") {
+                newsNode = null;
+            }
+        }
+
+        // And finally, since Caltech's home page is so strangely done...
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("contentDiv");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
         }
 
         return newsNode;
 
     },
+
+    
 
     _cout: function(msg) {
         var consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);

@@ -160,7 +160,7 @@ def TrusteeSearch(query):
     table = soup.find(text=re.compile("documents \ndisplayed"))
     entries = table.findParent().findNextSiblings('p')
     schoolRegex = re.compile("\s*[^a-zA-Z0-9]+\s%s\n" % query)
-    schoolRegexFoundation = re.compile("\s*[a-zA-Z0-9]*\s%s\sFoundation[\sa-zA-Z,]*\n" % query)
+    schoolRegexFoundation = re.compile("\s*[a-zA-Z0-9]*\s%s\sFoundation[\sa-zA-Z,\.]*\n" % query)
     schoolRegexSchool = re.compile("\s*[a-zA-Z0-9]*\s%s\sSchool\n" % query)
     links = entries[0].findAll("a")    
 
@@ -180,11 +180,11 @@ def TrusteeSearch(query):
         for link in links:
             if schoolRegexSchool.match(link.contents[0]):
                 formLink.append(link.attrs[0])
-    
+    print formLink 
     trustees = []
-    if (len(formLink) == 1):
+    if (len(formLink) >= 1):
         href = formLink[0][1]
-        tempDir = tempfile.mkdtemp("MAICgregator990")
+        tempDir = tempfile.mkdtemp()
 
         request = urllib2.Request(href)
         response = opener.open(request)
@@ -209,29 +209,41 @@ def TrusteeSearch(query):
         data = "".join(data)
         split990Data = data.split("Form 990, Part V-A - Current Officers, Directors, Trustees, and Key Employees:")
         split990Data = split990Data[1:len(split990Data) - 1]
-   
+        
         # TODO
         # Fix regex that now captures "and other allowances\n\nNAME" since we're matching upper and lowercase letters now
-        trusteeRegex = re.compile("([A-Za-z\]\[]+\s*[A-Za-z]*\s+[A-Za-z]*\s*[A-Za-z0-9\'\^]+\s).+?\s[A-Za-z0-9\s']+\s*\,\s[A-Za-z]{2}\s[0-9]{5}", flags=re.M)
+        trusteeRegex = re.compile("([A-Za-z\]\[]+\s*[A-Za-z]*\s+[A-Za-z]*\s*[A-Za-z0-9\'\^]+\s).+?\s[A-Za-z0-9\s']+\s*\,\s*[A-Za-z\s]{2,3}\s[0-9]{5,9}", flags=re.M)
         trusteeRegexNewlines = re.compile("and other allowances\\n\\n([A-Za-z\]\[]+\s*[A-Za-z]*\s+[A-Za-z]*\s*[A-Za-z0-9\'\^]+\s)")
         stripNumbersRegex = re.compile("([A-Za-z\[\]\s]+)[0-9]*")
         for trusteeSet in split990Data:
             trusteeList = trusteeRegex.findall(trusteeSet)
+
             # The main regex screws up the first name, so lets get that and update it
             trusteeFirstItem = trusteeRegexNewlines.findall(trusteeSet)
             if (len(trusteeFirstItem) > 0):
                 trusteeList[0] = trusteeFirstItem[0]
-
+            
+            # TODO
+            # Need to have heuristics for the following:
+            # University of Texas...different regex
+            # University of Massachusetts...different regex
             trusteeList = map(stripNumbersRegex.findall, trusteeList)
             trusteeList = [item[0].strip() for item in trusteeList]
+            trusteeList = [item.title() for item in trusteeList]
             trusteeList = [item.replace("]", "") for item in trusteeList]
             trusteeList = [item.replace("^", "") for item in trusteeList]
+            
+            # TODO
+            # HEINOUS
+            # University of Oregon, University of Iowa...take care of ending "Po" characters
+            # This would remove anyone with a last name of Po...but I'm not sure how to fix the problem at the moment
+            trusteeList = [item.replace(" Po", "") for item in trusteeList]
             trustees.extend(trusteeList)
         
         # cleanup
         # TODO
         # enable when we're ready
-        shutil.rmtree(tempDir)
+        #shutil.rmtree(tempDir)
 
     #print trustees
     return trustees
