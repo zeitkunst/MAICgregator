@@ -1,4 +1,7 @@
+import urllib
+
 import feedparser
+
 import post
 import web
 import whois
@@ -23,15 +26,17 @@ urls = (
     '/MAICgregator', 'index',
     '/MAICgregator/about', 'about',
     '/MAICgregator/help', 'help',
-    '/MAICgregator/Aggregate/(.*?)/(.*?)', 'Aggregate',
-    '/MAICgregator/name/(.*?)', 'name',
     '/MAICgregator/DoDBR/(.*?)', 'DoDBR',
     '/MAICgregator/STTR/(.*?)', 'STTR',
     '/MAICgregator/PRNews/(.*?)', 'PRNews',
     '/MAICgregator/TrusteeSearch/(.*?)', 'TrusteeSearch',
     '/MAICgregator/TrusteeRelationshipSearch/(.*?)', 'TrusteeSearch',
-    '/MAICgregator/GoogleNews/(.*?)', 'GoogleNews'
+    '/MAICgregator/GoogleNews/(.*?)', 'GoogleNews',
+    '/MAICgregator/Aggregate/(.*?)/(.*?)', 'Aggregate',
+    '/MAICgregator/name/(.*?)', 'name'
 )
+"""
+"""
 
 render = web.template.render('templates/', cache = False)
 
@@ -49,7 +54,7 @@ class name:
         return whois.getEduWHOIS(hostname)
 
 class ProcessBase(object):
-    def GoogleNews(self, hostname):
+    def GoogleNewsSearch(self, hostname):
         schoolName = whois.getEduWHOIS(hostname)
         schoolData = db.SchoolData(schoolName)
 
@@ -83,7 +88,7 @@ class ProcessBase(object):
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
         # This means we need to come up with a REST api, as well as return error messages
         web.header('Content-Encoding', 'utf-8')
-        return "\n".join(str(item) for item in schoolData.getPRNews())
+        return u"\n".join(unicode(item, "utf-8") for item in schoolData.getPRNews())
 
     def DoDSTTR(self, hostname):
         # Interesting keys to return in our result
@@ -97,9 +102,8 @@ class ProcessBase(object):
         
         output = ""
         for contract in STTRData:
-            output += "\t".join(contract[key] for key in usefulKeys) + "\n"
+            output += "\t".join(unicode(contract[key], errors='replace') for key in usefulKeys) + "\n"
 
-        web.header('Content-Encoding', 'utf-8')
         return output
 
 class Aggregate(ProcessBase):
@@ -107,16 +111,19 @@ class Aggregate(ProcessBase):
     def GET(self, hostname, params):
         paramList = params.split("+")
 
-        outputString = u""
+        outputString = u"<?xml version=\"1.0\"?>\n"
         outputString += u"<results>\n"
         for param in paramList:
             outputString += u"\t<%s>\n" % param
             resultFunction = getattr(self, param)
             results = resultFunction(hostname)
-            outputString = unicode(outputString + results)
+            outputString += results
             outputString += u"\n\t</%s>\n" % param
         outputString += u"</results>\n"
-        #return "\n".join(paramList)
+
+        web.header("Content-Type", "text/xml; charset=utf-8")
+        # Simple replacement
+        outputString = outputString.replace("&", "&amp;")
         return outputString
 
 class GoogleNews:
@@ -169,10 +176,12 @@ class STTR:
         schoolData = db.SchoolData(schoolName)
 
         STTRData = schoolData.getSTTR()
-        
-        output = ""
+
+        output = u""
         for contract in STTRData:
-            output += "\t".join(contract[key] for key in usefulKeys) + "\n"
+            # TODO
+            # Fix this to deal with the unicode characters properly
+            output += u"\t".join(unicode(contract[key], errors='replace') for key in usefulKeys) + u"\n"
 
         web.header('Content-Encoding', 'utf-8')
         return output

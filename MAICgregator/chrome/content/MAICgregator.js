@@ -78,27 +78,39 @@ var MAICgregator = {
             */
             
             queryString = "";
-                        
+            dataTypes = new Array();                        
             if (MAICgregator.DoDBR) {
                 queryString += "DoDBR+";
+                dataTypes.push("DoDBR");
             }
 
             if (MAICgregator.DoDSTTR) {
                 queryString += "DoDSTTR+";
+                dataTypes.push("DoDSTTR");
             }
 
-            if (MAICgregator.GoogleNews) {
-                queryString += "GoogleNews+";
+            if (MAICgregator.GoogleNewsSearch) {
+                queryString += "GoogleNewsSearch+";
+                dataTypes.push("GoogleNewsSearch");
             }
 
             if (MAICgregator.PRNewsSearch) {
                 queryString += "PRNewsSearch+";
+                dataTypes.push("PRNewsSearch");
             }
 
             if (MAICgregator.TrusteeRelationshipSearch) {
                 queryString += "TrusteeRelationshipSearch";
+                dataTypes.push("TrusteeRelationshipSearch");
             }
 
+            // Check if we have a + at the end of the query string
+            qLength = queryString.length;
+            if (queryString.lastIndexOf("+") == (qLength - 1)) {
+                queryString = queryString.substring(0, qLength - 1);
+            }            
+
+            MAICgregator.dataTypes = dataTypes;
             if (queryString.length > 0) {
                 MAICgregator.request.open("GET", "http://localhost:8080/MAICgregator/Aggregate/" + schoolHost + "/" + queryString, true);
                 MAICgregator.request.onreadystatechange = MAICgregator.processAggregate;
@@ -124,6 +136,10 @@ var MAICgregator = {
             return;
         }
         var methodMapping = {
+            'DoDBR': MAICgregator.processDoDBRResults,
+            'DoDSTTR': MAICgregator.processDoDSTTRResults,
+            'GoogleNewsSearch': MAICgregator.processGoogleNewsResults,
+            'PRNewsSearch': MAICgregator.processPRNewsResults,
             'TrusteeRelationshipSearch': MAICgregator.processTrusteeRelationshipSearchResults
         };
 
@@ -133,32 +149,33 @@ var MAICgregator = {
         if (newsNode != null) {
             var errorNode = results.getElementsByTagName("error")[0];
             
-            TrusteeData = results.getElementsByTagName("TrusteeRelationshipSearch")[0];
-            method = methodMapping["TrusteeRelationshipSearch"];
-            method(getNodeValue(TrusteeData));
+            for (index in MAICgregator.dataTypes) {
+                var dataType = MAICgregator.dataTypes[index]
+                var dataNode = results.getElementsByTagName(dataType)[0];
+                method = methodMapping[dataType];
+                method(dataNode);
+            }
             //MAICgregator.processTrusteeRelationshipSearchResults(getNodeValue(TrusteeData));
         }
     },
 
-    processGoogleNewsRequest: function() {
-        if (MAICgregator.request.readyState < 4) {
-            return;
-        }
-
-        var results = MAICgregator.request.responseText;
+    processGoogleNewsResults: function(results) {
+        var children = results.getElementsByTagName("table");
         var newsNode = MAICgregator.findNewsNode();
-
         if (newsNode != null) {
-            newsNode.innerHTML = results;
+            newsNode.innerHTML = "";
+            divNode = MAICgregator.doc.createElement("div");
+            for (index = 0; index < children.length; index++) {
+                pNode = MAICgregator.doc.createElement("p");
+                pNode.appendChild(children[index].cloneNode(true));
+                divNode.appendChild(pNode);
+            }
+            newsNode.appendChild(divNode);
         }
     },
  
-    processDoDBRRequest: function() {
-        if (MAICgregator.request.readyState < 4) {
-            return;
-        }
-
-        var results = MAICgregator.request.responseText;
+    processDoDBRResults: function(results) {
+        var results = getNodeValue(results);
         var newsNode = MAICgregator.findNewsNode();
 
         if (newsNode != null) {
@@ -232,12 +249,8 @@ var MAICgregator = {
         }
     },
 
-    processSTTRRequest: function() {
-        if (MAICgregator.request.readyState < 4) {
-            return;
-        }
-
-        var results = MAICgregator.request.responseText;
+    processDoDSTTRResults: function(results) {
+        var results = getNodeValue(results);
         var newsNode = MAICgregator.findNewsNode();
 
         if (newsNode != null) {
@@ -292,35 +305,41 @@ var MAICgregator = {
         }
     },
  
-    processPRNewsRequest: function() {
-        if (MAICgregator.request.readyState < 4) {
-            return;
-        }
-        
+    processPRNewsResults: function(results) {
+        childNodes = results.getElementsByTagName("a");
         var newsNode = MAICgregator.findNewsNode();
-        var results = MAICgregator.request.responseText;
-
+        
         if (newsNode != null) {
             // Parse our formatted STTR data
-            itemArray = results.split("\n");
 
-            // Get a random item from our result
-            randomIndex = Math.floor(Math.random() * itemArray.length);
             
             divNode = MAICgregator.doc.createElement("div");
             h3Node = MAICgregator.doc.createElement("h3");
             h3Node.appendChild(MAICgregator.doc.createTextNode("Recent Press Releases:"));
             divNode.appendChild(h3Node);
-            
+          
+            // TODO
+            // HEINOUS, fix this
+            // For some reason the really messed up ordering below seems to work...don't ask me why 
+            newsNode.innerHTML = "";
+            //newsNode.appendChild(divNode);
             // Start creating our list
-            for (index in itemArray) {
+            for (index = 0; index < childNodes.length; index++) {
                 pNode = MAICgregator.doc.createElement("p");
-                pNode.innerHTML = itemArray[index].trim();
+                aNode = childNodes[index];
+                
+                href = aNode.getAttribute("href");
+                text = aNode.childNodes[1].nodeValue;
+
+                aNodeNew = MAICgregator.doc.createElement("a");
+                aNodeNew.setAttribute("href", href);
+                aNodeNewText = MAICgregator.doc.createTextNode(text);
+                aNodeNew.appendChild(aNodeNewText);
+
+                pNode.appendChild(aNodeNew);
                 divNode.appendChild(pNode);
             }
 
-
-            newsNode.innerHTML = "";
             newsNode.appendChild(divNode);
         }
     },
@@ -363,6 +382,7 @@ var MAICgregator = {
     },
 
     processTrusteeRelationshipSearchResults: function(results) {
+        var results = getNodeValue(results);
         var newsNode = MAICgregator.findNewsNode();
 
         if (newsNode != null) {
