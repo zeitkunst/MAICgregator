@@ -148,13 +148,24 @@ var MAICgregator = {
         
         if (newsNode != null) {
             var errorNode = results.getElementsByTagName("error")[0];
-            
+
+            if (errorNode != null) {
+                // TODO
+                // Make and process errors
+                newsNode.innerHTML = "";
+                return;
+            }
+
+            // Otherwise, start processing the divs
+            newsNode.innerHTML = "";
             for (index in MAICgregator.dataTypes) {
-                var dataType = MAICgregator.dataTypes[index]
+                var dataType = MAICgregator.dataTypes[index];
                 var dataNode = results.getElementsByTagName(dataType)[0];
                 method = methodMapping[dataType];
-                method(dataNode);
+                newDivNode = method(dataNode);
+                newsNode.appendChild(newDivNode);
             }
+
             //MAICgregator.processTrusteeRelationshipSearchResults(getNodeValue(TrusteeData));
         }
     },
@@ -210,8 +221,9 @@ var MAICgregator = {
 
                 divNode.appendChild(pNode);
             }
-            newsNode.innerHTML = "";
-            newsNode.appendChild(divNode);
+            //newsNode.innerHTML = "";
+            //newsNode.appendChild(divNode);
+            return divNode;
         }
     },
  
@@ -286,8 +298,9 @@ var MAICgregator = {
             }                
             divNode.appendChild(ulNode);
 
-            newsNode.innerHTML = "";
-            newsNode.appendChild(divNode);
+            //newsNode.innerHTML = "";
+            //newsNode.appendChild(divNode);
+            return divNode;
         }
     },
 
@@ -343,8 +356,9 @@ var MAICgregator = {
             pNode.appendChild(MAICgregator.doc.createTextNode(WholeAbstract.trim()));
             divNode.appendChild(pNode);
 
-            newsNode.innerHTML = "";
-            newsNode.appendChild(divNode);
+            //newsNode.innerHTML = "";
+            //newsNode.appendChild(divNode);
+            return divNode;
         }
     },
  
@@ -365,7 +379,7 @@ var MAICgregator = {
             // TODO
             // HEINOUS, fix this
             // For some reason the really messed up ordering below seems to work...don't ask me why 
-            newsNode.innerHTML = "";
+            //newsNode.innerHTML = "";
             //newsNode.appendChild(divNode);
             // Start creating our list
             for (index = 0; index < childNodes.length; index++) {
@@ -384,7 +398,8 @@ var MAICgregator = {
                 divNode.appendChild(pNode);
             }
 
-            newsNode.appendChild(divNode);
+            //newsNode.appendChild(divNode);
+            return divNode;
         }
     },
 
@@ -455,8 +470,9 @@ var MAICgregator = {
             }
             divNode.appendChild(ulNode);
 
-            newsNode.innerHTML = "";
-            newsNode.appendChild(divNode);
+            //newsNode.innerHTML = "";
+            //newsNode.appendChild(divNode);
+            return divNode;
         }
     },
 
