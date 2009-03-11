@@ -161,15 +161,52 @@ var MAICgregator = {
 
     processGoogleNewsResults: function(results) {
         var children = results.getElementsByTagName("table");
+        var newChildren = new Array();
+
+        for (index = 0; index < children.length; index++) {
+            newChildren.push(children[index].cloneNode(true));
+        }
+
         var newsNode = MAICgregator.findNewsNode();
         if (newsNode != null) {
-            newsNode.innerHTML = "";
             divNode = MAICgregator.doc.createElement("div");
-            for (index = 0; index < children.length; index++) {
+            h3Node = MAICgregator.doc.createElement("h3");
+            h3Node.appendChild(MAICgregator.doc.createTextNode("Google News Search Results"));
+            divNode.appendChild(h3Node);
+
+            for (index = 0; index < newChildren.length; index++) {
                 pNode = MAICgregator.doc.createElement("p");
-                pNode.appendChild(children[index].cloneNode(true));
+                aNode = newChildren[index].getElementsByTagName("a")[0];
+                fontNodeLocation = newChildren[index].getElementsByTagName("div")[1].getElementsByTagName("font")[1];
+                fontNodeInfo = newChildren[index].getElementsByTagName("div")[1].getElementsByTagName("font")[2];
+                
+                href = aNode.getAttribute("href");
+                textNodes = aNode.childNodes;
+
+                aNodeNew = MAICgregator.doc.createElement("a");
+                aNodeNew.setAttribute("href", href);
+                for (aIndex = 0; aIndex < textNodes.length; aIndex++) {
+                    toAppend = textNodes[aIndex];
+                    aNodeNew.appendChild(toAppend);
+                }
+                pNode.appendChild(aNodeNew);
+
+                descNode = MAICgregator.doc.createElement("p");
+                locationData = fontNodeLocation.firstChild.nodeValue;
+                for (fontIndex = 0; fontIndex < fontNodeInfo.childNodes.length; fontIndex++) {
+                    if (fontNodeInfo.childNodes[fontIndex].nodeType == 3) {
+                        infoData = fontNodeInfo.childNodes[fontIndex].nodeValue;
+                    }
+                }
+                //infoData = fontNodeInfo.firstChild.nodeValue;
+                textNode = MAICgregator.doc.createTextNode(locationData + "  " + infoData);
+                descNode.appendChild(textNode);
+                pNode.appendChild(descNode);
+
+
                 divNode.appendChild(pNode);
             }
+            newsNode.innerHTML = "";
             newsNode.appendChild(divNode);
         }
     },
