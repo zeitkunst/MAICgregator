@@ -7,6 +7,7 @@ var MAICgregator = {
     logStream: null,
     logFile: null,
     logDisabled: false,
+    dataTypeList: new Array("DoDBR", "DoDSTTR", "GoogleNewsSearch", "PRNewsSearch", "TrusteeRelationshipSearch"), 
 
     // Return a preferences instance
     _getPrefs: function() {
@@ -26,6 +27,7 @@ var MAICgregator = {
         var appcontent = document.getElementById("appcontent");   // browser
         if(appcontent)
             appcontent.addEventListener("DOMContentLoaded", MAICgregator.onPageLoad, true);
+
     },
 
     onPageLoad: function(aEvent) {
@@ -135,12 +137,21 @@ var MAICgregator = {
         if (MAICgregator.request.readyState < 4) {
             return;
         }
+
         var methodMapping = {
             'DoDBR': MAICgregator.processDoDBRResults,
             'DoDSTTR': MAICgregator.processDoDSTTRResults,
             'GoogleNewsSearch': MAICgregator.processGoogleNewsResults,
             'PRNewsSearch': MAICgregator.processPRNewsResults,
             'TrusteeRelationshipSearch': MAICgregator.processTrusteeRelationshipSearchResults
+        };
+
+        var linkNameMapping = {
+            'DoDBR': "DoD Basic Research",
+            'DoDSTTR': "DoD STTR Grants",
+            'GoogleNewsSearch': "Google News Search",
+            'PRNewsSearch': "PR News Search",
+            'TrusteeRelationshipSearch': "Trustee Relationship Search" 
         };
 
         var results = MAICgregator.request.responseXML;
@@ -163,7 +174,25 @@ var MAICgregator = {
                 var dataNode = results.getElementsByTagName(dataType)[0];
                 method = methodMapping[dataType];
                 newDivNode = method(dataNode);
+                newDivNode.style.display = "none";
+                pNode = MAICgregator.doc.createElement("p");
+                aNode = MAICgregator.doc.createElement("a");
+                aNode.href = "#";
+                aNode.className = "MAICgregator" + dataType;
+                aNodeText = MAICgregator.doc.createTextNode(linkNameMapping[dataType]);
+                aNode.appendChild(aNodeText);
+                pNode.appendChild(aNode);
+                newsNode.appendChild(pNode);
                 newsNode.appendChild(newDivNode);
+                aNode.addEventListener("click", function() {
+                    divNodeToDisplay = MAICgregator.doc.getElementById(this.className);
+                    if (divNodeToDisplay.style.display == "block") {
+                        divNodeToDisplay.style.display = "none";
+                    } else if (divNodeToDisplay.style.display == "none") {
+                        divNodeToDisplay.style.display = "block";
+                    }
+                }, false);
+
             }
 
             //MAICgregator.processTrusteeRelationshipSearchResults(getNodeValue(TrusteeData));
@@ -181,7 +210,7 @@ var MAICgregator = {
         var newsNode = MAICgregator.findNewsNode();
         if (newsNode != null) {
             divNode = MAICgregator.doc.createElement("div");
-            divNode.setAttribute("id", "MAICgregatorGoogleNews");
+            divNode.setAttribute("id", "MAICgregatorGoogleNewsSearch");
             h3Node = MAICgregator.doc.createElement("h3");
             h3Node.appendChild(MAICgregator.doc.createTextNode("Google News Search Results"));
             divNode.appendChild(h3Node);

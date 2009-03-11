@@ -34,7 +34,7 @@
             <checkbox label="&preferences.DoDSTTR;" checked="false" tooltiptext="&preferences.DoDSTTRTooltip;" id="DoDSTTR" preference="DoDSTTR" onsynctopreference="return saveDoDSTTR"/>
         </hbox>
         <hbox>
-            <checkbox label="&preferences.DHS;" checked="false" tooltiptext="&preferences.DHSTooltip;" id="DHS" preference="DHS" onsynctopreference="return saveDHS"/>
+            <checkbox label="&preferences.DHS;" disabled="true" checked="false" tooltiptext="&preferences.DHSTooltip;" id="DHS" preference="DHS" onsynctopreference="return saveDHS"/>
         </hbox>
         <hbox>
             <checkbox label="&preferences.GoogleNews;" checked="false" tooltiptext="&preferences.GoogleNewsTooltip;" id="GoogleNewsSearch" preference="GoogleNewsSearch" onsynctopreference="return saveGoogleNewsSearch"/>
