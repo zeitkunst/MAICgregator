@@ -46,6 +46,13 @@
             <checkbox label="&preferences.Trustees;" checked="false" tooltiptext="&preferences.TrusteesTooltip;" id="TrusteeRelationshipSearch" preference="TrusteeRelationshipSearch" onsynctopreference="return saveTrusteeRelationshipSearch"/>
         </hbox>
     </groupbox>
+    <groupbox id="MAICgregatorRandomizeGroupbox">
+        <caption label="&preferences.randomizeGroup;"/>
+        <hbox>
+            <checkbox label="&preferences.randomize;" checked="false" tooltiptext="&preferences.randomizeTooltip;" id="randomize" preference="randomize" onsynctopreference="return saveRandomize"/>
+        </hbox>
+
+    </groupbox>
     <description id="preferencesMAICgregatorInfo" value="&preferences.Info;"/>
 
 </dialog>

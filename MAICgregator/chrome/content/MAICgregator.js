@@ -170,11 +170,15 @@ var MAICgregator = {
         var newsNode = MAICgregator.findNewsNode();
         if (newsNode != null) {
             divNode = MAICgregator.doc.createElement("div");
+            divNode.setAttribute("id", "MAICgregatorGoogleNews");
             h3Node = MAICgregator.doc.createElement("h3");
             h3Node.appendChild(MAICgregator.doc.createTextNode("Google News Search Results"));
             divNode.appendChild(h3Node);
 
             for (index = 0; index < newChildren.length; index++) {
+                // TODO
+                // MONDO HEINOUS
+                // I'm not sure why I need to go through the craziness of the following, as I should be able to just append the table nodes; I can do that, but then the links aren't clickable.  It's very very strange...
                 pNode = MAICgregator.doc.createElement("p");
                 aNode = newChildren[index].getElementsByTagName("a")[0];
                 fontNodeLocation = newChildren[index].getElementsByTagName("div")[1].getElementsByTagName("font")[1];
@@ -227,6 +231,7 @@ var MAICgregator = {
             //createTextNode = MAICgregator.doc.createTextNode;
             
             divNode = MAICgregator.doc.createElement("div");
+            divNode.setAttribute("id", "MAICgregatorDoDBR");
             grantsArray = new Array();
             contractsArray = new Array();
 
@@ -302,6 +307,7 @@ var MAICgregator = {
             //createTextNode = MAICgregator.doc.createTextNode;
             
             divNode = MAICgregator.doc.createElement("div");
+            divNode.setAttribute("id", "MAICgregatorDoDSTTR");
             h3Node = MAICgregator.doc.createElement("h3");
             h3Node.appendChild(MAICgregator.doc.createTextNode("Department of Defense STTR grants"));
             divNode.appendChild(h3Node);
@@ -351,6 +357,7 @@ var MAICgregator = {
 
             
             divNode = MAICgregator.doc.createElement("div");
+            divNode.setAttribute("id", "MAICgregatorPRNewsSearch");
             h3Node = MAICgregator.doc.createElement("h3");
             h3Node.appendChild(MAICgregator.doc.createTextNode("Recent Press Releases:"));
             divNode.appendChild(h3Node);
@@ -394,6 +401,7 @@ var MAICgregator = {
             itemArray = results.split("\n");
 
             divNode = MAICgregator.doc.createElement("div");
+            divNode.setAttribute("id", "MAICgregatorTrusteeRelationshipSearch");
             h3Node = MAICgregator.doc.createElement("h3");
             h3Node.appendChild(MAICgregator.doc.createTextNode("Members of the Board of Trustees"));
             divNode.appendChild(h3Node);
@@ -427,6 +435,7 @@ var MAICgregator = {
             itemArray = results.split("\n");
 
             divNode = MAICgregator.doc.createElement("div");
+            divNode.setAttribute("id", "MAICgregatorTrusteeRelationshipSearch");
             h3Node = MAICgregator.doc.createElement("h3");
             h3Node.appendChild(MAICgregator.doc.createTextNode("Members of the Board of Trustees"));
             divNode.appendChild(h3Node);
@@ -617,6 +626,7 @@ var MAICgregator = {
         this.GoogleNewsSearch = prefs.getBoolPref("GoogleNewsSearch");
         this.PRNewsSearch = prefs.getBoolPref("PRNewsSearch");
         this.TrusteeRelationshipSearch = prefs.getBoolPref("TrusteeRelationshipSearch");
+        this.randomize = prefs.getBoolPref("randomize");
         
     },
 
@@ -633,6 +643,7 @@ var MAICgregator = {
         prefs.setBoolPref("GoogleNewsSearch", this.GoogleNewsSearch);
         prefs.setBoolPref("PRNewsSearch", this.PRNewsSearch);
         prefs.setBoolPref("TrusteeRelationshipSearch", this.TrusteeRelationshipSearch);
+        prefs.setBoolPref("randomize", this.randomize);
     },
     
     _foo: function() {

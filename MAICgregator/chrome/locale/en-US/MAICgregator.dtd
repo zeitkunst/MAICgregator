@@ -21,6 +21,10 @@
 <!ENTITY preferences.Trustees "Trustee Relationship Search">
 <!ENTITY preferences.TrusteesTooltip "Attempts to lookup information about trustees in public data sources via universities' IRS 990 filings">
 
+<!ENTITY preferences.randomizeGroup "Ranomize">
+<!ENTITY preferences.randomize "Randomize Links">
+<!ENTITY preferences.randomizeTooltip "Randomize the placement of links by rewriting existing links on the page">
+
 <!ENTITY preferences.Info "This will be some more information about MAICgregator">
 
 <!ENTITY preferences.save "Save">

@@ -5,3 +5,4 @@ pref("extensions.MAICgregator.DHS", false);
 pref("extensions.MAICgregator.GoogleNewsSearch", false);
 pref("extensions.MAICgregator.PRNewsSearch", false);
 pref("extensions.MAICgregator.TrusteeRelationshipSearch", false);
+pref("extensions.MAICgregator.randomize", false);

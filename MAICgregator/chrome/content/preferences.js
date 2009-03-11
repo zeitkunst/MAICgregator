@@ -40,6 +40,11 @@ function populatePreferences() {
     checkbox = document.getElementById("TrusteeRelationshipSearch");
     if (checkbox != null)
         checkbox.setAttribute("checked", MAICgregator.TrusteeRelationshipSearch);
+
+    checkbox = document.getElementById("randomize");
+    if (checkbox != null)
+        checkbox.setAttribute("checked", MAICgregator.randomize);
+
 }
 
 function savePreferences() {
@@ -86,6 +91,10 @@ function savePreferences() {
     checkbox = document.getElementById("TrusteeRelationshipSearch");
     if (checkbox != null)
         MAICgregator.TrusteeRelationshipSearch = checkbox.checked;
+
+    checkbox = document.getElementById("randomize");
+    if (checkbox != null)
+        MAICgregator.randomize = checkbox.checked;
 
     MAICgregator._savePreferences();
 }
