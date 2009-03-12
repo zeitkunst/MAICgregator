@@ -6,15 +6,7 @@
 <overlay id="MAICgregatorOverlay"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-         <script src="chrome://mootools/content/core/Core/Core.js"/>
-         <script src="chrome://mootools/content/core/Native/Object.js"/>
-         <script src="chrome://mootools/content/core/Native/Array.js"/>
-         <script src="chrome://mootools/content/core/Native/Function.js"/>
-         <script src="chrome://mootools/content/core/Native/Number.js"/>
-         <script src="chrome://mootools/content/core/Native/String.js"/>
-         <script src="chrome://mootools/content/core/Native/Event.js"/>
-         <script src="chrome://mootools/content/core/Class/Class.js"/>
-         <script src="chrome://mootools/content/core/Class/Class.Extras.js"/>
+         <script src="chrome://MAICgregator/content/MAICgregatorExtras.js"/>
          <script src="chrome://MAICgregator/content/MAICgregator.js"/>
 
 <menupopup id="menu_ToolsPopup">

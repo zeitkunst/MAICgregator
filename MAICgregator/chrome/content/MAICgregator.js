@@ -177,7 +177,7 @@ var MAICgregator = {
                 newDivNode.style.display = "none";
                 pNode = MAICgregator.doc.createElement("p");
                 aNode = MAICgregator.doc.createElement("a");
-                aNode.href = "#";
+                aNode.href = "#" + dataType;
                 aNode.className = "MAICgregator" + dataType;
                 aNodeText = MAICgregator.doc.createTextNode(linkNameMapping[dataType]);
                 aNode.appendChild(aNodeText);
@@ -185,7 +185,7 @@ var MAICgregator = {
                 newsNode.appendChild(pNode);
                 newsNode.appendChild(newDivNode);
                 aNode.addEventListener("click", function() {
-                    divNodeToDisplay = MAICgregator.doc.getElementById(this.className);
+                    divNodeToDisplay = $(this.className);
                     if (divNodeToDisplay.style.display == "block") {
                         divNodeToDisplay.style.display = "none";
                     } else if (divNodeToDisplay.style.display == "none") {
@@ -257,12 +257,18 @@ var MAICgregator = {
     },
  
     processDoDBRResults: function(results) {
-        var results = getNodeValue(results);
+        //var results = getNodeValue(results);
+        //alert(results.childNodes.length);
+        resultsText = "";
+        for (index = 0; index < results.childNodes.length; index++) {
+            resultsText += results.childNodes[index].nodeValue;
+        }
+        //var results = results.firstChild.textContent;
         var newsNode = MAICgregator.findNewsNode();
 
         if (newsNode != null) {
             // Parse our formatted STTR data
-            itemArray = results.split("\n");
+            itemArray = resultsText.split("\n");
 
             // Get a random item from our result
             randomIndex = Math.floor(Math.random() * itemArray.length);
