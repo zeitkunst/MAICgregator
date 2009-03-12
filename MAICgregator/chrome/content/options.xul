@@ -51,8 +51,15 @@
         <hbox>
             <checkbox label="&preferences.randomize;" checked="false" tooltiptext="&preferences.randomizeTooltip;" id="randomize" preference="randomize" onsynctopreference="return saveRandomize"/>
         </hbox>
-
     </groupbox>
+    <groupbox id="MAICgregatorInfoGroupbox">
+        <caption label="&preferences.infoGroup;"/>
+        <hbox>
+            <checkbox label="&preferences.infoStatus;" checked="false" tooltiptext="&preferences.infoStatusTooltip;" id="infoStatus" preference="infoStatus"/>
+            <!-- <description id="preferencesMAICgregatorInfoStatusInfo" value="&preferences.infoStatusTooltip;"/> -->
+        </hbox>
+    </groupbox>
+
     <description id="preferencesMAICgregatorInfo" value="&preferences.Info;"/>
 
 </dialog>

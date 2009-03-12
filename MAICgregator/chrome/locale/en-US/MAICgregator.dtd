@@ -25,6 +25,10 @@
 <!ENTITY preferences.randomize "Randomize Links">
 <!ENTITY preferences.randomizeTooltip "Randomize the placement of links by rewriting existing links on the page">
 
+<!ENTITY preferences.infoGroup "Show info about...">
+<!ENTITY preferences.infoStatus "Status of data requests">
+<!ENTITY preferences.infoStatusTooltip "Whether or not we show info at the top of the page as to how the data requests are being processed.  This should be turned off if you install MAICgregator in a public computer.">
+
 <!ENTITY preferences.Info "This will be some more information about MAICgregator">
 
 <!ENTITY preferences.save "Save">

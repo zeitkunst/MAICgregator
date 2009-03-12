@@ -6,3 +6,4 @@ pref("extensions.MAICgregator.GoogleNewsSearch", false);
 pref("extensions.MAICgregator.PRNewsSearch", false);
 pref("extensions.MAICgregator.TrusteeRelationshipSearch", false);
 pref("extensions.MAICgregator.randomize", false);
+pref("extensions.MAICgregator.infoStatus", false);

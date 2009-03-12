@@ -61,14 +61,17 @@ class ProcessBase(object):
         # TODO
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
         # This means we need to come up with a REST api, as well as return error messages
-
-        return schoolData.getGoogleNews()
+        results = schoolData.getGoogleNews()
+        schoolData.close()
+        return results
 
     def TrusteeRelationshipSearch(self, hostname):
         schoolName = whois.getEduWHOIS(hostname)
         schoolData = db.SchoolData(schoolName)
 
-        return schoolData.getTrustees()
+        results = schoolData.getTrustees()
+        schoolData.close()
+        return results
 
     def DoDBR(self, hostname):
         schoolName = whois.getEduWHOIS(hostname)
@@ -77,8 +80,9 @@ class ProcessBase(object):
         # TODO
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
         # This means we need to come up with a REST api, as well as return error messages
-
-        return schoolData.getXML()
+        results = schoolData.getXML()
+        schoolData.close()
+        return results
 
     def PRNewsSearch(self, hostname):
         schoolName = whois.getEduWHOIS(hostname)
@@ -88,7 +92,9 @@ class ProcessBase(object):
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
         # This means we need to come up with a REST api, as well as return error messages
         web.header('Content-Encoding', 'utf-8')
-        return u"\n".join(unicode(item, "utf-8") for item in schoolData.getPRNews())
+        results = u"\n".join(unicode(item, "utf-8") for item in schoolData.getPRNews())
+        schoolData.close()
+        return results
 
     def DoDSTTR(self, hostname):
         # Interesting keys to return in our result
@@ -103,7 +109,8 @@ class ProcessBase(object):
         output = ""
         for contract in STTRData:
             output += "\t".join(unicode(contract[key], errors='replace') for key in usefulKeys) + "\n"
-
+        
+        schoolData.close()
         return output
 
 class Aggregate(ProcessBase):

@@ -45,6 +45,11 @@ function populatePreferences() {
     if (checkbox != null)
         checkbox.setAttribute("checked", MAICgregator.randomize);
 
+    checkbox = document.getElementById("infoStatus");
+    if (checkbox != null)
+        checkbox.setAttribute("checked", MAICgregator.infoStatus);
+
+
 }
 
 function savePreferences() {
@@ -95,6 +100,10 @@ function savePreferences() {
     checkbox = document.getElementById("randomize");
     if (checkbox != null)
         MAICgregator.randomize = checkbox.checked;
+
+    checkbox = document.getElementById("infoStatus");
+    if (checkbox != null)
+        MAICgregator.infoStatus = checkbox.checked;
 
     MAICgregator._savePreferences();
 }

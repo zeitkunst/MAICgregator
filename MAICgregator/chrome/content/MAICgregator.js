@@ -118,7 +118,26 @@ var MAICgregator = {
                 MAICgregator.request.onreadystatechange = MAICgregator.processAggregate;
                 MAICgregator.request.send(null);
             }
+           
+            // Are we showing status messages?
+            if (MAICgregator.infoStatus) {
+                infoDivNode = MAICgregator.doc.createElement("div");
+                infoDivNode.id = "MAICgregatorInfo";
+                infoDivNode.style.styleFloat = "left";
+                infoDivNode.style.clear = "both";
+                infoDivNode.style.position = "absolute";
+                infoDivNode.style.top = "0em";
+                infoDivNode.style.left = "0em";
+    
+                spanNode = MAICgregator.doc.createElement("span");
+                spanNode.style.backgroundColor = "#DF1111";
+                spanNode.style.color = "#EFEF11";
+                spanNode.appendChild(MAICgregator.doc.createTextNode("Making data request..."));
+                infoDivNode.appendChild(spanNode);
+                MAICgregator.doc.body.insertBefore(infoDivNode, MAICgregator.doc.body.childNodes[0]);
+                MAICgregator.infoDivNode = infoDivNode;
 
+            }
 
             /*
             if (MAICgregator.TrusteeRelationshipSearch) {
@@ -138,21 +157,6 @@ var MAICgregator = {
             return;
         }
 
-        var methodMapping = {
-            'DoDBR': MAICgregator.processDoDBRResults,
-            'DoDSTTR': MAICgregator.processDoDSTTRResults,
-            'GoogleNewsSearch': MAICgregator.processGoogleNewsResults,
-            'PRNewsSearch': MAICgregator.processPRNewsResults,
-            'TrusteeRelationshipSearch': MAICgregator.processTrusteeRelationshipSearchResults
-        };
-
-        var linkNameMapping = {
-            'DoDBR': "DoD Basic Research",
-            'DoDSTTR': "DoD STTR Grants",
-            'GoogleNewsSearch': "Google News Search",
-            'PRNewsSearch': "PR News Search",
-            'TrusteeRelationshipSearch': "Trustee Relationship Search" 
-        };
 
         var results = MAICgregator.request.responseXML;
         var newsNode = MAICgregator.findNewsNode();
@@ -164,7 +168,7 @@ var MAICgregator = {
             }
         }
 
-        if (newsNode != null) {
+        if ((newsNode != null)) {
             var errorNode = results.getElementsByTagName("error")[0];
 
             if (errorNode != null) {
@@ -179,51 +183,15 @@ var MAICgregator = {
             h2Node = MAICgregator.doc.createElement("h2");
             h2Node.appendChild(MAICgregator.doc.createTextNode("Current Alternative News:"));
             newsNode.appendChild(h2Node);
-            nodesToAdd = new Array();
-            newaTags = new Array();
-            for (index in MAICgregator.dataTypes) {
-                var dataType = MAICgregator.dataTypes[index];
-                var dataNode = results.getElementsByTagName(dataType)[0];
-                method = methodMapping[dataType];
-                newDivNode = method(dataNode);
-                newDivNode.style.display = "none";
-
-                if (MAICgregator.randomize) {
-                    var aTagsToAdd = newDivNode.getElementsByTagName("a");
-                    for (aTagIndex = 0; aTagIndex < aTagsToAdd.length; aTagIndex++) {
-                        newaTags.push(aTagsToAdd[aTagIndex]);
-                    }
-                }
-
-                pNode = MAICgregator.doc.createElement("p");
-                aNode = MAICgregator.doc.createElement("a");
-                aNode.href = "#" + dataType;
-                aNode.className = "MAICgregator" + dataType;
-                aNode.addEventListener("click", function() {
-                    divNodeToDisplay = $(this.className);
-
-                    if (divNodeToDisplay == null) {
-                        return;
-                    }
-
-                    if (divNodeToDisplay.style.display == "block") {
-                        divNodeToDisplay.style.display = "none";
-                    } else if (divNodeToDisplay.style.display == "none") {
-                        divNodeToDisplay.style.display = "block";
-                    }
-                }, false);
-
-                aNodeText = MAICgregator.doc.createTextNode(linkNameMapping[dataType]);
-                aNode.appendChild(aNodeText);
-                pNode.appendChild(aNode);
-                
-                nodesToAdd.push(pNode);
-                nodesToAdd.push(newDivNode);
-                //newsNode.appendChild(pNode);
-                //newsNode.appendChild(newDivNode);
-                
+ 
+            if (MAICgregator.infoStatus) {
+                MAICgregator.infoDivNode.firstChild.innerHTML = "Processing results...";
             }
-            
+           
+            var processResults = MAICgregator._processXMLResults(results);
+            var nodesToAdd = processResults[0];
+            var newaTags = processResults[1];
+
             if (MAICgregator.randomize) {
                 allaTags = MAICgregator.doc.getElementsByTagName("a");
 
@@ -240,8 +208,105 @@ var MAICgregator = {
                 newsNode.appendChild(nodesToAdd[addIndex]);
             }
 
-            //MAICgregator.processTrusteeRelationshipSearchResults(getNodeValue(TrusteeData));
+            if (MAICgregator.infoStatus) {
+                MAICgregator.infoDivNode.style.display = "none";
+            }
+
+        } else if ((newsNode == null) && (MAICgregator.interject = "All")) {
+            if (MAICgregator.infoStatus) {
+                MAICgregator.infoDivNode.firstChild.innerHTML = "Processing results...";
+            }
+            var processResults = MAICgregator._processXMLResults(results);
+            var nodesToAdd = processResults[0];
+            var newaTags = processResults[1];
+
+            if (MAICgregator.randomize) {
+                allaTags = MAICgregator.doc.getElementsByTagName("a");
+
+                for (index = 0; index < allaTags.length; index++) {
+                    randomIndex = Math.floor(Math.random() * newaTags.length);
+                    
+                    var currentaTag = allaTags[index];
+                    var replacementaTag = newaTags[randomIndex];
+                    currentaTag.href = replacementaTag.href;
+                }
+            }
+
+            if (MAICgregator.infoStatus) {
+                MAICgregator.infoDivNode.style.display = "none";
+            }
+
         }
+    },
+    
+    _processXMLResults: function(results) {
+        var methodMapping = {
+            'DoDBR': MAICgregator.processDoDBRResults,
+            'DoDSTTR': MAICgregator.processDoDSTTRResults,
+            'GoogleNewsSearch': MAICgregator.processGoogleNewsResults,
+            'PRNewsSearch': MAICgregator.processPRNewsResults,
+            'TrusteeRelationshipSearch': MAICgregator.processTrusteeRelationshipSearchResults
+        };
+
+        var linkNameMapping = {
+            'DoDBR': "DoD Basic Research",
+            'DoDSTTR': "DoD STTR Grants",
+            'GoogleNewsSearch': "Google News Search",
+            'PRNewsSearch': "PR News Search",
+            'TrusteeRelationshipSearch': "Trustee Relationship Search" 
+        };
+
+        returnArray = new Array();
+
+        nodesToAdd = new Array();
+        newaTags = new Array();
+        for (index in MAICgregator.dataTypes) {
+            var dataType = MAICgregator.dataTypes[index];
+            var dataNode = results.getElementsByTagName(dataType)[0];
+            method = methodMapping[dataType];
+            newDivNode = method(dataNode);
+            newDivNode.style.display = "none";
+
+            if (MAICgregator.randomize) {
+                var aTagsToAdd = newDivNode.getElementsByTagName("a");
+                for (aTagIndex = 0; aTagIndex < aTagsToAdd.length; aTagIndex++) {
+                    newaTags.push(aTagsToAdd[aTagIndex]);
+                }
+            }
+
+            pNode = MAICgregator.doc.createElement("p");
+            aNode = MAICgregator.doc.createElement("a");
+            aNode.href = "#" + dataType;
+            aNode.className = "MAICgregator" + dataType;
+            aNode.addEventListener("click", function() {
+                divNodeToDisplay = $(this.className);
+
+                if (divNodeToDisplay == null) {
+                    return;
+                }
+
+                if (divNodeToDisplay.style.display == "block") {
+                    divNodeToDisplay.style.display = "none";
+                } else if (divNodeToDisplay.style.display == "none") {
+                    divNodeToDisplay.style.display = "block";
+                }
+            }, false);
+
+            aNodeText = MAICgregator.doc.createTextNode(linkNameMapping[dataType]);
+            aNode.appendChild(aNodeText);
+            pNode.appendChild(aNode);
+            
+            nodesToAdd.push(pNode);
+            nodesToAdd.push(newDivNode);
+            //newsNode.appendChild(pNode);
+            //newsNode.appendChild(newDivNode);
+            
+        }
+        returnArray.push(nodesToAdd);
+        returnArray.push(newaTags);
+
+        return returnArray;
+
     },
 
     processGoogleNewsResults: function(results) {
@@ -252,235 +317,217 @@ var MAICgregator = {
             newChildren.push(children[index].cloneNode(true));
         }
 
-        var newsNode = MAICgregator.findNewsNode();
-        if (newsNode != null) {
-            divNode = MAICgregator.doc.createElement("div");
-            divNode.setAttribute("id", "MAICgregatorGoogleNewsSearch");
-            h3Node = MAICgregator.doc.createElement("h3");
-            h3Node.appendChild(MAICgregator.doc.createTextNode("Google News Search Results"));
-            divNode.appendChild(h3Node);
+        divNode = MAICgregator.doc.createElement("div");
+        divNode.setAttribute("id", "MAICgregatorGoogleNewsSearch");
+        h3Node = MAICgregator.doc.createElement("h3");
+        h3Node.appendChild(MAICgregator.doc.createTextNode("Google News Search Results"));
+        divNode.appendChild(h3Node);
 
-            for (index = 0; index < newChildren.length; index++) {
-                // TODO
-                // MONDO HEINOUS
-                // I'm not sure why I need to go through the craziness of the following, as I should be able to just append the table nodes; I can do that, but then the links aren't clickable.  It's very very strange...
-                pNode = MAICgregator.doc.createElement("p");
-                aNode = newChildren[index].getElementsByTagName("a")[0];
-                fontNodeLocation = newChildren[index].getElementsByTagName("div")[1].getElementsByTagName("font")[1];
-                fontNodeInfo = newChildren[index].getElementsByTagName("div")[1].getElementsByTagName("font")[2];
-                
-                href = aNode.getAttribute("href");
-                textNodes = aNode.childNodes;
+        for (index = 0; index < newChildren.length; index++) {
+            // TODO
+            // MONDO HEINOUS
+            // I'm not sure why I need to go through the craziness of the following, as I should be able to just append the table nodes; I can do that, but then the links aren't clickable.  It's very very strange...
+            pNode = MAICgregator.doc.createElement("p");
+            aNode = newChildren[index].getElementsByTagName("a")[0];
+            fontNodeLocation = newChildren[index].getElementsByTagName("div")[1].getElementsByTagName("font")[1];
+            fontNodeInfo = newChildren[index].getElementsByTagName("div")[1].getElementsByTagName("font")[2];
+            
+            href = aNode.getAttribute("href");
+            textNodes = aNode.childNodes;
 
-                aNodeNew = MAICgregator.doc.createElement("a");
-                aNodeNew.setAttribute("href", href);
-                for (aIndex = 0; aIndex < textNodes.length; aIndex++) {
-                    toAppend = textNodes[aIndex];
-                    aNodeNew.appendChild(toAppend);
-                }
-                pNode.appendChild(aNodeNew);
-
-                descNode = MAICgregator.doc.createElement("p");
-                locationData = fontNodeLocation.firstChild.nodeValue;
-                for (fontIndex = 0; fontIndex < fontNodeInfo.childNodes.length; fontIndex++) {
-                    if (fontNodeInfo.childNodes[fontIndex].nodeType == 3) {
-                        infoData = fontNodeInfo.childNodes[fontIndex].nodeValue;
-                    }
-                }
-                //infoData = fontNodeInfo.firstChild.nodeValue;
-                textNode = MAICgregator.doc.createTextNode(locationData + "  " + infoData);
-                descNode.appendChild(textNode);
-                pNode.appendChild(descNode);
-
-
-                divNode.appendChild(pNode);
+            aNodeNew = MAICgregator.doc.createElement("a");
+            aNodeNew.setAttribute("href", href);
+            for (aIndex = 0; aIndex < textNodes.length; aIndex++) {
+                toAppend = textNodes[aIndex];
+                aNodeNew.appendChild(toAppend);
             }
-            //newsNode.innerHTML = "";
-            //newsNode.appendChild(divNode);
-            return divNode;
+            pNode.appendChild(aNodeNew);
+
+            descNode = MAICgregator.doc.createElement("p");
+            locationData = fontNodeLocation.firstChild.nodeValue;
+            for (fontIndex = 0; fontIndex < fontNodeInfo.childNodes.length; fontIndex++) {
+                if (fontNodeInfo.childNodes[fontIndex].nodeType == 3) {
+                    infoData = fontNodeInfo.childNodes[fontIndex].nodeValue;
+                }
+            }
+            //infoData = fontNodeInfo.firstChild.nodeValue;
+            textNode = MAICgregator.doc.createTextNode(locationData + "  " + infoData);
+            descNode.appendChild(textNode);
+            pNode.appendChild(descNode);
+
+
+            divNode.appendChild(pNode);
         }
+        //newsNode.innerHTML = "";
+        //newsNode.appendChild(divNode);
+        return divNode;
     },
  
     processDoDBRResults: function(results) {
         //var results = getNodeValue(results);
-        //alert(results.childNodes.length);
         resultsText = "";
         for (index = 0; index < results.childNodes.length; index++) {
             resultsText += results.childNodes[index].nodeValue;
         }
-        //var results = results.firstChild.textContent;
-        var newsNode = MAICgregator.findNewsNode();
+        // Parse our formatted STTR data
+        itemArray = resultsText.split("\n");
 
-        if (newsNode != null) {
-            // Parse our formatted STTR data
-            itemArray = resultsText.split("\n");
+        // Get a random item from our result
+        randomIndex = Math.floor(Math.random() * itemArray.length);
+        
+        // Save our methods
+        //createElement = MAICgregator.doc.createElement;
+        //createTextNode = MAICgregator.doc.createTextNode;
+        
+        divNode = MAICgregator.doc.createElement("div");
+        divNode.setAttribute("id", "MAICgregatorDoDBR");
+        grantsArray = new Array();
+        contractsArray = new Array();
 
-            // Get a random item from our result
-            randomIndex = Math.floor(Math.random() * itemArray.length);
-            
-            // Save our methods
-            //createElement = MAICgregator.doc.createElement;
-            //createTextNode = MAICgregator.doc.createTextNode;
-            
-            divNode = MAICgregator.doc.createElement("div");
-            divNode.setAttribute("id", "MAICgregatorDoDBR");
-            grantsArray = new Array();
-            contractsArray = new Array();
-
-            for (itemIndex in itemArray) {
-                data = itemArray[itemIndex].split("\t");
-                if (data[0] == "grant") {
-                    grantsArray.push(itemArray[itemIndex]);
-                } else if (data[0] == "contract") {
-                    contractsArray.push(itemArray[itemIndex]);
-                }
+        for (itemIndex in itemArray) {
+            data = itemArray[itemIndex].split("\t");
+            if (data[0] == "grant") {
+                grantsArray.push(itemArray[itemIndex]);
+            } else if (data[0] == "contract") {
+                contractsArray.push(itemArray[itemIndex]);
             }
-
-            h3Node = MAICgregator.doc.createElement("h3");
-            h3Node.appendChild(MAICgregator.doc.createTextNode("Department of Defense Basic Research Grants"));
-            divNode.appendChild(h3Node);
-            ulNode = MAICgregator.doc.createElement("ul");
-
-            for (itemIndex in grantsArray) {
-                data = grantsArray[itemIndex].split("\t");
-                type = data[0];
-                title = data[1];
-                awardId = data[2];
-                agency = data[3];
-                amount = parseFloat(data[4]);
-                
-                liNode = MAICgregator.doc.createElement("li");
-                textToAdd = "<strong>$" + amount + "</strong> from the <strong>" + agency + "</strong> to study <em>" + title + "</em> with a Federal Award ID of " + awardId;
-                liNode.innerHTML = textToAdd;
-                ulNode.appendChild(liNode);
-
-            }                
-            divNode.appendChild(ulNode);
-
-            h3Node = MAICgregator.doc.createElement("h3");
-            h3Node.appendChild(MAICgregator.doc.createTextNode("Department of Defense Basic Research Contracts"));
-            divNode.appendChild(h3Node);
-            ulNode = MAICgregator.doc.createElement("ul");
-
-            for (itemIndex in contractsArray) {
-                data = contractsArray[itemIndex].split("\t");
-                type = data[0];
-                title = data[1];
-                awardId = data[2];
-                agency = data[3];
-                amount = parseFloat(data[4]);
-                
-                liNode = MAICgregator.doc.createElement("li");
-                textToAdd = "<strong>$" + amount + "</strong> from the <strong>" + agency + "</strong> to study <em>" + title + "</em> with a Federal Award ID of " + awardId;
-                liNode.innerHTML = textToAdd;
-                ulNode.appendChild(liNode);
-
-            }                
-            divNode.appendChild(ulNode);
-
-            //newsNode.innerHTML = "";
-            //newsNode.appendChild(divNode);
-            return divNode;
         }
+
+        h3Node = MAICgregator.doc.createElement("h3");
+        h3Node.appendChild(MAICgregator.doc.createTextNode("Department of Defense Basic Research Grants"));
+        divNode.appendChild(h3Node);
+        ulNode = MAICgregator.doc.createElement("ul");
+
+        for (itemIndex in grantsArray) {
+            data = grantsArray[itemIndex].split("\t");
+            type = data[0];
+            title = data[1];
+            awardId = data[2];
+            agency = data[3];
+            amount = parseFloat(data[4]);
+            
+            liNode = MAICgregator.doc.createElement("li");
+            textToAdd = "<strong>$" + amount + "</strong> from the <strong>" + agency + "</strong> to study <em>" + title + "</em> with a Federal Award ID of " + awardId;
+            liNode.innerHTML = textToAdd;
+            ulNode.appendChild(liNode);
+
+        }                
+        divNode.appendChild(ulNode);
+
+        h3Node = MAICgregator.doc.createElement("h3");
+        h3Node.appendChild(MAICgregator.doc.createTextNode("Department of Defense Basic Research Contracts"));
+        divNode.appendChild(h3Node);
+        ulNode = MAICgregator.doc.createElement("ul");
+
+        for (itemIndex in contractsArray) {
+            data = contractsArray[itemIndex].split("\t");
+            type = data[0];
+            title = data[1];
+            awardId = data[2];
+            agency = data[3];
+            amount = parseFloat(data[4]);
+            
+            liNode = MAICgregator.doc.createElement("li");
+            textToAdd = "<strong>$" + amount + "</strong> from the <strong>" + agency + "</strong> to study <em>" + title + "</em> with a Federal Award ID of " + awardId;
+            liNode.innerHTML = textToAdd;
+            ulNode.appendChild(liNode);
+
+        }                
+        divNode.appendChild(ulNode);
+
+        //newsNode.innerHTML = "";
+        //newsNode.appendChild(divNode);
+        return divNode;
     },
 
     processDoDSTTRResults: function(results) {
         var results = getNodeValue(results);
-        var newsNode = MAICgregator.findNewsNode();
 
-        if (newsNode != null) {
-            // Parse our formatted STTR data
-            itemArray = results.split("\n");
+        // Parse our formatted STTR data
+        itemArray = results.split("\n");
 
-            // Get a random item from our result
-            randomIndex = Math.floor(Math.random() * itemArray.length);
-            
-            // Save our methods
-            //createElement = MAICgregator.doc.createElement;
-            //createTextNode = MAICgregator.doc.createTextNode;
-            
-            divNode = MAICgregator.doc.createElement("div");
-            divNode.setAttribute("id", "MAICgregatorDoDSTTR");
-            h3Node = MAICgregator.doc.createElement("h3");
-            h3Node.appendChild(MAICgregator.doc.createTextNode("Department of Defense STTR grants"));
-            divNode.appendChild(h3Node);
+        // Get a random item from our result
+        randomIndex = Math.floor(Math.random() * itemArray.length);
+        
+        // Save our methods
+        //createElement = MAICgregator.doc.createElement;
+        //createTextNode = MAICgregator.doc.createTextNode;
+        
+        divNode = MAICgregator.doc.createElement("div");
+        divNode.setAttribute("id", "MAICgregatorDoDSTTR");
+        h3Node = MAICgregator.doc.createElement("h3");
+        h3Node.appendChild(MAICgregator.doc.createTextNode("Department of Defense STTR grants"));
+        divNode.appendChild(h3Node);
 
-            data = itemArray[randomIndex].split("\t");
-            PK_AWARDS = data[0];
-            AGENCY = data[1];
-            CONTRACT = data[2];
-            AWARD_AMT = data[3];
-            PI_NAME = data[4];
-            FIRM = data[5];
-            URL = data[6];
-            PRO_TITLE = data[7];
-            WholeAbstract = data[8];
-            
-            h4Node = MAICgregator.doc.createElement("h4");
-            h4Node.innerHTML = "<a href=\"http://www.dodsbir.net/Awards/SrchResultsDtlsForm.asp?RanNo=0&bookmark=" + PK_AWARDS.trim() + "\">" + PRO_TITLE.trim() + "</a>";
-            //h4Node.appendChild(createTextNode(PRO_TITLE.trim());
-            divNode.appendChild(h4Node);
+        data = itemArray[randomIndex].split("\t");
+        PK_AWARDS = data[0];
+        AGENCY = data[1];
+        CONTRACT = data[2];
+        AWARD_AMT = data[3];
+        PI_NAME = data[4];
+        FIRM = data[5];
+        URL = data[6];
+        PRO_TITLE = data[7];
+        WholeAbstract = data[8];
+        
+        h4Node = MAICgregator.doc.createElement("h4");
+        h4Node.innerHTML = "<a href=\"http://www.dodsbir.net/Awards/SrchResultsDtlsForm.asp?RanNo=0&bookmark=" + PK_AWARDS.trim() + "\">" + PRO_TITLE.trim() + "</a>";
+        //h4Node.appendChild(createTextNode(PRO_TITLE.trim());
+        divNode.appendChild(h4Node);
 
-            // TODO
-            // Highlight "military" words in the following, like:
-            // military, civilian, army, radar, defense, war, etc.
-            // Use methods like indexOf, substr, etc to split the text up
-            pNode = MAICgregator.doc.createElement("p");
-            textToInsert = "<strong>$" + AWARD_AMT.trim() + "</strong> from the <strong>" + AGENCY.trim() + "</strong> to <a href=\"http://www.google.com/search?q=" + escape(FIRM.trim()) + "\">" + FIRM.trim() + "</a> and <a href=\"http://www.google.com/search?q=" + escape(PI_NAME.trim()) + "\">" + PI_NAME.trim() + "</a>";
+        // TODO
+        // Highlight "military" words in the following, like:
+        // military, civilian, army, radar, defense, war, etc.
+        // Use methods like indexOf, substr, etc to split the text up
+        pNode = MAICgregator.doc.createElement("p");
+        textToInsert = "<strong>$" + AWARD_AMT.trim() + "</strong> from the <strong>" + AGENCY.trim() + "</strong> to <a href=\"http://www.google.com/search?q=" + escape(FIRM.trim()) + "\">" + FIRM.trim() + "</a> and <a href=\"http://www.google.com/search?q=" + escape(PI_NAME.trim()) + "\">" + PI_NAME.trim() + "</a>";
 
-            //textToInsert = "<strong>" + AGENCY.trim() + "</strong>" + "<em>" + PRO_TITLE.trim() + "</em>" + " <strong>$" + AWARD_AMT.trim() + "</strong>" + WholeAbstract.trim();
-            pNode.innerHTML = textToInsert;
-            divNode.appendChild(pNode);
-            
-            pNode = MAICgregator.doc.createElement("p");
-            pNode.appendChild(MAICgregator.doc.createTextNode(WholeAbstract.trim()));
-            divNode.appendChild(pNode);
+        //textToInsert = "<strong>" + AGENCY.trim() + "</strong>" + "<em>" + PRO_TITLE.trim() + "</em>" + " <strong>$" + AWARD_AMT.trim() + "</strong>" + WholeAbstract.trim();
+        pNode.innerHTML = textToInsert;
+        divNode.appendChild(pNode);
+        
+        pNode = MAICgregator.doc.createElement("p");
+        pNode.appendChild(MAICgregator.doc.createTextNode(WholeAbstract.trim()));
+        divNode.appendChild(pNode);
 
-            //newsNode.innerHTML = "";
-            //newsNode.appendChild(divNode);
-            return divNode;
-        }
+        //newsNode.innerHTML = "";
+        //newsNode.appendChild(divNode);
+        return divNode;
     },
  
     processPRNewsResults: function(results) {
         childNodes = results.getElementsByTagName("a");
-        var newsNode = MAICgregator.findNewsNode();
         
-        if (newsNode != null) {
-            // Parse our formatted STTR data
-
+        divNode = MAICgregator.doc.createElement("div");
+        divNode.setAttribute("id", "MAICgregatorPRNewsSearch");
+        h3Node = MAICgregator.doc.createElement("h3");
+        h3Node.appendChild(MAICgregator.doc.createTextNode("Recent Press Releases:"));
+        divNode.appendChild(h3Node);
+      
+        // TODO
+        // HEINOUS, fix this
+        // For some reason the really messed up ordering below seems to work...don't ask me why 
+        //newsNode.innerHTML = "";
+        //newsNode.appendChild(divNode);
+        // Start creating our list
+        for (index = 0; index < childNodes.length; index++) {
+            pNode = MAICgregator.doc.createElement("p");
+            aNode = childNodes[index];
             
-            divNode = MAICgregator.doc.createElement("div");
-            divNode.setAttribute("id", "MAICgregatorPRNewsSearch");
-            h3Node = MAICgregator.doc.createElement("h3");
-            h3Node.appendChild(MAICgregator.doc.createTextNode("Recent Press Releases:"));
-            divNode.appendChild(h3Node);
-          
-            // TODO
-            // HEINOUS, fix this
-            // For some reason the really messed up ordering below seems to work...don't ask me why 
-            //newsNode.innerHTML = "";
-            //newsNode.appendChild(divNode);
-            // Start creating our list
-            for (index = 0; index < childNodes.length; index++) {
-                pNode = MAICgregator.doc.createElement("p");
-                aNode = childNodes[index];
-                
-                href = aNode.getAttribute("href");
-                text = aNode.childNodes[1].nodeValue;
+            href = aNode.getAttribute("href");
+            text = aNode.childNodes[1].nodeValue;
 
-                aNodeNew = MAICgregator.doc.createElement("a");
-                aNodeNew.setAttribute("href", href);
-                aNodeNewText = MAICgregator.doc.createTextNode(text);
-                aNodeNew.appendChild(aNodeNewText);
+            aNodeNew = MAICgregator.doc.createElement("a");
+            aNodeNew.setAttribute("href", href);
+            aNodeNewText = MAICgregator.doc.createTextNode(text);
+            aNodeNew.appendChild(aNodeNewText);
 
-                pNode.appendChild(aNodeNew);
-                divNode.appendChild(pNode);
-            }
-
-            //newsNode.appendChild(divNode);
-            return divNode;
+            pNode.appendChild(aNodeNew);
+            divNode.appendChild(pNode);
         }
+
+        //newsNode.appendChild(divNode);
+        return divNode;
     },
 
     processTrusteeRelationshipSearchRequest: function() {
@@ -523,37 +570,33 @@ var MAICgregator = {
 
     processTrusteeRelationshipSearchResults: function(results) {
         var results = getNodeValue(results);
-        var newsNode = MAICgregator.findNewsNode();
 
-        if (newsNode != null) {
-            // Parse our formatted STTR data
-            itemArray = results.split("\n");
+        itemArray = results.split("\n");
 
-            divNode = MAICgregator.doc.createElement("div");
-            divNode.setAttribute("id", "MAICgregatorTrusteeRelationshipSearch");
-            h3Node = MAICgregator.doc.createElement("h3");
-            h3Node.appendChild(MAICgregator.doc.createTextNode("Members of the Board of Trustees"));
-            divNode.appendChild(h3Node);
+        divNode = MAICgregator.doc.createElement("div");
+        divNode.setAttribute("id", "MAICgregatorTrusteeRelationshipSearch");
+        h3Node = MAICgregator.doc.createElement("h3");
+        h3Node.appendChild(MAICgregator.doc.createTextNode("Members of the Board of Trustees"));
+        divNode.appendChild(h3Node);
 
-            ulNode = MAICgregator.doc.createElement("ul");
-            for (index in itemArray) {
-                liNode = MAICgregator.doc.createElement("ul");
-                name = itemArray[index];
+        ulNode = MAICgregator.doc.createElement("ul");
+        for (index in itemArray) {
+            liNode = MAICgregator.doc.createElement("ul");
+            name = itemArray[index];
 
-                aNode = MAICgregator.doc.createElement("a");
-                aNode.setAttribute("href", "http://www.google.com/search?&q=" + encodeURI(name + " trustee"));
-                textNode = MAICgregator.doc.createTextNode(name);
-                aNode.appendChild(textNode);
+            aNode = MAICgregator.doc.createElement("a");
+            aNode.setAttribute("href", "http://www.google.com/search?&q=" + encodeURI(name + " trustee"));
+            textNode = MAICgregator.doc.createTextNode(name);
+            aNode.appendChild(textNode);
 
-                liNode.appendChild(aNode);
-                ulNode.appendChild(liNode);
-            }
-            divNode.appendChild(ulNode);
-
-            //newsNode.innerHTML = "";
-            //newsNode.appendChild(divNode);
-            return divNode;
+            liNode.appendChild(aNode);
+            ulNode.appendChild(liNode);
         }
+        divNode.appendChild(ulNode);
+
+        //newsNode.innerHTML = "";
+        //newsNode.appendChild(divNode);
+        return divNode;
     },
 
 
@@ -723,6 +766,7 @@ var MAICgregator = {
         this.PRNewsSearch = prefs.getBoolPref("PRNewsSearch");
         this.TrusteeRelationshipSearch = prefs.getBoolPref("TrusteeRelationshipSearch");
         this.randomize = prefs.getBoolPref("randomize");
+        this.infoStatus = prefs.getBoolPref("infoStatus");
         
     },
 
@@ -740,6 +784,7 @@ var MAICgregator = {
         prefs.setBoolPref("PRNewsSearch", this.PRNewsSearch);
         prefs.setBoolPref("TrusteeRelationshipSearch", this.TrusteeRelationshipSearch);
         prefs.setBoolPref("randomize", this.randomize);
+        prefs.setBoolPref("infoStatus", this.infoStatus);
     },
     
     _foo: function() {

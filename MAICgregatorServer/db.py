@@ -82,7 +82,12 @@ class SchoolData(object):
             self.mgr = XmlManager(self.environment, 0)
 
             self.container = self.mgr.openContainer(DB_XML_NAME, DBXML_TRANSACTIONAL)
-        
+        except XmlDatabaseError, e:
+            print "Some kind of strange error: "
+            print e.dbError
+            print dir(e)
+            return
+
         # Initialize or get metadata
         try:
             self.schoolMetadata = self.schoolMetadataStore.get(schoolName)
@@ -316,6 +321,9 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
 
     def close(self):
         self.sync()
+        #self.container.close()
+        del self.container
+        self.environment.close(0)
         self.schoolMetadataStore.sync()
         self.schoolMetadataStore.close()
 
@@ -360,9 +368,7 @@ class SchoolMetadataStore(object):
     def close(self):
         self.db.sync()
         self.db.close()
-
-        del self.environment
-        del self.db
+        self.environment.close()
 
 """mgr = XmlManager()
 container = mgr.createContainer("test.MAICxml")
