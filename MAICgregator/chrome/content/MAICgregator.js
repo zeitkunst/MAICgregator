@@ -164,7 +164,7 @@ var MAICgregator = {
             }
         }
 
-        if ((newsNode != null) {
+        if (newsNode != null) {
             var errorNode = results.getElementsByTagName("error")[0];
 
             if (errorNode != null) {

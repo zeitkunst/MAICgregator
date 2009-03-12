@@ -7,7 +7,7 @@
 <!ENTITY preferences.OnlyHome "Only the Home Page?">
 <!ENTITY preferences.OnlyNews "Only pages with 'News' elements?">
 
-<!ENTITY preferences.include "Include">
+<!ENTITY preferences.include "Include...">
 <!ENTITY preferences.DoD "Department of Defense Basic Research Grants">
 <!ENTITY preferences.DoDTooltip "'Basic' research funding by the defense department">
 <!ENTITY preferences.DoDSTTR "Department of Defense STTR">
@@ -21,7 +21,7 @@
 <!ENTITY preferences.Trustees "Trustee Relationship Search">
 <!ENTITY preferences.TrusteesTooltip "Attempts to lookup information about trustees in public data sources via universities' IRS 990 filings">
 
-<!ENTITY preferences.randomizeGroup "Ranomize">
+<!ENTITY preferences.randomizeGroup "Randomize...">
 <!ENTITY preferences.randomize "Randomize Links">
 <!ENTITY preferences.randomizeTooltip "Randomize the placement of links by rewriting existing links on the page">
 
