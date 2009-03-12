@@ -169,6 +169,9 @@ var MAICgregator = {
 
             // Otherwise, start processing the divs
             newsNode.innerHTML = "";
+            h2Node = MAICgregator.doc.createElement("h2");
+            h2Node.appendChild(MAICgregator.doc.createTextNode("Current Alternative News:"));
+            newsNode.appendChild(h2Node);
             for (index in MAICgregator.dataTypes) {
                 var dataType = MAICgregator.dataTypes[index];
                 var dataNode = results.getElementsByTagName(dataType)[0];
