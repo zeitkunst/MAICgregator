@@ -197,4 +197,7 @@ class process:
 
 if __name__ == "__main__":
     app = web.application(urls, globals())
-    app.run()
+    try:
+        app.run()
+    except KeyboardInterrupt:
+        print "got a keyboard interrupt"

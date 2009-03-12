@@ -20,7 +20,7 @@
         <caption label="&preferences.Interject;"/>
         <radiogroup id="MAICgregatorInterject">
             <radio label="&preferences.Any;" value="All" />
-            <radio label="&preferences.OnlyHome;" value="Home" />
+            <radio disabled="true" label="&preferences.OnlyHome;" value="Home" />
             <radio label="&preferences.OnlyNews;" value="News" />
         </radiogroup>
     </groupbox>

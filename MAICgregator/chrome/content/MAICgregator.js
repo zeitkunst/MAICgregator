@@ -157,7 +157,14 @@ var MAICgregator = {
         var results = MAICgregator.request.responseXML;
         var newsNode = MAICgregator.findNewsNode();
         
-        if (newsNode != null) {
+        if (results == null) {
+            if (newsNode != null) {
+                newsNode.innerHTML = "<div><p>There was some problem MAICgregating the data...the tubes must be stuck or something.</p></div>";
+                return;
+            }
+        }
+
+        if ((newsNode != null) {
             var errorNode = results.getElementsByTagName("error")[0];
 
             if (errorNode != null) {
@@ -172,23 +179,33 @@ var MAICgregator = {
             h2Node = MAICgregator.doc.createElement("h2");
             h2Node.appendChild(MAICgregator.doc.createTextNode("Current Alternative News:"));
             newsNode.appendChild(h2Node);
+            nodesToAdd = new Array();
+            newaTags = new Array();
             for (index in MAICgregator.dataTypes) {
                 var dataType = MAICgregator.dataTypes[index];
                 var dataNode = results.getElementsByTagName(dataType)[0];
                 method = methodMapping[dataType];
                 newDivNode = method(dataNode);
                 newDivNode.style.display = "none";
+
+                if (MAICgregator.randomize) {
+                    var aTagsToAdd = newDivNode.getElementsByTagName("a");
+                    for (aTagIndex = 0; aTagIndex < aTagsToAdd.length; aTagIndex++) {
+                        newaTags.push(aTagsToAdd[aTagIndex]);
+                    }
+                }
+
                 pNode = MAICgregator.doc.createElement("p");
                 aNode = MAICgregator.doc.createElement("a");
                 aNode.href = "#" + dataType;
                 aNode.className = "MAICgregator" + dataType;
-                aNodeText = MAICgregator.doc.createTextNode(linkNameMapping[dataType]);
-                aNode.appendChild(aNodeText);
-                pNode.appendChild(aNode);
-                newsNode.appendChild(pNode);
-                newsNode.appendChild(newDivNode);
                 aNode.addEventListener("click", function() {
                     divNodeToDisplay = $(this.className);
+
+                    if (divNodeToDisplay == null) {
+                        return;
+                    }
+
                     if (divNodeToDisplay.style.display == "block") {
                         divNodeToDisplay.style.display = "none";
                     } else if (divNodeToDisplay.style.display == "none") {
@@ -196,6 +213,31 @@ var MAICgregator = {
                     }
                 }, false);
 
+                aNodeText = MAICgregator.doc.createTextNode(linkNameMapping[dataType]);
+                aNode.appendChild(aNodeText);
+                pNode.appendChild(aNode);
+                
+                nodesToAdd.push(pNode);
+                nodesToAdd.push(newDivNode);
+                //newsNode.appendChild(pNode);
+                //newsNode.appendChild(newDivNode);
+                
+            }
+            
+            if (MAICgregator.randomize) {
+                allaTags = MAICgregator.doc.getElementsByTagName("a");
+
+                for (index = 0; index < allaTags.length; index++) {
+                    randomIndex = Math.floor(Math.random() * newaTags.length);
+                    
+                    var currentaTag = allaTags[index];
+                    var replacementaTag = newaTags[randomIndex];
+                    currentaTag.href = replacementaTag.href;
+                }
+            }
+
+            for (addIndex = 0; addIndex < nodesToAdd.length; addIndex++) {
+                newsNode.appendChild(nodesToAdd[addIndex]);
             }
 
             //MAICgregator.processTrusteeRelationshipSearchResults(getNodeValue(TrusteeData));
