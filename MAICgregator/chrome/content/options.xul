@@ -18,6 +18,7 @@
     <tabs>
         <tab label="&preferences.standardTab;" />
         <tab label="&preferences.advancedTab;" />
+        <tab label="&preferences.aboutTab;" />
     </tabs>
     <tabpanels>
         <tabpanel>
@@ -83,6 +84,13 @@
     </groupbox>
 
 </tabpanel>
+<tabpanel>
+    <groupbox id="MAICgregatorAboutGroupbox">
+        <image src="chrome://MAICgregator/skin/icon128.png"/>
+    </groupbox>
+
+</tabpanel>
+
 </tabpanels>
 </tabbox>
 </dialog>

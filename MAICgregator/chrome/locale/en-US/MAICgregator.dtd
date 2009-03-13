@@ -2,6 +2,7 @@
 
 <!ENTITY preferences.standardTab "Standard">
 <!ENTITY preferences.advancedTab "Advanced">
+<!ENTITY preferences.aboutTab "About">
 
 <!ENTITY preferences.name "MAICgregator">
 
