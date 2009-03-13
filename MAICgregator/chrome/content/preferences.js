@@ -13,7 +13,11 @@ function populatePreferences() {
             radiogroup.selectedIndex = 1;
         } else if (MAICgregator.interject == "News") {
             radiogroup.selectedIndex = 2;
+        } else if (MAICgregator.interject == "None") {
+            radiogroup.selectedIndex = 3;
         }
+
+
     }
 
     // Set checkbox options
@@ -49,6 +53,10 @@ function populatePreferences() {
     if (checkbox != null)
         checkbox.setAttribute("checked", MAICgregator.infoStatus);
 
+    textbox = document.getElementById("serverURL");
+    if (textbox != null)
+        textbox.setAttribute("value", MAICgregator.serverURL);
+
 
 }
 
@@ -69,7 +77,10 @@ function savePreferences() {
             MAICgregator.interject = "Home";
         } else if (index == 2) {
             MAICgregator.interject = "News";
+        } else if (index == 3) {
+            MAICgregator.interject = "None";
         }
+
     }
 
     // Set checkbox options
@@ -104,6 +115,10 @@ function savePreferences() {
     checkbox = document.getElementById("infoStatus");
     if (checkbox != null)
         MAICgregator.infoStatus = checkbox.checked;
+
+    textbox = document.getElementById("serverURL");
+    if (textbox != null)
+        MAICgregator.serverURL = textbox.value;
 
     MAICgregator._savePreferences();
 }

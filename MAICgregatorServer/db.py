@@ -67,11 +67,15 @@ class SchoolData(object):
 
         try:
             self.environment = DBEnv()
+            self.environment.set_lk_max_locks(10000)
             self.environment.open(DB_HOME + "xml/", DB_ENV_CREATE_FLAGS, 0)
 
             self.mgr = XmlManager(self.environment, 0)
+        
             uc = self.mgr.createUpdateContext()
-            self.container = self.mgr.createContainer(DB_XML_NAME, DBXML_TRANSACTIONAL)
+            self.container = self.mgr.createContainer(DB_XML_NAME)
+       
+      
             xtxn = self.mgr.createTransaction()
             self.container.putDocument(xtxn, r"initialization", r"<init>MAICgregator begun!</init>", uc)
             self.container.sync()
@@ -80,15 +84,14 @@ class SchoolData(object):
         except XmlContainerExists:
             self.environment = DBEnv()
             self.environment.open(DB_HOME + "xml/", DB_ENV_FLAGS, 0)
-
             self.mgr = XmlManager(self.environment, 0)
 
-            self.container = self.mgr.openContainer(DB_XML_NAME, DBXML_TRANSACTIONAL)
+            self.container = self.mgr.openContainer(DB_XML_NAME)
         except XmlDatabaseError, e:
             print "Some kind of strange error: "
-            print e.dbError
+            print e.getDbErrno()
             print dir(e)
-            return
+            #return
 
         # Initialize or get metadata
         try:

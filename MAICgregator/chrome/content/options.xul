@@ -12,9 +12,16 @@
     buttons="accept,cancel" flex="1"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-    <script type="application/x-javascript" src="chrome://MAICgregator/content/MAICgregator.js" />
-    <script type="application/x-javascript" src="chrome://MAICgregator/content/preferences.js" />
-
+<script type="application/x-javascript" src="chrome://MAICgregator/content/MAICgregator.js" />
+<script type="application/x-javascript" src="chrome://MAICgregator/content/preferences.js" />
+<tabbox>
+    <tabs>
+        <tab label="&preferences.standardTab;" />
+        <tab label="&preferences.advancedTab;" />
+    </tabs>
+    <tabpanels>
+        <tabpanel>
+            <vbox>
     <!-- GUI Elements... -->
     <groupbox id="MAICgregatorInterjectGroupbox">
         <caption label="&preferences.Interject;"/>
@@ -22,6 +29,7 @@
             <radio label="&preferences.Any;" value="All" />
             <radio disabled="true" label="&preferences.OnlyHome;" value="Home" />
             <radio label="&preferences.OnlyNews;" value="News" />
+            <radio label="&preferences.None;" value="None" />
         </radiogroup>
     </groupbox>
 
@@ -61,5 +69,20 @@
     </groupbox>
 
     <description id="preferencesMAICgregatorInfo" value="&preferences.Info;"/>
+</vbox>
+</tabpanel>
+<tabpanel>
+    <groupbox id="MAICgregatorAdvancedGroupbox">
+        <caption label="&preferences.serverURLGroup;"/>
+        <hbox>
+            <label align="center" value="&preferences.serverURLLabel;" tooltiptext="&preferences.serverURLTooltip;" control="serverURL"/>
+            <textbox flex="3" id="serverURL" preference="serverURL"/>
 
+        </hbox>
+
+    </groupbox>
+
+</tabpanel>
+</tabpanels>
+</tabbox>
 </dialog>

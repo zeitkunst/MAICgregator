@@ -1,11 +1,15 @@
 <!ENTITY browser.menuItem "MAICgregator Preferences">
 
+<!ENTITY preferences.standardTab "Standard">
+<!ENTITY preferences.advancedTab "Advanced">
+
 <!ENTITY preferences.name "MAICgregator">
 
 <!ENTITY preferences.Interject "Interject...">
 <!ENTITY preferences.Any "All pages?">
 <!ENTITY preferences.OnlyHome "Only the Home Page?">
 <!ENTITY preferences.OnlyNews "Only pages with 'News' elements?">
+<!ENTITY preferences.None "No pages at all?">
 
 <!ENTITY preferences.include "Include...">
 <!ENTITY preferences.DoD "Department of Defense Basic Research Grants">
@@ -30,6 +34,10 @@
 <!ENTITY preferences.infoStatusTooltip "Whether or not we show info at the top of the page as to how the data requests are being processed.  This should be turned off if you install MAICgregator in a public computer.">
 
 <!ENTITY preferences.Info "This will be some more information about MAICgregator">
+
+<!ENTITY preferences.serverURLGroup "Server information">
+<!ENTITY preferences.serverURLLabel "Server URL:">
+<!ENTITY preferences.serverURLTooltip "It is possible to run a version of MAICgregator locally, rather than remotely via a server connection.  Set the value of the URL here that points to a functioning MAICgregator server with the trailing slash.">
 
 <!ENTITY preferences.save "Save">
 <!ENTITY preferences.cancel "Cancel">

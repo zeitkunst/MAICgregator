@@ -33,13 +33,20 @@ var MAICgregator = {
     onPageLoad: function(aEvent) {
         MAICgregator.doc = aEvent.originalTarget;
 
+        // Update the preferences in case something has changed
+        MAICgregator._readPrefs();
+
+        // Are even supposed to interject?
+        if (MAICgregator.interject == "None") {
+            return;
+        }
+
         var loc = MAICgregator.doc.location.href;
 
         var reg = new RegExp("http://(.+?).edu/");
         var regExpResult = reg.exec(loc);
 
         if (loc != null && regExpResult != null) {
-            p = MAICgregator.doc.createElement("p");
             var hostPart = regExpResult[1];
             var hostParts = hostPart.split(".");
             var schoolHost = hostParts[hostParts.length - 1] + ".edu";
@@ -52,32 +59,6 @@ var MAICgregator = {
 
             // Update the preferences in case something has changed
             MAICgregator._readPrefs();
-            /*
-            if (MAICgregator.GoogleNewsSearch) {
-                MAICgregator.request.open("GET", "http://localhost:8080/MAICgregator/GoogleNews/" + schoolHost, true);
-                MAICgregator.request.onreadystatechange = MAICgregator.processGoogleNewsRequest;
-                MAICgregator.request.send(null);
-            }
-            if (MAICgregator.DoDSTTR) {
-                MAICgregator.request.open("GET", "http://localhost:8080/MAICgregator/STTR/" + schoolHost, true);
-                MAICgregator.request.onreadystatechange = MAICgregator.processSTTRRequest;
-                MAICgregator.request.send(null);
-            }
-
-            */
-            /*
-            if (MAICgregator.DoDBR) {
-                MAICgregator.request.open("GET", "http://localhost:8080/MAICgregator/DoDBR/" + schoolHost, true);
-                MAICgregator.request.onreadystatechange = MAICgregator.processDoDBRRequest;
-                MAICgregator.request.send(null);
-            }
-            if (MAICgregator.PRNewsSearch) {
-                MAICgregator.request.open("GET", "http://localhost:8080/MAICgregator/PRNews/" + schoolHost, true);
-                MAICgregator.request.onreadystatechange = MAICgregator.processPRNewsRequest;
-                MAICgregator.request.send(null);
-            }
-
-            */
             
             queryString = "";
             dataTypes = new Array();                        
@@ -114,7 +95,7 @@ var MAICgregator = {
 
             MAICgregator.dataTypes = dataTypes;
             if (queryString.length > 0) {
-                MAICgregator.request.open("GET", "http://localhost:8080/MAICgregator/Aggregate/" + schoolHost + "/" + queryString, true);
+                MAICgregator.request.open("GET", MAICgregator.serverURL + "Aggregate/" + schoolHost + "/" + queryString, true);
                 MAICgregator.request.onreadystatechange = MAICgregator.processAggregate;
                 MAICgregator.request.send(null);
             }
@@ -139,16 +120,6 @@ var MAICgregator = {
 
             }
 
-            /*
-            if (MAICgregator.TrusteeRelationshipSearch) {
-                MAICgregator.request.open("GET", "http://localhost:8080/MAICgregator/TrusteeRelationshipSearch/" + schoolHost, true);
-                MAICgregator.request.onreadystatechange = MAICgregator.processTrusteeRelationshipSearchRequest;
-                MAICgregator.request.send(null);
-            }
-            */
-            //MAICgregator._log("testing");
-            //p.appendChild(doc.createTextNode(schoolHost));
-            //doc.body.appendChild(p);
         }
     },
 
@@ -790,6 +761,7 @@ var MAICgregator = {
         this.TrusteeRelationshipSearch = prefs.getBoolPref("TrusteeRelationshipSearch");
         this.randomize = prefs.getBoolPref("randomize");
         this.infoStatus = prefs.getBoolPref("infoStatus");
+        this.serverURL = prefs.getCharPref("serverURL");
         
     },
 
@@ -798,6 +770,7 @@ var MAICgregator = {
 
         // Set char preferences
         prefs.setCharPref("interject", this.interject);
+        prefs.setCharPref("serverURL", this.serverURL);
 
         // Set boolean preferences
         prefs.setBoolPref("DoDBR", this.DoDBR);
