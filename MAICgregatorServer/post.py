@@ -138,6 +138,17 @@ def TrusteeSearch(query):
               'fy': '2007',
               'st': '',
               'zp': ''}
+    # HEINOUSness for Harvard; search for the fellows instead, and go back to 2006 since they haven't uploaded anything more recent
+    if (query == "Harvard University"):
+        query = "President and Fellows of Harvard College"
+        params = {'990_type': 'A',
+              'action': 'Find',
+              'ei': '',
+              'fn': query,
+              'fy': '2006',
+              'st': '',
+              'zp': ''}
+
     headers = {'User-Agent': 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.6) Gecko/2009020911 Ubuntu/8.04 (hardy) Firefox/3.0.6'}
 
     paramsEncoded = urllib.urlencode(params)
@@ -162,7 +173,7 @@ def TrusteeSearch(query):
     schoolRegexFoundation = re.compile("\s*[a-zA-Z0-9]*\s%s\sFoundation[\sa-zA-Z,\.]*\n" % query)
     schoolRegexSchool = re.compile("\s*[a-zA-Z0-9]*\s%s\sSchool\n" % query)
     links = entries[0].findAll("a")    
-
+    
     formLink = []
     for link in links:
         if schoolRegex.match(link.contents[0]):

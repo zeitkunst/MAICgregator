@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<?xml-stylesheet href="chrome://MAICgregator/content/MAICgregator.css"?>
+<?xml-stylesheet href="chrome://MAICgregator/skin/overlay.css" type="text/css" ?>
 
 <!DOCTYPE window SYSTEM "chrome://MAICgregator/locale/MAICgregator.dtd">
 
@@ -9,10 +9,25 @@
          <script src="chrome://MAICgregator/content/MAICgregatorExtras.js"/>
          <script src="chrome://MAICgregator/content/MAICgregator.js"/>
 
+<toolbarpalette id="BrowserToolbarPalette">
+    <toolbarbutton orient="vertical" id="MAICgregatorToolbarButton" class="toolbarbutton-class" label="&browser.toolbarLabel;" tooltiptext="&browser.toolbarTooltip;" oncommand="alert('hi');" />
+</toolbarpalette>
+
 <menupopup id="menu_ToolsPopup">
-    <menuitem id="MAICgregatorToolsMenu" label="&browser.menuItem;" 
+    <menuitem id="MAICgregatorToolsMenu" class="menuitem-iconic" label="&browser.menuItem;" 
+        accesskey = "M"
         oncommand="showPreferencesDialog();"
         insertafter="javascriptConsole,devToolsSeparator" />
 </menupopup>
-
+<!-- This is just testing
+<statusbar id="status-bar">
+    <statusbarpanel id="MAICgregatorStatusbar" onmouseover=""
+        insertafter="page-report-button,statusbarpanel-iconic-text" tooltiptext="testing">
+        <hbox>
+            <image src="chrome://MAICgregator/skin/icon16.png" />
+            <label id="MAICgregatorLabel" value="&browser.toolbarLabel;" />
+        </hbox>
+    </statusbarpanel>
+</statusbar>
+-->
 </overlay>

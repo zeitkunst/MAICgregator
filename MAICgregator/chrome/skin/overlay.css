@@ -1,0 +1,13 @@
+#MAICgregatorToolbarButton {
+    list-style-image: url("chrome://MAICgregator/skin/icon24.png");
+    display: -moz-box !important;
+}
+
+toolbar[iconsize="small"] #MAICgregatorToolbarButton {
+    list-style-image: url("chrome://MAICgregator/skin/icon16.png");
+}
+
+#MAICgregatorToolsMenu {
+    list-style-image: url("chrome://MAICgregator/skin/icon16.png");
+}
+

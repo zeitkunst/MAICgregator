@@ -7,6 +7,8 @@ var MAICgregator = {
     logStream: null,
     logFile: null,
     logDisabled: false,
+    previousState: null,
+    currentState: null,
     dataTypeList: new Array("DoDBR", "DoDSTTR", "GoogleNewsSearch", "PRNewsSearch", "TrusteeRelationshipSearch"), 
 
     // Return a preferences instance
@@ -30,11 +32,27 @@ var MAICgregator = {
 
     },
 
+    toggleMAICgregator: function() {
+        var stateNow = MAICgregator.currentState;
+        MAICgregator.interject = MAICgregator.previousState;
+        MAICgregator.currentState = MAICgregator.previousState;
+        MAICgregator.previousState = stateNow;
+        MAICgregator.doc.location.reload();
+    },
+
+
     onPageLoad: function(aEvent) {
         MAICgregator.doc = aEvent.originalTarget;
 
         // Update the preferences in case something has changed
         MAICgregator._readPrefs();
+
+        MAICgregator.currentState = MAICgregator.interject;
+        if (MAICgregator.currentState == "None") {
+            MAICgregator.previousState = "All";
+        } else {
+            MAICgregator.previousState = "None";
+        }
 
         // Are even supposed to interject?
         if (MAICgregator.interject == "None") {

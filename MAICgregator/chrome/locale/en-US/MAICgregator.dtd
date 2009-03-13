@@ -1,3 +1,5 @@
+<!ENTITY browser.toolbarLabel "MAICgregator">
+<!ENTITY browser.toolbarTooltip "Push to enable or disable the MAICgregator">
 <!ENTITY browser.menuItem "MAICgregator Preferences">
 
 <!ENTITY preferences.standardTab "Standard">
