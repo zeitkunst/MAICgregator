@@ -63,6 +63,7 @@ class ProcessBase(object):
         # TODO
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
         # This means we need to come up with a REST api, as well as return error messages
+        print "|| MAICgregator server || Getting Google News"
         results = schoolData.getGoogleNews()
         schoolData.close()
         return results
@@ -71,6 +72,7 @@ class ProcessBase(object):
         schoolName = whois.getEduWHOIS(hostname)
         schoolData = db.SchoolData(schoolName)
 
+        print "|| MAICgregator server || Getting Trustee data"
         results = schoolData.getTrustees()
         schoolData.close()
         return results
@@ -82,6 +84,7 @@ class ProcessBase(object):
         # TODO
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
         # This means we need to come up with a REST api, as well as return error messages
+        print "|| MAICgregator server || Getting DoDBR data"
         results = schoolData.getXML()
         schoolData.close()
         return results
@@ -93,6 +96,7 @@ class ProcessBase(object):
         # TODO
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
         # This means we need to come up with a REST api, as well as return error messages
+        print "|| MAICgregator server || Getting PR data"
         web.header('Content-Encoding', 'utf-8')
         results = u"\n".join(unicode(item, "utf-8") for item in schoolData.getPRNews())
         schoolData.close()
@@ -106,6 +110,7 @@ class ProcessBase(object):
         schoolName = whois.getEduWHOIS(hostname)
         schoolData = db.SchoolData(schoolName)
 
+        print "|| MAICgregator server || Getting STTR data"
         STTRData = schoolData.getSTTR()
         
         output = ""
@@ -126,7 +131,7 @@ class Aggregate(ProcessBase):
             outputString += u"\t<%s>\n" % param
             resultFunction = getattr(self, param)
             results = resultFunction(hostname)
-            outputString += results
+            outputString += unicode(results)
             outputString += u"\n\t</%s>\n" % param
         outputString += u"</results>\n"
 

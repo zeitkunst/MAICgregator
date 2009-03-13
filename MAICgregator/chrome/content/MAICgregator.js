@@ -708,14 +708,37 @@ var MAICgregator = {
 
         }
 
+        // Special for harvard's front page at harvard.edu
         if (newsNode == null) {
-            var newsNode = MAICgregator.doc.getElementById("sg_feats");
+            var newsNode = MAICgregator.doc.getElementById("featuredtext");
             if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
                 newsNode = null;
             }
-
         }
 
+        // Special for hbs front page
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("centercol");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+        }
+
+        // for university of minnesota
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("header_sub");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+        }
+
+        // for university of iowa 
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("news_obj_outer");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+        }
 
         // Finally, check for possible li elements that have news
         if (newsNode == null) {

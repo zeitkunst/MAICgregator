@@ -58,6 +58,8 @@ class SchoolData(object):
 
     def __init__(self, schoolName):
         """What school name are we dealing with here?"""
+        
+        schoolName = schoolName.replace("-", " ")
 
         self.schoolName = schoolName
 
@@ -109,13 +111,13 @@ class SchoolData(object):
             data = post.USASpendingQuery(self.schoolName)
             grants = data[0]
             contracts = data[1]
-
+            
             uc = self.mgr.createUpdateContext()
             xtxn = self.mgr.createTransaction()
             self.container.putDocument(xtxn, schoolNameCompactGrants, grants, uc)
             self.container.sync()
             xtxn.commit()
-
+            
             uc = self.mgr.createUpdateContext()
             xtxn = self.mgr.createTransaction()
             self.container.putDocument(xtxn, schoolNameCompactContracts, contracts, uc)
@@ -273,7 +275,7 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
             self.schoolMetadata['PRNews']['timestamp'] = time.time()
             self.sync()
 
-            return linksParsed
+            return linksCleaned
         else:
             data = self.schoolMetadata['PRNews']['data']
             return data 
@@ -326,6 +328,33 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
         self.environment.close(0)
         self.schoolMetadataStore.sync()
         self.schoolMetadataStore.close()
+
+    def _deleteXML(self):
+        """This method removes the XML files from the database, as well as setting the timestamp value to be none."""
+        schoolNameCompact = self.schoolName.replace(" ", "")
+        schoolNameCompactGrants = schoolNameCompact + "Grants"
+        schoolNameCompactContracts = schoolNameCompact + "Contracts"
+        
+        try:
+            uc = self.mgr.createUpdateContext()
+            xtxn = self.mgr.createTransaction()
+            self.container.deleteDocument(schoolNameCompactGrants, uc)
+            self.container.sync()
+            xtxn.commit()
+        except XmlDocumentNotFound:
+            pass
+
+        try:
+            uc = self.mgr.createUpdateContext()
+            xtxn = self.mgr.createTransaction()
+            self.container.deleteDocument(schoolNameCompactContracts, uc)
+            self.container.sync()
+            xtxn.commit()
+        except XmlDocumentNotFound:
+            pass
+
+        self.schoolMetadata['XML']['timestamp'] = None
+        self.sync()
 
 class SchoolMetadataStore(object):
     """Class for storing metadata about schools that we can check before we go directly to the XML (and other types) data store."""
