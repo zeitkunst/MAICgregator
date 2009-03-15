@@ -44,8 +44,8 @@ So, format of data in the SchoolMetadataStore class will be as follows:
 DB_HOME = "data/"
 
 # Flags for environment creation
-DB_ENV_CREATE_FLAGS = DB_CREATE | DB_INIT_LOCK | DB_INIT_LOG | DB_INIT_MPOOL | DB_INIT_TXN
-DB_ENV_FLAGS = DB_INIT_LOCK | DB_INIT_LOG | DB_INIT_MPOOL | DB_INIT_TXN
+DB_ENV_CREATE_FLAGS = DB_CREATE | DB_INIT_LOG | DB_INIT_MPOOL | DB_INIT_TXN
+DB_ENV_FLAGS = DB_INIT_LOG | DB_INIT_MPOOL | DB_INIT_TXN
 
 # XML DB Name
 DB_XML_NAME = "MAICgregator.dbxml"
