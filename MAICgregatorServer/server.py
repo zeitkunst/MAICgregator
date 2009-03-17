@@ -53,11 +53,14 @@ class help:
 
 class name:
     def GET(self, hostname):
-        return whois.getEduWHOIS(hostname)
+        whoisStore = whois.WhoisStore()
+        return whoisStore.getSchoolName(hostname)
 
 class ProcessBase(object):
     def GoogleNewsSearch(self, hostname):
-        schoolName = whois.getEduWHOIS(hostname)
+        whoisStore = whois.WhoisStore()
+        schoolName = whoisStore.getSchoolName(hostname)
+
         schoolData = db.SchoolData(schoolName)
 
         # TODO
@@ -69,7 +72,9 @@ class ProcessBase(object):
         return results
 
     def TrusteeRelationshipSearch(self, hostname):
-        schoolName = whois.getEduWHOIS(hostname)
+        whoisStore = whois.WhoisStore()
+        schoolName = whoisStore.getSchoolName(hostname)
+
         schoolData = db.SchoolData(schoolName)
 
         print "|| MAICgregator server || Getting Trustee data"
@@ -78,7 +83,9 @@ class ProcessBase(object):
         return results
 
     def DoDBR(self, hostname):
-        schoolName = whois.getEduWHOIS(hostname)
+        whoisStore = whois.WhoisStore()
+        schoolName = whoisStore.getSchoolName(hostname)
+
         schoolData = db.SchoolData(schoolName)
 
         # TODO
@@ -90,7 +97,9 @@ class ProcessBase(object):
         return results
 
     def PRNewsSearch(self, hostname):
-        schoolName = whois.getEduWHOIS(hostname)
+        whoisStore = whois.WhoisStore()
+        schoolName = whoisStore.getSchoolName(hostname)
+
         schoolData = db.SchoolData(schoolName)
 
         # TODO
@@ -107,7 +116,9 @@ class ProcessBase(object):
         usefulKeys = ["PK_AWARDS", "AGENCY", "CONTRACT", "AWARD_AMT", "PI_NAME", "FIRM", "URL", "PRO_TITLE", "WholeAbstract"]
         # TODO
         # Deal with case when we don't get a school name back
-        schoolName = whois.getEduWHOIS(hostname)
+        whoisStore = whois.WhoisStore()
+        schoolName = whoisStore.getSchoolName(hostname)
+
         schoolData = db.SchoolData(schoolName)
 
         print "|| MAICgregator server || Getting STTR data"

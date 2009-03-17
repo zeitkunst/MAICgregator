@@ -273,3 +273,11 @@ def GoogleNewsQuery(query):
     handle = opener.open(request)
     return handle.read()
 
+"""
+div = soup.findAll("div")
+imgDiv = div[10]
+table = imgDiv.findAll("table")
+111: tr = table[0].findAll("tr")
+119: href = tr[0].td.a['href']
+122: href.split("=")[1].split("&")[0]
+"""

@@ -592,7 +592,7 @@ var MAICgregator = {
     findNewsNode: function() {
         var newsNode = MAICgregator.doc.getElementById("news");
         
-        if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p" && newsNode.nodeName.toLowerCase() != "table") {
+        if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p" && newsNode.nodeName.toLowerCase() != "table" && newsNode.nodeName.toLowerCase() != "td") {
             newsNode = null;
         }
 
@@ -697,6 +697,48 @@ var MAICgregator = {
 
         }
 
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("story1");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+        }
+
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("column_four");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+        }
+
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("center");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+        }
+
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("content_block");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+        }
+
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("feature");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+        }
+
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("t_content");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+        }
+
         // Special for harvard's front page at harvard.edu
         if (newsNode == null) {
             var newsNode = MAICgregator.doc.getElementById("featuredtext");
@@ -728,6 +770,15 @@ var MAICgregator = {
                 newsNode = null;
             }
         }
+
+        // take over top nav buttons, if necessary
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("topNavButtons");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+        }
+
 
         // Finally, check for possible li elements that have news
         if (newsNode == null) {
