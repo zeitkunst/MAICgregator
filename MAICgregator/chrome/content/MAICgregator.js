@@ -712,6 +712,13 @@ var MAICgregator = {
         }
 
         if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("column1");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+        }
+
+        if (newsNode == null) {
             var newsNode = MAICgregator.doc.getElementById("center");
             if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
                 newsNode = null;

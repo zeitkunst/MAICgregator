@@ -57,50 +57,79 @@ class name:
         return whoisStore.getSchoolName(hostname)
 
 class ProcessBase(object):
+    schoolMapping = {}
+    whoisStore = None
+
+    def __init__(self):
+        # Setup the school data object dictionary
+        pass
+
+    def getWhois(self):
+        if (self.whoisStore == None):
+            self.whoisStore = whois.WhoisStore()
+
+        return self.whoisStore
+
+    def getSchoolData(self, schoolName):
+        if not (self.schoolMapping.has_key(schoolName)):
+            self.schoolMapping[schoolName] = db.SchoolData(schoolName)
+        return self.schoolMapping[schoolName]
+
     def GoogleNewsSearch(self, hostname):
-        whoisStore = whois.WhoisStore()
+        whoisStore = self.getWhois()
         schoolName = whoisStore.getSchoolName(hostname)
 
-        schoolData = db.SchoolData(schoolName)
+        #schoolData = db.SchoolData(schoolName)
+        schoolData = self.getSchoolData(schoolName)
 
         # TODO
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
         # This means we need to come up with a REST api, as well as return error messages
         print "|| MAICgregator server || Getting Google News"
         results = schoolData.getGoogleNews()
-        schoolData.close()
+        #schoolData.close()
         return results
 
     def TrusteeRelationshipSearch(self, hostname):
-        whoisStore = whois.WhoisStore()
-        schoolName = whoisStore.getSchoolName(hostname)
+        #whoisStore = whois.WhoisStore()
+        #schoolName = whoisStore.getSchoolName(hostname)
 
-        schoolData = db.SchoolData(schoolName)
+        #schoolData = db.SchoolData(schoolName)
+
+        whoisStore = self.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+        schoolData = self.getSchoolData(schoolName)
 
         print "|| MAICgregator server || Getting Trustee data"
         results = schoolData.getTrustees()
-        schoolData.close()
+        
         return results
 
     def DoDBR(self, hostname):
-        whoisStore = whois.WhoisStore()
-        schoolName = whoisStore.getSchoolName(hostname)
+        #whoisStore = whois.WhoisStore()
+        #schoolName = whoisStore.getSchoolName(hostname)
+        #schoolData = db.SchoolData(schoolName)
 
-        schoolData = db.SchoolData(schoolName)
+        whoisStore = self.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+        schoolData = self.getSchoolData(schoolName)
 
         # TODO
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
         # This means we need to come up with a REST api, as well as return error messages
         print "|| MAICgregator server || Getting DoDBR data"
         results = schoolData.getXML()
-        schoolData.close()
+        
         return results
 
     def PRNewsSearch(self, hostname):
-        whoisStore = whois.WhoisStore()
-        schoolName = whoisStore.getSchoolName(hostname)
+        #whoisStore = whois.WhoisStore()
+        #schoolName = whoisStore.getSchoolName(hostname)
+        #schoolData = db.SchoolData(schoolName)
 
-        schoolData = db.SchoolData(schoolName)
+        whoisStore = self.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+        schoolData = self.getSchoolData(schoolName)
 
         # TODO
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
@@ -108,7 +137,7 @@ class ProcessBase(object):
         print "|| MAICgregator server || Getting PR data"
         web.header('Content-Encoding', 'utf-8')
         results = u"\n".join(unicode(item, "utf-8") for item in schoolData.getPRNews())
-        schoolData.close()
+        
         return results
 
     def DoDSTTR(self, hostname):
@@ -116,10 +145,13 @@ class ProcessBase(object):
         usefulKeys = ["PK_AWARDS", "AGENCY", "CONTRACT", "AWARD_AMT", "PI_NAME", "FIRM", "URL", "PRO_TITLE", "WholeAbstract"]
         # TODO
         # Deal with case when we don't get a school name back
-        whoisStore = whois.WhoisStore()
-        schoolName = whoisStore.getSchoolName(hostname)
+        #whoisStore = whois.WhoisStore()
+        #schoolName = whoisStore.getSchoolName(hostname)
+        #schoolData = db.SchoolData(schoolName)
 
-        schoolData = db.SchoolData(schoolName)
+        whoisStore = self.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+        schoolData = self.getSchoolData(schoolName)
 
         print "|| MAICgregator server || Getting STTR data"
         STTRData = schoolData.getSTTR()
@@ -128,19 +160,22 @@ class ProcessBase(object):
         for contract in STTRData:
             output += "\t".join(unicode(contract[key], errors='replace') for key in usefulKeys) + "\n"
         
-        schoolData.close()
+        
         return output
 
 class Aggregate(ProcessBase):
 
     def GET(self, hostname, params):
+        process = ProcessSingleton.getProcess()
+        print process.schoolMapping
+
         paramList = params.split("+")
 
         outputString = u"<?xml version=\"1.0\"?>\n"
         outputString += u"<results>\n"
         for param in paramList:
             outputString += u"\t<%s>\n" % param
-            resultFunction = getattr(self, param)
+            resultFunction = getattr(process, param)
             results = resultFunction(hostname)
             outputString += unicode(results)
             outputString += u"\n\t</%s>\n" % param
@@ -150,6 +185,14 @@ class Aggregate(ProcessBase):
         # Simple replacement
         outputString = outputString.replace("&", "&amp;")
         return outputString
+
+class ProcessSingleton(ProcessBase):
+    process = None
+    def getProcess():
+        if ProcessSingleton.process == None:
+            ProcessSingleton.process = ProcessBase()
+        return ProcessSingleton.process
+    getProcess = staticmethod(getProcess)
 
 class GoogleNews:
     def GET(self, hostname):

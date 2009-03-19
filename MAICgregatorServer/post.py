@@ -131,6 +131,11 @@ def TrusteeSearch(query):
     # foo = trustees.split("Form 990, Part V-A - Current Officers, Directors, Trustees, and Key Employees:")
     # try this regex: regex = re.compile("([A-Z]+\s[A-Z]*\s[A-Z0-9]+).+?\s[A-Z]+\,\s[A-Z]{2}\s[0-9]{5}", flags=re.M)
     # And then: regex = re.compile("([\sA-Z]+)", re.M)
+
+    # Remove any final "at (location)" from query names
+    if (query.find("at ") != -1):
+        query = query.split("at ")[0].strip()
+    
     params = {'990_type': 'A',
               'action': 'Find',
               'ei': '',
@@ -170,6 +175,7 @@ def TrusteeSearch(query):
     table = soup.find(text=re.compile("documents \ndisplayed"))
     entries = table.findParent().findNextSiblings('p')
     schoolRegex = re.compile("\s*[^a-zA-Z0-9]+\s%s\n" % query)
+    schoolRegexResearchFoundation = re.compile("\s*Research\sFoundation\sof\s%s\n" % query)
     schoolRegexFoundation = re.compile("\s*[a-zA-Z0-9]*\s%s\sFoundation[\sa-zA-Z,\.]*\n" % query)
     schoolRegexSchool = re.compile("\s*[a-zA-Z0-9]*\s%s\sSchool\n" % query)
     links = entries[0].findAll("a")    
@@ -190,7 +196,14 @@ def TrusteeSearch(query):
         for link in links:
             if schoolRegexSchool.match(link.contents[0]):
                 formLink.append(link.attrs[0])
-    
+
+    # Or, for some state systems, Research Foundation of School
+    if (len(formLink) == 0):
+        for link in links:
+            if schoolRegexResearchFoundation.match(link.contents[0]):
+                formLink.append(link.attrs[0])
+
+    print formLink    
     trustees = []
     if (len(formLink) >= 1):
         href = formLink[0][1]
