@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import urllib
+import urllib2
 import datetime
 
 import feedparser
@@ -35,6 +36,7 @@ urls = (
     '/MAICgregator/STTR/(.*?)', 'STTR',
     '/MAICgregator/PRNews/(.*?)', 'PRNews',
     '/MAICgregator/TrusteeSearch/(.*?)', 'TrusteeSearch',
+    '/MAICgregator/TrusteeImage/(.*?)', 'TrusteeImage',
     '/MAICgregator/TrusteeRelationshipSearch/(.*?)', 'TrusteeSearch',
     '/MAICgregator/GoogleNews/(.*?)', 'GoogleNews',
     '/MAICgregator/Aggregate/(.*?)/(.*?)', 'Aggregate',
@@ -54,6 +56,17 @@ class help:
     def GET(self):
         help = web.template.frender('templates/help.html')
         return help(version)
+
+class TrusteeImage:
+    def GET(self, personName):
+        opener = urllib2.build_opener(urllib2.HTTPRedirectHandler)
+        headers = {'User-Agent': 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0. 6) Gecko/2009020911 Ubuntu/8.04 (hardy) Firefox/3.0.6'}
+        url = "http://images.google.com/images?hl=en&q=" + urllib.quote(personName)
+        request = urllib2.Request(url, None, headers)
+        response = opener.open(request)
+        results = response.read()
+
+        return results
 
 class name:
     def GET(self, hostname):
