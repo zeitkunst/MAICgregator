@@ -7,6 +7,8 @@ import shutil
 import tempfile
 
 from BeautifulSoup import BeautifulSoup
+import html5lib
+from html5lib import treebuilders
 
 COOKIEFILE = "cookies.lwp"
 
@@ -285,6 +287,40 @@ def GoogleNewsQuery(query):
     request = urllib2.Request(url, None, headers)
     handle = opener.open(request)
     return handle.read()
+
+def TrusteeImage(personName):
+    opener = urllib2.build_opener(urllib2.HTTPRedirectHandler)
+    headers = {'User-Agent': 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0. 6) Gecko/2009020911 Ubuntu/8.04 (hardy) Firefox/3.0.6'}
+    url = "http://images.google.com/images?hl=en&q=" + urllib.quote(personName)
+    request = urllib2.Request(url, None, headers)
+    response = opener.open(request)
+    results = response.read()
+    parser = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
+    soup = parser.parse(results)
+    script = soup.findAll("script")
+    imgScript = str(script[2])
+    imgSrc = imgScript.split("imgres?imgurl\\x3d")[1].split("\\x26")
+    """
+soup = parser.parse(data, parseOnlyThese=script)
+53: soup = parser.parse(data, parseOnlyThese='script')
+54: _ip.system("ls -F ")
+55: soup 
+56: foo = soup.findAll("script")
+57: foo
+58: len(foo)
+59: foo[0]
+60: foo[1]
+61: foo[2]
+62: str(foo[2])
+63: bar = str(foo[2])
+64: bar.split("imgres")
+65: bar.split("imgres?imgurl\\")
+66: bar.split("imgres?imgurl\\x3d")
+67: bar.split("imgres?imgurl\\x3d")[1]
+68: bar.split("imgres?imgurl\\x3d")[1].split("\\x26")
+"""
+
+    return imgSrc[0]
 
 """
 div = soup.findAll("div")
