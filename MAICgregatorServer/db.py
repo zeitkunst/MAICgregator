@@ -1,6 +1,7 @@
 import cPickle
 import re
 import time
+import random
 
 from bsddb.db import *
 from dbxml import *
@@ -213,9 +214,12 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
                 trusteeResults = []
         else:
             trusteeResults = self.getTrusteeNamesFromModel()
-
-        if (trusteeResults != []):
-            return "\n".join(trusteeResults)
+            trusteeImages = self.getTrusteeImagesFromModel()
+            
+        if ((trusteeResults != []) and (trusteeImages != [])):
+            trustees = list(zip(trusteeResults, trusteeImages))
+            trustees = ["\t".join(list(trustee)) for trustee in trustees]
+            return "\n".join(trustees)
         else:
             return None
 
@@ -235,6 +239,42 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
 
         return [result['name'].literal_value['string'] for result in results]
 
+    def getTrusteeImagesFromModel(self):
+        schoolNameCompact = self.schoolName.replace(" ", "")
+        query = """
+            PREFIX maic: <http://maicgregator.org/MAIC#>
+            SELECT ?image
+            WHERE {
+                ?x maic:IsTrusteeOf maic:%s . 
+                ?x maic:HasImage ?image .
+            }""" % schoolNameCompact
+
+        nameQuery = RDF.Query(query, query_language="sparql")
+
+        results = nameQuery.execute(self.model)
+        
+        return [result['image'].literal_value['string'] for result in results]
+
+    def updateTrusteeImages(self):
+        """Get the latest trustee images from the Google Image Search results"""
+        trusteeNames = self.getTrusteeNamesFromModel()
+        HasImage = self.maicNS['HasImage']
+        schoolNameCompact = self.schoolName.replace(" ", "")
+        for trusteeName in trusteeNames:
+            trusteeNameCompact = str(trusteeName.replace(" ", ""))
+            name = self.maicNS[trusteeNameCompact]
+            imageSrc = post.TrusteeImage(trusteeName)
+            if (imageSrc is None):
+                imageSrc = ""
+
+            statement = RDF.Statement(name, HasImage, imageSrc)
+            print imageSrc
+            self.model.add_statement(statement)
+            randSleep = random.randrange(5, 15)
+            print "Finished %s, sleeping for %d" % (trusteeName, randSleep)
+            time.sleep(randSleep)
+
+        self.model.sync()
 
     def getSTTR(self):
         # TODO

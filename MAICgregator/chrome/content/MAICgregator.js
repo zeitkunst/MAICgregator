@@ -146,7 +146,6 @@ var MAICgregator = {
             return;
         }
 
-
         var results = MAICgregator.request.responseXML;
         var newsNode = MAICgregator.findNewsNode();
         
@@ -156,7 +155,7 @@ var MAICgregator = {
                 return;
             }
         }
-
+        
         if ((newsNode != null)) {
             var errorNode = results.getElementsByTagName("error")[0];
 
@@ -201,13 +200,35 @@ var MAICgregator = {
                 MAICgregator.infoDivNode.style.display = "none";
             }
 
-        } else if ((newsNode == null) && (MAICgregator.interject = "All")) {
+        } else if ((newsNode == null) && (MAICgregator.interject == "All")) {
             if (MAICgregator.infoStatus) {
                 MAICgregator.infoDivNode.firstChild.innerHTML = "Processing results...";
             }
             var processResults = MAICgregator._processXMLResults(results);
             var nodesToAdd = processResults[0];
             var newaTags = processResults[1];
+
+            divNode = MAICgregator.doc.createElement("div");
+            divNode.style.position = "absolute";
+            divNode.style.top = "3em";
+            divNode.style.left = "3em";
+            divNode.style.width = "22em";
+            divNode.style.opacity = "0.85";
+            divNode.style.padding = "0.5em 0.5em";
+            divNode.style.backgroundColor = "#333";
+            divNode.style.zIndex = "55";
+
+            newsDivNode = MAICgregator.doc.createElement("div");
+            newsDivNode.style.opacity = "1.0";
+            newsDivNode.style.padding = "0.5em";
+            newsDivNode.style.backgroundColor = "#eee";
+            h2Node = MAICgregator.doc.createElement("h2");
+            h2Node.appendChild(MAICgregator.doc.createTextNode("Current Alternative News:"));
+            newsDivNode.appendChild(h2Node);
+            for (addIndex = 0; addIndex < nodesToAdd.length; addIndex++) {
+                newsDivNode.appendChild(nodesToAdd[addIndex]);
+            }
+            divNode.appendChild(newsDivNode);
 
             if (MAICgregator.randomize) {
                 allaTags = MAICgregator.doc.getElementsByTagName("a");
@@ -220,7 +241,8 @@ var MAICgregator = {
                     currentaTag.href = replacementaTag.href;
                 }
             }
-
+            
+            MAICgregator.doc.body.insertBefore(divNode, MAICgregator.doc.body.childNodes[0]);
             if (MAICgregator.infoStatus) {
                 MAICgregator.infoDivNode.style.display = "none";
             }
@@ -571,7 +593,14 @@ var MAICgregator = {
         ulNode = MAICgregator.doc.createElement("ul");
         for (index in itemArray) {
             liNode = MAICgregator.doc.createElement("ul");
-            name = itemArray[index];
+            trusteeInfo = itemArray[index].split("\t");
+            name = trusteeInfo[0];
+            
+            // Do we have an image?            
+            if (trusteeInfo.length > 1) {
+                imgNode = MAICgregator._createImageNode(trusteeInfo[1]);
+                MAICgregator.doc.body.appendChild(imgNode);                    
+            }
 
             aNode = MAICgregator.doc.createElement("a");
             aNode.setAttribute("href", "http://www.google.com/search?&q=" + encodeURI(name + " trustee"));
@@ -817,7 +846,30 @@ var MAICgregator = {
 
     },
 
-    
+    _createImageNode: function(link) {
+        // Need to add:
+        // p tag that holds the person's name, and a link to the google image search results
+        // onhover event handler that would raise the div?
+        divNode = MAICgregator.doc.createElement("div");
+        divNode.style.position = "absolute";
+        randomTop = Math.floor(Math.random() * 50);
+        randomTop = randomTop.toString();
+        randomLeft = Math.floor(Math.random() * 50);
+        randomLeft = randomLeft.toString();
+        divNode.style.top = randomTop + "em"; 
+        divNode.style.left = randomLeft + "em"; 
+        divNode.style.zIndex = "20"; 
+        divNode.style.opacity = "0.85"; 
+        aNode = MAICgregator.doc.createElement("a");
+        aNode.href = link; 
+        imgNode = MAICgregator.doc.createElement("img");
+        imgNode.src = link;
+        imgNode.width = 200;
+        aNode.appendChild(imgNode);
+        divNode.appendChild(aNode);
+
+        return divNode;
+    },    
 
     _cout: function(msg) {
         var consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);

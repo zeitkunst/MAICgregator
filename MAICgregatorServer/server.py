@@ -144,6 +144,19 @@ class ProcessBase(object):
         
         return results
 
+    def TrusteeImages(self, hostname):
+        whoisStore = self.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+        schoolData = self.getSchoolData(schoolName)
+        
+        trusteeImages = schoolData.getTrusteeImagesFromModel()
+        
+        output = ""
+        for image in trusteeImages:
+            output += "<img width='200' src='%s'/>" % image
+
+        return output
+
     def TrusteeRelationshipSearchRSS2(self, hostname):
         whoisStore = self.getWhois()
         schoolName = whoisStore.getSchoolName(hostname)
