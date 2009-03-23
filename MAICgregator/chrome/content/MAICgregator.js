@@ -591,6 +591,9 @@ var MAICgregator = {
         divNode.appendChild(h3Node);
 
         ulNode = MAICgregator.doc.createElement("ul");
+
+        replaceImageIndex = 0;
+        currentImageList = MAICgregator.doc.getElementsByTagName("img");
         for (index in itemArray) {
             liNode = MAICgregator.doc.createElement("ul");
             trusteeInfo = itemArray[index].split("\t");
@@ -598,8 +601,20 @@ var MAICgregator = {
             
             // Do we have an image?            
             if (trusteeInfo.length > 1) {
-                imgNode = MAICgregator._createImageNode(trusteeInfo[1]);
-                MAICgregator.doc.body.appendChild(imgNode);                    
+                if (trusteeInfo[1] != "") {
+                    // Use the following for placing the random divs of images; need to make this a configuration item
+                    imgNode = MAICgregator._createImageNode(trusteeInfo[0], trusteeInfo[1]);
+                    MAICgregator.doc.body.appendChild(imgNode); 
+                    
+                    /*
+                    // Otherwise, replace images inline
+                    // Get all Images on the page
+                    if (replaceImageIndex < currentImageList.length) {
+                        currentImageList[replaceImageIndex].src = trusteeInfo[1];
+                        replaceImageIndex += 1;
+                    }
+                    */
+                }
             }
 
             aNode = MAICgregator.doc.createElement("a");
@@ -846,7 +861,7 @@ var MAICgregator = {
 
     },
 
-    _createImageNode: function(link) {
+    _createImageNode: function(name, link) {
         // Need to add:
         // p tag that holds the person's name, and a link to the google image search results
         // onhover event handler that would raise the div?
@@ -866,8 +881,20 @@ var MAICgregator = {
         imgNode.src = link;
         imgNode.width = 200;
         aNode.appendChild(imgNode);
-        divNode.appendChild(aNode);
 
+        pNode = MAICgregator.doc.createElement("p");
+        pNode.style.backgroundColor = "#eee";
+        pNode.style.padding = "0.5em";
+        searchaNode = MAICgregator.doc.createElement("a");
+        searchaNode.href = "http://images.google.com/images?q=" + escape("\"" + name + "\""); 
+        searchaNode.appendChild(MAICgregator.doc.createTextNode(name));
+        pNode.appendChild(searchaNode);
+        
+        imgContainerNode = MAICgregator.doc.createElement("div");
+        imgContainerNode.style.margin = "0em";
+        imgContainerNode.appendChild(aNode);
+        divNode.appendChild(imgContainerNode);
+        divNode.appendChild(pNode);
         return divNode;
     },    
 
