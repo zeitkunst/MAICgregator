@@ -1,0 +1,6 @@
+$def with (schoolNamesList)
+$var title: Currently Available MAIC RSS Feeds
+<ul>
+$for schoolName in schoolNamesList:
+    <li><a href="/MAICgregator/feed/rss/$schoolName[0]/GoogleNewsSearch+PRNewsSearch" title="MAIC info for $schoolName[1]">$schoolName[1]</a></li>
+</ul>

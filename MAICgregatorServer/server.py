@@ -30,6 +30,7 @@ version = "0.01"
 
 urls = (
     '/MAICgregator', 'index',
+    '/MAICgregator/', 'index',
     '/MAICgregator/about', 'about',
     '/MAICgregator/help', 'help',
     '/MAICgregator/DoDBR/(.*?)', 'DoDBR',
@@ -41,21 +42,29 @@ urls = (
     '/MAICgregator/GoogleNews/(.*?)', 'GoogleNews',
     '/MAICgregator/Aggregate/(.*?)/(.*?)', 'Aggregate',
     '/MAICgregator/feed/rss/(.*?)/(.*?)', 'RSS',
+    '/MAICgregator/RSS', 'RSSList',
     '/MAICgregator/name/(.*?)', 'name'
 )
 """
 """
 
-render = web.template.render('templates/', cache = False)
+render = web.template.render('templates/', base = 'layout', cache = False)
 
 class index:
     def GET(self):
-        return "This is MAICgregator server, version %s" % version
+        return render.index(version)
 
 class help:
     def GET(self):
-        help = web.template.frender('templates/help.html')
-        return help(version)
+        return render.help(version)
+
+class RSSList:
+    def GET(self):
+        whoisStore = whois.WhoisStore()
+        schoolNamesList = list(zip(whoisStore.whois.keys(), whoisStore.whois.values()))
+        schoolNamesList.sort()
+        
+        return render.RSS(schoolNamesList)
 
 class TrusteeImage:
     def GET(self, personName):
@@ -113,7 +122,7 @@ class ProcessBase(object):
         items = []
         for table in tables:
             timestamp = schoolData.schoolMetadata['PRNews']['timestamp']
-            print table.a.contents
+            
             title = "".join(str(item) for item in table.a.contents)
             description = unicode(table.findAll("font")[3])
             url = table.a['href']
@@ -374,7 +383,6 @@ class RSS(ProcessBase):
         latestTimestamp = 0
         items = []
         for param in paramList:
-            print param
             actualParam = paramsMapping[param]
             timestamp = process.getSchoolData(schoolName).schoolMetadata[actualParam]['timestamp']
             if (timestamp > latestTimestamp):
@@ -394,7 +402,6 @@ class Aggregate(ProcessBase):
 
     def GET(self, hostname, params):
         process = ProcessSingleton.getProcess()
-        print process.schoolMapping
 
         paramList = params.split("+")
 
@@ -483,8 +490,7 @@ class STTR:
 
 class about:
     def GET(self):
-        about = web.template.frender('templates/about.html')
-        return about(version)
+        return render.about(version)
 
 class process:
     def GET(self, data):

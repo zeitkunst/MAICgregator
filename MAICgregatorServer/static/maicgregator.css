@@ -1,0 +1,34 @@
+body, html {
+    font-family: Verdana, Helvetica, sans-serif;
+    background: #ef2121;
+    color: #dfef21;
+    margin: 0em;
+    padding: 0em;
+}
+
+a, a:visited {
+    background-color: #f66f5d;
+    color: #dfef21;
+}
+
+div#header {
+    padding: 1em;
+    font-size: 150%;
+    font-weight: bolder;
+    background-color: #f66f5d;
+    color: #dfef21;
+}
+
+div#header h1 {
+    margin: 0em;
+    padding: 0em;
+}
+
+a:hover {
+    color: #f66f5d;
+    background-color: #dfef21;
+}
+
+li {
+    list-style: none;
+}
