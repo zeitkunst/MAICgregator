@@ -73,6 +73,7 @@
 </vbox>
 </tabpanel>
 <tabpanel>
+    <vbox>
     <groupbox id="MAICgregatorAdvancedGroupbox">
         <caption label="&preferences.serverURLGroup;"/>
         <hbox>
@@ -82,6 +83,19 @@
         </hbox>
 
     </groupbox>
+    </vbox>
+    <vbox>
+    <groupbox id="MAICgregatorAdvancedImagesGroupbox">
+        <caption label="&preferences.imagesGroup;"/>
+        <hbox>
+        <radiogroup id="MAICgregatorImagesRadio">
+            <radio label="&preferences.imagesReplace;" value="Replace" />
+            <radio label="&preferences.imagesDiv;" value="Random" />
+            <radio label="&preferences.imagesNone;" value="None" />
+        </radiogroup>
+        </hbox>
+    </groupbox>
+    </vbox>
 
 </tabpanel>
 <tabpanel>

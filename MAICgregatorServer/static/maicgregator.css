@@ -1,14 +1,65 @@
 body, html {
     font-family: Verdana, Helvetica, sans-serif;
-    background: #ef2121;
+    background-image: url('/static/targetBackground.png');
+    background-color: #f66f5d;
     color: #dfef21;
     margin: 0em;
     padding: 0em;
+    z-index: 0;
 }
 
 a, a:visited {
     background-color: #f66f5d;
     color: #dfef21;
+}
+
+div#logo {
+    position: fixed;
+    top: 1em;
+    left: 3em;
+    z-index: 50;
+    background-color: transparent;
+}
+
+div#menu {
+    margin: 0em;
+    padding: 0em;
+    background-image: url('/static/target.png');
+    width: 18em;
+    position: relative;
+    top: 15em;
+    left: 3em;
+    z-index: 10;
+}
+
+div#menu ul {
+    margin-left: 3.0em;
+    padding: 0em;
+    padding-top: 3.5em;
+    padding-bottom: 2.5em;
+    width: 10em;
+    opacity: 0.9;
+    list-style-type: none;
+    font-family: "Bitstream Vera Sans Mono", "DejaVu Sans Mono", "Courier New", Courier, monospace;
+}
+
+div#menu ul li {
+    margin-bottom: 5px;
+}
+
+div#menu ul a {
+    display: block;
+    width: 100%;
+    background-color: #ef2121;
+    padding: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+div#menu ul a:hover {
+    color: #f66f5d;
+    background-color: #dfef21;
+
 }
 
 div#header {
@@ -24,6 +75,13 @@ div#header h1 {
     padding: 0em;
 }
 
+div#content {
+    position: absolute;
+    top: 0em;
+    left: 20em;
+    clear: both;
+    background-color: transparent;
+}
 a:hover {
     color: #f66f5d;
     background-color: #dfef21;

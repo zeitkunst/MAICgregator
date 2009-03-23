@@ -592,7 +592,6 @@ var MAICgregator = {
 
         ulNode = MAICgregator.doc.createElement("ul");
 
-        replaceImageIndex = 0;
         currentImageList = MAICgregator.doc.getElementsByTagName("img");
         for (index in itemArray) {
             liNode = MAICgregator.doc.createElement("ul");
@@ -602,18 +601,18 @@ var MAICgregator = {
             // Do we have an image?            
             if (trusteeInfo.length > 1) {
                 if (trusteeInfo[1] != "") {
-                    // Use the following for placing the random divs of images; need to make this a configuration item
-                    imgNode = MAICgregator._createImageNode(trusteeInfo[0], trusteeInfo[1]);
-                    MAICgregator.doc.body.appendChild(imgNode); 
-                    
-                    /*
-                    // Otherwise, replace images inline
-                    // Get all Images on the page
-                    if (replaceImageIndex < currentImageList.length) {
-                        currentImageList[replaceImageIndex].src = trusteeInfo[1];
-                        replaceImageIndex += 1;
+
+                    if (MAICgregator.trusteeImages == "Random") {
+                        // Use the following for placing the random divs of images
+                        imgNode = MAICgregator._createImageNode(trusteeInfo[0], trusteeInfo[1]);
+                        MAICgregator.doc.body.appendChild(imgNode); 
+                    } else if (MAICgregator.trusteeImages == "Replace") {
+                        // Otherwise, replace images inline
+                        // Get all Images on the page
+                        randomIndex = Math.floor(Math.random() * currentImageList.length);
+                        currentImageList[randomIndex].src = trusteeInfo[1];
+                        currentImageList[randomIndex].alt = trusteeInfo[0];
                     }
-                    */
                 }
             }
 
@@ -908,6 +907,7 @@ var MAICgregator = {
 
         // Read current preferences
         this.interject = prefs.getCharPref("interject");
+        this.trusteeImages = prefs.getCharPref("trusteeImages");
         this.DoDBR = prefs.getBoolPref("DoDBR");
         this.DoDSTTR = prefs.getBoolPref("DoDSTTR");
         this.DHS = prefs.getBoolPref("DHS");
@@ -926,6 +926,7 @@ var MAICgregator = {
         // Set char preferences
         prefs.setCharPref("interject", this.interject);
         prefs.setCharPref("serverURL", this.serverURL);
+        prefs.setCharPref("trusteeImages", this.trusteeImages);
 
         // Set boolean preferences
         prefs.setBoolPref("DoDBR", this.DoDBR);

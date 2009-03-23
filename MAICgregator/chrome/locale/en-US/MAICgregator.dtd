@@ -42,6 +42,11 @@
 <!ENTITY preferences.serverURLLabel "Server URL:">
 <!ENTITY preferences.serverURLTooltip "It is possible to run a version of MAICgregator locally, rather than remotely via a server connection.  Set the value of the URL here that points to a functioning MAICgregator server with the trailing slash.">
 
+<!ENTITY preferences.imagesGroup "Trustee Images">
+<!ENTITY preferences.imagesReplace "Replace existing images">
+<!ENTITY preferences.imagesDiv "Display images randomly">
+<!ENTITY preferences.imagesNone "Don't replace any images">
+
 <!ENTITY preferences.save "Save">
 <!ENTITY preferences.cancel "Cancel">
 <!--

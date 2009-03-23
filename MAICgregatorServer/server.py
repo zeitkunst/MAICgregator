@@ -129,7 +129,7 @@ class ProcessBase(object):
         for table in tables:
             timestamp = schoolData.schoolMetadata['PRNews']['timestamp']
             
-            title = "".join(str(item) for item in table.a.contents)
+            title = "".join(unicode(item) for item in table.a.contents)
             description = unicode(table.findAll("font")[3])
             url = table.a['href']
 

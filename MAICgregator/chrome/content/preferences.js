@@ -20,6 +20,17 @@ function populatePreferences() {
 
     }
 
+    radiogroup = document.getElementById("MAICgregatorImagesRadio");
+    if (radiogroup != null) {
+        if (MAICgregator.trusteeImages == "Replace") {
+            radiogroup.selectedIndex = 0;
+        } else if (MAICgregator.trusteeImages == "Random") {
+            radiogroup.selectedIndex = 1;
+        } else if (MAICgregator.trusteeImages == "None") {
+            radiogroup.selectedIndex = 2;
+        } 
+    }
+
     // Set checkbox options
     checkbox = document.getElementById("DoDBR");
     if (checkbox != null)
@@ -79,6 +90,20 @@ function savePreferences() {
             MAICgregator.interject = "News";
         } else if (index == 3) {
             MAICgregator.interject = "None";
+        }
+
+    }
+
+    radiogroup = document.getElementById("MAICgregatorImagesRadio");
+    if (radiogroup != null) {
+        var index = radiogroup.selectedIndex;
+
+        if (index == 0) {
+            MAICgregator.trusteeImages = "Replace";
+        } else if (index == 1) {
+            MAICgregator.trusteeImages = "Random";
+        } else if (index == 2) {
+            MAICgregator.trusteeImages = "None";
         }
 
     }

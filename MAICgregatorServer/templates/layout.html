@@ -1,15 +1,29 @@
 $def with (content)
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <link rel="stylesheet" type="text/css" href="/static/maicgregator.css"/>
     <title>$content.title</title>
 </head>
 <body>
-<div id="header">
-    <h1><img width="100px" src="/static/icon.png" alt="MAICgregator"/>MAICgregator</h1>
+<div id="logo">
+    <img width="200" src="/static/icon.png" alt="MAICgregator"/>
 </div>
+<div id="menu">
+    <ul>
+        <li><a href="/MAICgregator/" title="homepage">home</a></li>
+        <li><a href="#" title="">statement</a></li>
+        <li><a href="#" title="">download</a></li>
+        <li><a href="/MAICgregator/FAQ" title="">faq</a></li>
+        <li><a href="/MAICgregator/RSS" title="">rss feeds</a></li>
+    </ul>
+</div>
+<!--<div id="header">
+    <h1><img width="100px" src="/static/icon.png" alt="MAICgregator"/>MAICgregator</h1>
+</div>-->
+<div id="content">
     $:content
+</div>
 </body>
 </html>
 

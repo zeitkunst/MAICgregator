@@ -244,7 +244,7 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
         schoolNameCompact = self.schoolName.replace(" ", "")
         query = """
             PREFIX maic: <http://maicgregator.org/MAIC#>
-            SELECT ?image
+            SELECT ?image ?x
             WHERE {
                 ?x maic:IsTrusteeOf maic:%s . 
                 ?x maic:HasImage ?image .
@@ -257,8 +257,31 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
         
         return [result['image'].literal_value['string'] for result in results]
 
+    def _deleteTrusteeImages(self):
+        schoolNameCompact = self.schoolName.replace(" ", "")
+        query = """
+            PREFIX maic: <http://maicgregator.org/MAIC#>
+            SELECT ?image ?x
+            WHERE {
+                ?x maic:IsTrusteeOf maic:%s . 
+                ?x maic:HasImage ?image .
+            }
+            ORDER BY ?x""" % schoolNameCompact
+
+        nameQuery = RDF.Query(query, query_language="sparql")
+
+        results = nameQuery.execute(self.model)
+
+        HasImage = self.maicNS['HasImage']
+        for result in results:
+            del self.model[RDF.Statement(result['x'], HasImage, result['image'])]
+
     def updateTrusteeImages(self):
         """Get the latest trustee images from the Google Image Search results"""
+        # Delete images from database before we update them
+        self._deleteTrusteeImages()
+
+        # Then go through and update things
         trusteeNames = self.getTrusteeNamesFromModel()
         HasImage = self.maicNS['HasImage']
         schoolNameCompact = self.schoolName.replace(" ", "")
@@ -267,7 +290,10 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
             name = self.maicNS[trusteeNameCompact]
             imageSrc = post.TrusteeImage(trusteeName)
             if (imageSrc is None):
-                imageSrc = ""
+                print "searching without quotes"
+                imageSrc = post.TrusteeImage(trusteeName, withQuotes = False)
+                if (imageSrc is None):
+                    imageSrc = ""
 
             statement = RDF.Statement(name, HasImage, imageSrc)
             print imageSrc
