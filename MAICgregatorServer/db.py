@@ -231,7 +231,8 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
             WHERE {
                 ?x maic:IsTrusteeOf maic:%s . 
                 ?x maic:HasName ?name .
-            }""" % schoolNameCompact
+            }
+            ORDER BY ?x""" % schoolNameCompact
 
         nameQuery = RDF.Query(query, query_language="sparql")
 
@@ -247,7 +248,8 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
             WHERE {
                 ?x maic:IsTrusteeOf maic:%s . 
                 ?x maic:HasImage ?image .
-            }""" % schoolNameCompact
+            }
+            ORDER BY ?x""" % schoolNameCompact
 
         nameQuery = RDF.Query(query, query_language="sparql")
 

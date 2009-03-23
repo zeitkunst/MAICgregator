@@ -43,6 +43,8 @@ urls = (
     '/MAICgregator/Aggregate/(.*?)/(.*?)', 'Aggregate',
     '/MAICgregator/feed/rss/(.*?)/(.*?)', 'RSS',
     '/MAICgregator/RSS', 'RSSList',
+    '/MAICgregator/FAQ', 'FAQ',
+    '/MAICgregator/faq', 'FAQ',
     '/MAICgregator/name/(.*?)', 'name'
 )
 """
@@ -57,6 +59,10 @@ class index:
 class help:
     def GET(self):
         return render.help(version)
+
+class FAQ:
+    def GET(self):
+        return render.FAQ()
 
 class RSSList:
     def GET(self):
