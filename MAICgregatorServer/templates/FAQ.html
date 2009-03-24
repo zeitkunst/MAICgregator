@@ -3,11 +3,11 @@ $var title: MAICgregator Frequently Asked Questions
 <h1>Frequently Asked Questions, AKA FAQs</h1>
 <ul id="FAQ">
 $for FAQ in FAQs:
-    <li><a href="#$FAQ[0].strip()">$FAQ[1]</a></li>
+    <li><a href="#$FAQ[0].strip()">$:FAQ[1]</a></li>
 </ul>
 $for FAQ in FAQs:
     <div id="$FAQ[0].strip()">
-        <h2>$FAQ[1]</h2>
+        <h2>$:FAQ[1]</h2>
         $:FAQ[2]
         <p><a href="#FAQ">top</a></p>
     </div>

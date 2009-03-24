@@ -7,6 +7,7 @@ import datetime
 import feedparser
 import PyRSS2Gen
 from BeautifulSoup import BeautifulSoup
+import smartypants
 
 import post
 import web
@@ -63,7 +64,7 @@ class help:
 class FAQ:
     def GET(self):
         fp = open('data/FAQ.txt')
-        FAQlist = "".join(fp.readlines())
+        FAQlist = smartypants.smartyPants("".join(fp.readlines()))
         fp.close()
         FAQs = FAQlist.split('#@!')
         FAQs = [FAQ.split('!@#') for FAQ in FAQs]
