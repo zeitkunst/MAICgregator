@@ -25,4 +25,5 @@ qLogo !@# What is your logo in reference to? !@#
 qFinancialCrisis !@# What do you think of the current "financial crisis"? !@#
 #@!
 qIE !@# Why doesn't the website look good in IE? !@#
+Because this is a <em>Firefox</em> extension.
 
