@@ -1,0 +1,1339 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created by diasvg.py -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="25.563cm"
+   height="13.439cm"
+   viewBox="2.150 -1.168 27.713 12.271"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="dataMiningBackground.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <metadata
+     id="metadata263">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs261">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 238.09253 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="905.77557 : 238.09253 : 1"
+       inkscape:persp3d-origin="452.88779 : 158.72835 : 1"
+       id="perspective265" />
+  </defs>
+  <sodipodi:namedview
+     inkscape:window-height="729"
+     inkscape:window-width="640"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false"
+     inkscape:zoom="0.5972782"
+     inkscape:cx="452.88779"
+     inkscape:cy="238.09253"
+     inkscape:window-x="632"
+     inkscape:window-y="63"
+     inkscape:current-layer="svg2" />
+  <path
+     stroke="none"
+     fill="#0078AA"
+     stroke-width="0.001"
+     d="M 8.450,4.510 L 8.445,4.455 L 8.432,4.400 L 8.412,4.345 L 8.385,4.290 L 8.350,4.237 L 8.306,4.184 L 8.254,4.132 L 8.195,4.081 L 8.128,4.031 L 8.054,3.982 L 7.971,3.934 L 7.884,3.887 L 7.790,3.843 L 7.691,3.801 L 7.582,3.760 L 7.471,3.720 L 7.352,3.683 L 7.228,3.649 L 7.099,3.616 L 6.967,3.585 L 6.828,3.557 L 6.688,3.533 L 6.541,3.509 L 6.395,3.487 L 6.242,3.470 L 6.089,3.454 L 5.934,3.443 L 5.777,3.434 L 5.618,3.426 L 5.460,3.421 L 5.299,3.421 L 5.299,3.421 L 5.141,3.421 L 4.981,3.426 L 4.823,3.434 L 4.666,3.443 L 4.511,3.454 L 4.358,3.470 L 4.206,3.487 L 4.057,3.509 L 3.912,3.533 L 3.771,3.557 L 3.634,3.585 L 3.501,3.616 L 3.371,3.649 L 3.249,3.683 L 3.129,3.720 L 3.018,3.760 L 2.909,3.801 L 2.810,3.843 L 2.715,3.887 L 2.628,3.934 L 2.546,3.982 L 2.472,4.031 L 2.405,4.081 L 2.347,4.132 L 2.294,4.184 L 2.250,4.237 L 2.216,4.290 L 2.187,4.345 L 2.167,4.400 L 2.154,4.455 L 2.151,4.510 L 2.151,4.510 L 2.154,4.565 L 2.167,4.620 L 2.187,4.674 L 2.216,4.730 L 2.250,4.784 L 2.294,4.837 L 2.347,4.889 L 2.405,4.940 L 2.472,4.990 L 2.546,5.038 L 2.628,5.087 L 2.715,5.134 L 2.810,5.178 L 2.909,5.219 L 3.018,5.261 L 3.129,5.301 L 3.249,5.338 L 3.371,5.372 L 3.501,5.405 L 3.634,5.435 L 3.771,5.464 L 3.912,5.488 L 4.057,5.512 L 4.206,5.533 L 4.358,5.551 L 4.511,5.566 L 4.666,5.577 L 4.823,5.588 L 4.981,5.595 L 5.141,5.599 L 5.299,5.600 L 5.299,5.600 L 5.460,5.599 L 5.618,5.595 L 5.777,5.588 L 5.934,5.577 L 6.089,5.566 L 6.242,5.551 L 6.395,5.533 L 6.541,5.512 L 6.688,5.488 L 6.828,5.464 L 6.967,5.435 L 7.099,5.405 L 7.228,5.372 L 7.352,5.338 L 7.471,5.301 L 7.582,5.261 L 7.691,5.219 L 7.790,5.178 L 7.884,5.134 L 7.971,5.087 L 8.054,5.038 L 8.128,4.990 L 8.195,4.940 L 8.254,4.889 L 8.306,4.837 L 8.350,4.784 L 8.385,4.730 L 8.412,4.674 L 8.432,4.620 L 8.445,4.565 L 8.450,4.510 "
+     id="path4"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#AAE6FF"
+     fill="none"
+     stroke-width="0.001"
+     d="M 8.412,4.493 L 8.409,4.438 L 8.397,4.383 L 8.377,4.331 L 8.350,4.279 L 8.312,4.224 L 8.268,4.172 L 8.219,4.122 L 8.159,4.070 L 8.092,4.022 L 8.020,3.973 L 7.938,3.927 L 7.851,3.882 L 7.758,3.838 L 7.659,3.795 L 7.551,3.755 L 7.439,3.717 L 7.320,3.681 L 7.199,3.646 L 7.070,3.613 L 6.938,3.584 L 6.800,3.556 L 6.660,3.533 L 6.517,3.509 L 6.370,3.489 L 6.219,3.472 L 6.067,3.457 L 5.913,3.443 L 5.757,3.435 L 5.599,3.428 L 5.439,3.423 L 5.282,3.421 L 5.282,3.421 L 5.123,3.423 L 4.964,3.428 L 4.807,3.435 L 4.650,3.443 L 4.496,3.457 L 4.345,3.472 L 4.194,3.489 L 4.046,3.509 L 3.901,3.533 L 3.763,3.556 L 3.624,3.584 L 3.492,3.613 L 3.366,3.646 L 3.243,3.681 L 3.125,3.717 L 3.012,3.755 L 2.905,3.795 L 2.806,3.838 L 2.711,3.882 L 2.624,3.927 L 2.544,3.973 L 2.470,4.022 L 2.404,4.070 L 2.345,4.122 L 2.294,4.172 L 2.250,4.224 L 2.214,4.279 L 2.186,4.331 L 2.165,4.383 L 2.154,4.438 L 2.151,4.493 L 2.151,4.493 L 2.154,4.548 L 2.165,4.601 L 2.186,4.655 L 2.214,4.708 L 2.250,4.762 L 2.294,4.813 L 2.345,4.865 L 2.404,4.916 L 2.470,4.964 L 2.544,5.013 L 2.624,5.060 L 2.711,5.104 L 2.806,5.148 L 2.905,5.191 L 3.012,5.231 L 3.125,5.268 L 3.243,5.305 L 3.366,5.340 L 3.492,5.371 L 3.624,5.402 L 3.763,5.430 L 3.901,5.454 L 4.046,5.478 L 4.194,5.497 L 4.345,5.515 L 4.496,5.529 L 4.650,5.542 L 4.807,5.551 L 4.964,5.558 L 5.123,5.562 L 5.282,5.563 L 5.282,5.563 L 5.439,5.562 L 5.599,5.558 L 5.757,5.551 L 5.913,5.542 L 6.067,5.529 L 6.219,5.515 L 6.370,5.497 L 6.517,5.478 L 6.660,5.454 L 6.800,5.430 L 6.938,5.402 L 7.070,5.371 L 7.199,5.340 L 7.320,5.305 L 7.439,5.268 L 7.551,5.231 L 7.659,5.191 L 7.758,5.148 L 7.851,5.104 L 7.938,5.060 L 8.020,5.013 L 8.092,4.964 L 8.159,4.916 L 8.219,4.865 L 8.268,4.813 L 8.312,4.762 L 8.350,4.708 L 8.377,4.655 L 8.397,4.601 L 8.409,4.548 L 8.412,4.493 "
+     id="path6"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#0078AA"
+     stroke-width="0.001"
+     d="M 2.151,3.002 L 2.151,4.531 L 8.412,4.531 L 8.412,3.002 L 2.151,3.002 "
+     id="path8"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#00B4FF"
+     stroke-width="0.001"
+     d="M 8.450,2.981 L 8.445,2.926 L 8.432,2.871 L 8.412,2.816 L 8.385,2.761 L 8.350,2.708 L 8.306,2.655 L 8.254,2.604 L 8.195,2.551 L 8.128,2.501 L 8.054,2.452 L 7.971,2.404 L 7.884,2.359 L 7.790,2.315 L 7.691,2.272 L 7.582,2.231 L 7.471,2.192 L 7.352,2.155 L 7.228,2.121 L 7.099,2.088 L 6.967,2.057 L 6.828,2.029 L 6.688,2.004 L 6.541,1.980 L 6.395,1.959 L 6.242,1.942 L 6.089,1.927 L 5.934,1.915 L 5.777,1.905 L 5.618,1.898 L 5.460,1.893 L 5.299,1.893 L 5.299,1.893 L 5.141,1.893 L 4.981,1.898 L 4.823,1.905 L 4.666,1.915 L 4.511,1.927 L 4.358,1.942 L 4.206,1.959 L 4.057,1.980 L 3.912,2.004 L 3.771,2.029 L 3.634,2.057 L 3.501,2.088 L 3.371,2.121 L 3.249,2.155 L 3.129,2.192 L 3.018,2.231 L 2.909,2.272 L 2.810,2.315 L 2.715,2.359 L 2.628,2.404 L 2.546,2.452 L 2.472,2.501 L 2.405,2.551 L 2.347,2.604 L 2.294,2.655 L 2.250,2.708 L 2.216,2.761 L 2.187,2.816 L 2.167,2.871 L 2.154,2.926 L 2.151,2.981 L 2.151,2.981 L 2.154,3.036 L 2.167,3.091 L 2.187,3.146 L 2.216,3.200 L 2.250,3.254 L 2.294,3.306 L 2.347,3.358 L 2.405,3.410 L 2.472,3.460 L 2.546,3.509 L 2.628,3.557 L 2.715,3.602 L 2.810,3.648 L 2.909,3.690 L 3.018,3.731 L 3.129,3.770 L 3.249,3.806 L 3.371,3.842 L 3.501,3.875 L 3.634,3.905 L 3.771,3.933 L 3.912,3.958 L 4.057,3.982 L 4.206,4.002 L 4.358,4.020 L 4.511,4.035 L 4.666,4.047 L 4.823,4.057 L 4.981,4.064 L 5.141,4.068 L 5.299,4.070 L 5.299,4.070 L 5.460,4.068 L 5.618,4.064 L 5.777,4.057 L 5.934,4.047 L 6.089,4.035 L 6.242,4.020 L 6.395,4.002 L 6.541,3.982 L 6.688,3.958 L 6.828,3.933 L 6.967,3.905 L 7.099,3.875 L 7.228,3.842 L 7.352,3.806 L 7.471,3.770 L 7.582,3.731 L 7.691,3.690 L 7.790,3.648 L 7.884,3.602 L 7.971,3.557 L 8.054,3.509 L 8.128,3.460 L 8.195,3.410 L 8.254,3.358 L 8.306,3.306 L 8.350,3.254 L 8.385,3.200 L 8.412,3.146 L 8.432,3.091 L 8.445,3.036 L 8.450,2.981 "
+     id="path10"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#AAE6FF"
+     fill="none"
+     stroke-width="0.001"
+     d="M 8.412,2.962 L 8.409,2.908 L 8.397,2.854 L 8.377,2.800 L 8.350,2.748 L 8.312,2.693 L 8.268,2.642 L 8.219,2.590 L 8.159,2.540 L 8.092,2.492 L 8.020,2.443 L 7.938,2.396 L 7.851,2.351 L 7.758,2.307 L 7.659,2.265 L 7.551,2.224 L 7.439,2.187 L 7.320,2.150 L 7.199,2.116 L 7.070,2.084 L 6.938,2.054 L 6.800,2.025 L 6.660,2.002 L 6.517,1.978 L 6.370,1.959 L 6.219,1.941 L 6.067,1.927 L 5.913,1.914 L 5.757,1.905 L 5.599,1.898 L 5.439,1.893 L 5.282,1.893 L 5.282,1.893 L 5.123,1.893 L 4.964,1.898 L 4.807,1.905 L 4.650,1.914 L 4.496,1.927 L 4.345,1.941 L 4.194,1.959 L 4.046,1.978 L 3.901,2.002 L 3.763,2.025 L 3.624,2.054 L 3.492,2.084 L 3.366,2.116 L 3.243,2.150 L 3.125,2.187 L 3.012,2.224 L 2.905,2.265 L 2.806,2.307 L 2.711,2.351 L 2.624,2.396 L 2.544,2.443 L 2.470,2.492 L 2.404,2.540 L 2.345,2.590 L 2.294,2.642 L 2.250,2.693 L 2.214,2.748 L 2.186,2.800 L 2.165,2.854 L 2.154,2.908 L 2.151,2.962 L 2.151,2.962 L 2.154,3.018 L 2.165,3.071 L 2.186,3.124 L 2.214,3.177 L 2.250,3.232 L 2.294,3.284 L 2.345,3.333 L 2.404,3.385 L 2.470,3.434 L 2.544,3.482 L 2.624,3.529 L 2.711,3.574 L 2.806,3.618 L 2.905,3.660 L 3.012,3.701 L 3.125,3.738 L 3.243,3.774 L 3.366,3.809 L 3.492,3.842 L 3.624,3.871 L 3.763,3.899 L 3.901,3.923 L 4.046,3.947 L 4.194,3.965 L 4.345,3.984 L 4.496,3.999 L 4.650,4.012 L 4.807,4.021 L 4.964,4.028 L 5.123,4.031 L 5.282,4.034 L 5.282,4.034 L 5.439,4.031 L 5.599,4.028 L 5.757,4.021 L 5.913,4.012 L 6.067,3.999 L 6.219,3.984 L 6.370,3.965 L 6.517,3.947 L 6.660,3.923 L 6.800,3.899 L 6.938,3.871 L 7.070,3.842 L 7.199,3.809 L 7.320,3.774 L 7.439,3.738 L 7.551,3.701 L 7.659,3.660 L 7.758,3.618 L 7.851,3.574 L 7.938,3.529 L 8.020,3.482 L 8.092,3.434 L 8.159,3.385 L 8.219,3.333 L 8.268,3.284 L 8.312,3.232 L 8.350,3.177 L 8.377,3.124 L 8.397,3.071 L 8.409,3.018 L 8.412,2.962 "
+     id="path12"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#AAE6FF"
+     fill="none"
+     stroke-width="0.001"
+     d="M 2.151,2.962 L 2.151,4.490 "
+     id="path14"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#AAE6FF"
+     fill="none"
+     stroke-width="0.001"
+     d="M 8.412,2.962 L 8.412,4.490 "
+     id="path16"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#FFFFFF"
+     stroke-width="0.001"
+     d="M 4.137,2.618 L 4.288,3.269 L 4.365,3.269 L 4.479,2.887 L 4.594,3.269 L 4.670,3.269 L 4.823,2.618 L 4.710,2.618 L 4.633,3.002 L 4.518,2.618 L 4.441,2.618 L 4.328,3.002 L 4.211,2.618 L 4.137,2.618 "
+     id="path18"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.001"
+     d="M 4.137,2.618 L 4.288,3.269 L 4.365,3.269 L 4.479,2.887 L 4.594,3.269 L 4.670,3.269 L 4.823,2.618 L 4.710,2.618 L 4.633,3.002 L 4.518,2.618 L 4.441,2.618 L 4.328,3.002 L 4.211,2.618 L 4.137,2.618 "
+     id="path20"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#FFFFFF"
+     stroke-width="0.001"
+     d="M 4.899,2.618 L 5.093,3.269 L 5.167,3.269 L 5.282,2.887 L 5.395,3.269 L 5.472,3.269 L 5.626,2.618 L 5.511,2.618 L 5.435,3.002 L 5.319,2.618 L 5.243,2.618 L 5.129,3.002 L 5.014,2.618 L 4.899,2.618 "
+     id="path22"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.001"
+     d="M 4.899,2.618 L 5.093,3.269 L 5.167,3.269 L 5.282,2.887 L 5.395,3.269 L 5.472,3.269 L 5.626,2.618 L 5.511,2.618 L 5.435,3.002 L 5.319,2.618 L 5.243,2.618 L 5.129,3.002 L 5.014,2.618 L 4.899,2.618 "
+     id="path24"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#FFFFFF"
+     stroke-width="0.001"
+     d="M 5.702,2.618 L 5.855,3.269 L 5.968,3.269 L 6.084,2.887 L 6.198,3.269 L 6.275,3.269 L 6.428,2.618 L 6.313,2.618 L 6.236,3.002 L 6.121,2.618 L 6.045,2.618 L 5.931,3.002 L 5.814,2.618 L 5.702,2.618 "
+     id="path26"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.001"
+     d="M 5.702,2.618 L 5.855,3.269 L 5.968,3.269 L 6.084,2.887 L 6.198,3.269 L 6.275,3.269 L 6.428,2.618 L 6.313,2.618 L 6.236,3.002 L 6.121,2.618 L 6.045,2.618 L 5.931,3.002 L 5.814,2.618 L 5.702,2.618 "
+     id="path28"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#FFFFFF"
+     stroke-width="0.001"
+     d="M 3.868,2.160 L 3.220,2.390 L 3.868,2.656 L 3.868,2.504 L 7.342,2.504 L 7.342,2.274 L 3.868,2.274 L 3.868,2.160 "
+     id="path30"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#000000"
+     stroke-width="0.001"
+     d="M 3.868,2.198 L 7.342,2.198 L 7.342,2.274 L 3.868,2.274 L 3.868,2.198 "
+     id="path32"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#FFFFFF"
+     stroke-width="0.001"
+     d="M 6.732,3.346 L 7.382,3.575 L 6.732,3.804 L 6.732,3.652 L 3.106,3.652 L 3.106,3.460 L 6.732,3.460 L 6.732,3.346 "
+     id="path34"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#000000"
+     stroke-width="0.001"
+     d="M 6.732,3.346 L 7.382,3.575 L 7.457,3.536 L 6.732,3.269 L 6.732,3.346 "
+     id="path36"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#000000"
+     stroke-width="0.001"
+     d="M 6.732,3.382 L 3.106,3.382 L 3.106,3.460 L 6.732,3.460 L 6.732,3.382 "
+     id="path38"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#000000"
+     stroke-width="0.001"
+     d="M 3.868,2.160 L 3.220,2.390 L 3.142,2.351 L 3.868,2.121 L 3.868,2.160 "
+     id="path40"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#B7B79D"
+     stroke-width="0.001"
+     d="M 15.400,4.766 L 15.400,10.200 L 18.612,10.200 L 18.612,4.766 L 15.400,4.766 "
+     id="path42"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#494936"
+     fill="none"
+     stroke-width="0.001"
+     d="M 15.400,4.766 L 15.400,10.200 L 18.612,10.200 L 18.612,4.766 L 15.400,4.766 "
+     id="path44"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#C9C9B6"
+     stroke-width="0.001"
+     d="M 15.400,4.766 L 15.835,4.329 L 19.046,4.329 L 18.612,4.766 L 15.400,4.766 "
+     id="path46"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#494936"
+     fill="none"
+     stroke-width="0.001"
+     d="M 15.400,4.766 L 15.835,4.329 L 19.025,4.329 "
+     id="path48"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#494936"
+     fill="none"
+     stroke-width="0.001"
+     d="M 19.025,4.351 L 18.612,4.766 L 15.400,4.766 "
+     id="path50"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#C9C9B6"
+     stroke-width="0.001"
+     d="M 15.598,5.082 L 17.065,5.082 L 17.065,5.795 L 15.598,5.795 L 15.598,5.082 "
+     id="path52"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#626248"
+     fill="none"
+     stroke-width="0.001"
+     d="M 15.598,5.082 L 17.064,5.082 L 17.064,5.794 L 15.598,5.794 L 15.598,5.082 "
+     id="path54"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#ECECE7"
+     fill="none"
+     stroke-width="0.030"
+     d="M 15.796,5.440 L 16.825,5.440 "
+     id="path56"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#7A7A5A"
+     stroke-width="0.001"
+     d="M 18.612,10.200 L 19.046,9.762 L 19.046,4.329 L 18.612,4.766 L 18.612,10.200 "
+     id="path58"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#494936"
+     fill="none"
+     stroke-width="0.001"
+     d="M 18.612,10.200 L 19.025,9.784 "
+     id="path60"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#494936"
+     fill="none"
+     stroke-width="0.001"
+     d="M 19.025,4.351 L 18.612,4.766 L 18.612,10.200 "
+     id="path62"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#ECECE7"
+     fill="none"
+     stroke-width="0.030"
+     d="M 15.440,9.842 L 18.611,9.842 "
+     id="path64"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.030"
+     d="M 15.440,6.947 L 18.611,6.947 "
+     id="path66"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#494936"
+     fill="none"
+     stroke-width="0.030"
+     d="M 15.400,9.802 L 18.608,9.802 "
+     id="path68"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.030"
+     d="M 15.400,6.907 L 18.608,6.907 "
+     id="path70"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#ECECE7"
+     fill="none"
+     stroke-width="0.001"
+     d="M 15.598,5.757 L 15.598,5.082 L 17.025,5.082 "
+     id="path72"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#C9C9B6"
+     stroke-width="0.001"
+     d="M 24.068,3.925 L 27.127,3.925 L 25.841,5.216 L 22.781,5.216 L 24.068,3.925 "
+     id="path74"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#494936"
+     fill="none"
+     stroke-width="0.001"
+     d="M 24.068,3.925 L 27.127,3.925 L 25.841,5.216 L 22.781,5.216 L 24.068,3.925 "
+     id="path76"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#DBDBCE"
+     fill="none"
+     stroke-width="0.001"
+     d="M 24.185,4.998 L 24.185,5.005 L 24.186,5.011 L 24.188,5.018 L 24.191,5.026 L 24.194,5.031 L 24.199,5.038 L 24.204,5.044 L 24.210,5.050 L 24.216,5.057 L 24.223,5.064 L 24.231,5.069 L 24.239,5.074 L 24.248,5.079 L 24.257,5.085 L 24.268,5.089 L 24.278,5.095 L 24.289,5.099 L 24.302,5.104 L 24.314,5.108 L 24.326,5.111 L 24.339,5.115 L 24.353,5.119 L 24.366,5.121 L 24.381,5.123 L 24.396,5.124 L 24.411,5.127 L 24.424,5.129 L 24.440,5.131 L 24.456,5.131 L 24.471,5.132 L 24.486,5.132 "
+     id="path78"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#DBDBCE"
+     fill="none"
+     stroke-width="0.001"
+     d="M 24.452,5.132 L 24.467,5.132 L 24.482,5.131 L 24.496,5.130 L 24.511,5.128 L 24.526,5.127 L 24.540,5.124 L 24.554,5.123 L 24.568,5.120 L 24.581,5.117 L 24.595,5.113 L 24.607,5.109 L 24.619,5.106 L 24.631,5.101 L 24.642,5.097 L 24.652,5.093 L 24.663,5.088 L 24.673,5.082 L 24.682,5.077 L 24.691,5.071 L 24.698,5.064 L 24.705,5.058 L 24.711,5.053 L 24.717,5.046 L 24.722,5.039 L 24.726,5.033 L 24.730,5.026 L 24.732,5.018 L 24.734,5.011 L 24.736,5.005 L 24.736,4.998 "
+     id="path80"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#DBDBCE"
+     fill="none"
+     stroke-width="0.001"
+     d="M 24.519,4.748 L 24.503,4.748 L 24.488,4.748 L 24.472,4.748 L 24.459,4.750 L 24.444,4.751 L 24.429,4.753 L 24.414,4.754 L 24.399,4.757 L 24.386,4.760 L 24.373,4.761 L 24.360,4.765 L 24.347,4.768 L 24.335,4.771 L 24.324,4.775 L 24.313,4.780 L 24.300,4.784 L 24.291,4.788 L 24.281,4.792 L 24.272,4.797 L 24.264,4.803 L 24.256,4.808 L 24.249,4.812 L 24.243,4.818 L 24.238,4.823 L 24.233,4.830 L 24.228,4.835 L 24.225,4.840 L 24.222,4.846 L 24.220,4.851 L 24.219,4.858 L 24.219,4.863 "
+     id="path82"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#DBDBCE"
+     fill="none"
+     stroke-width="0.001"
+     d="M 24.769,4.863 L 24.769,4.858 L 24.768,4.851 L 24.765,4.846 L 24.763,4.839 L 24.760,4.834 L 24.755,4.827 L 24.750,4.822 L 24.745,4.816 L 24.737,4.811 L 24.732,4.805 L 24.724,4.800 L 24.714,4.796 L 24.706,4.790 L 24.697,4.786 L 24.687,4.781 L 24.676,4.776 L 24.664,4.773 L 24.652,4.769 L 24.640,4.766 L 24.627,4.763 L 24.614,4.760 L 24.601,4.757 L 24.587,4.755 L 24.574,4.753 L 24.560,4.751 L 24.546,4.750 L 24.531,4.748 L 24.515,4.748 L 24.500,4.748 L 24.486,4.748 "
+     id="path84"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#A5A585"
+     stroke-width="0.001"
+     d="M 22.781,5.350 L 25.841,5.350 L 25.841,5.216 L 22.781,5.216 L 22.781,5.350 "
+     id="path86"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#494936"
+     fill="none"
+     stroke-width="0.001"
+     d="M 22.781,5.350 L 25.841,5.350 L 25.841,5.216 L 22.781,5.216 L 22.781,5.350 "
+     id="path88"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#A5A585"
+     stroke-width="0.001"
+     d="M 24.068,3.925 L 27.127,3.925 L 27.127,1.832 L 24.068,1.832 L 24.068,3.925 "
+     id="path90"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#494936"
+     fill="none"
+     stroke-width="0.001"
+     d="M 24.068,3.925 L 27.127,3.925 L 27.127,1.832 L 24.068,1.832 L 24.068,3.925 "
+     id="path92"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#7A7A5A"
+     stroke-width="0.001"
+     d="M 27.211,3.843 L 27.211,1.750 L 27.127,1.832 L 27.127,3.925 L 27.211,3.843 "
+     id="path94"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#494936"
+     fill="none"
+     stroke-width="0.001"
+     d="M 27.211,3.843 L 27.211,1.750 L 27.127,1.832 L 27.127,3.925 L 27.211,3.843 "
+     id="path96"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#FFFFFF"
+     stroke-width="0.001"
+     d="M 24.219,3.792 L 26.977,3.792 L 26.977,2.000 L 24.219,2.000 L 24.219,3.792 "
+     id="path98"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#494936"
+     fill="none"
+     stroke-width="0.001"
+     d="M 24.219,3.792 L 26.977,3.792 L 26.977,2.000 L 24.219,2.000 L 24.219,3.792 "
+     id="path100"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#93936C"
+     stroke-width="0.001"
+     d="M 24.219,4.027 L 26.792,4.027 L 26.124,4.697 L 23.550,4.697 L 24.219,4.027 "
+     id="path102"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#494936"
+     fill="none"
+     stroke-width="0.001"
+     d="M 24.219,4.027 L 26.792,4.027 L 26.124,4.697 L 23.550,4.697 L 24.219,4.027 "
+     id="path104"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#7A7A5A"
+     stroke-width="0.001"
+     d="M 24.619,4.956 L 24.619,4.952 L 24.619,4.948 L 24.618,4.945 L 24.616,4.940 L 24.616,4.936 L 24.613,4.933 L 24.612,4.930 L 24.609,4.927 L 24.606,4.923 L 24.604,4.920 L 24.601,4.916 L 24.597,4.913 L 24.593,4.910 L 24.589,4.906 L 24.585,4.905 L 24.581,4.901 L 24.576,4.899 L 24.570,4.897 L 24.566,4.894 L 24.560,4.893 L 24.554,4.890 L 24.549,4.889 L 24.543,4.887 L 24.537,4.886 L 24.531,4.885 L 24.525,4.883 L 24.519,4.882 L 24.513,4.882 L 24.507,4.881 L 24.499,4.881 L 24.494,4.881 L 24.494,4.881 L 24.487,4.881 L 24.481,4.881 L 24.475,4.882 L 24.469,4.882 L 24.463,4.883 L 24.456,4.885 L 24.451,4.886 L 24.444,4.887 L 24.439,4.889 L 24.433,4.890 L 24.428,4.893 L 24.422,4.894 L 24.417,4.897 L 24.412,4.899 L 24.407,4.901 L 24.403,4.905 L 24.399,4.906 L 24.395,4.910 L 24.391,4.913 L 24.388,4.916 L 24.384,4.920 L 24.382,4.923 L 24.378,4.927 L 24.376,4.930 L 24.374,4.933 L 24.372,4.936 L 24.371,4.940 L 24.371,4.945 L 24.369,4.948 L 24.368,4.952 L 24.368,4.956 L 24.368,4.956 L 24.368,4.960 L 24.369,4.964 L 24.371,4.968 L 24.371,4.971 L 24.372,4.975 L 24.374,4.978 L 24.376,4.983 L 24.378,4.986 L 24.382,4.989 L 24.384,4.992 L 24.388,4.996 L 24.391,4.999 L 24.395,5.003 L 24.399,5.005 L 24.403,5.008 L 24.407,5.011 L 24.412,5.013 L 24.417,5.015 L 24.422,5.018 L 24.428,5.019 L 24.433,5.022 L 24.439,5.023 L 24.444,5.025 L 24.451,5.026 L 24.456,5.028 L 24.463,5.029 L 24.469,5.030 L 24.475,5.030 L 24.481,5.030 L 24.487,5.031 L 24.494,5.031 L 24.494,5.031 L 24.499,5.031 L 24.507,5.030 L 24.513,5.030 L 24.519,5.030 L 24.525,5.029 L 24.531,5.028 L 24.537,5.026 L 24.543,5.025 L 24.549,5.023 L 24.554,5.022 L 24.560,5.019 L 24.566,5.018 L 24.570,5.015 L 24.576,5.013 L 24.581,5.011 L 24.585,5.008 L 24.589,5.005 L 24.593,5.003 L 24.597,4.999 L 24.601,4.996 L 24.604,4.992 L 24.606,4.989 L 24.609,4.986 L 24.612,4.983 L 24.613,4.978 L 24.616,4.975 L 24.616,4.971 L 24.618,4.968 L 24.619,4.964 L 24.619,4.960 L 24.619,4.956 "
+     id="path106"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#DBDBCE"
+     fill="none"
+     stroke-width="0.001"
+     d="M 24.603,4.948 L 24.603,4.945 L 24.602,4.941 L 24.602,4.938 L 24.601,4.935 L 24.599,4.930 L 24.599,4.928 L 24.596,4.925 L 24.593,4.921 L 24.591,4.918 L 24.589,4.916 L 24.585,4.913 L 24.582,4.909 L 24.578,4.906 L 24.574,4.905 L 24.571,4.901 L 24.566,4.899 L 24.562,4.898 L 24.558,4.895 L 24.554,4.893 L 24.548,4.891 L 24.543,4.890 L 24.537,4.888 L 24.532,4.886 L 24.527,4.885 L 24.521,4.885 L 24.515,4.883 L 24.510,4.882 L 24.503,4.881 L 24.498,4.881 L 24.492,4.881 L 24.486,4.881 L 24.486,4.881 L 24.480,4.881 L 24.474,4.881 L 24.468,4.881 L 24.463,4.882 L 24.457,4.883 L 24.452,4.885 L 24.445,4.885 L 24.440,4.886 L 24.436,4.888 L 24.429,4.890 L 24.424,4.891 L 24.418,4.893 L 24.415,4.895 L 24.409,4.898 L 24.406,4.899 L 24.401,4.901 L 24.397,4.905 L 24.394,4.906 L 24.390,4.909 L 24.387,4.913 L 24.384,4.916 L 24.381,4.918 L 24.378,4.921 L 24.377,4.925 L 24.374,4.928 L 24.373,4.930 L 24.372,4.935 L 24.371,4.938 L 24.370,4.941 L 24.369,4.945 L 24.369,4.948 L 24.369,4.948 L 24.369,4.951 L 24.370,4.955 L 24.371,4.959 L 24.372,4.961 L 24.373,4.964 L 24.374,4.968 L 24.377,4.971 L 24.378,4.974 L 24.381,4.978 L 24.384,4.980 L 24.387,4.983 L 24.390,4.986 L 24.394,4.989 L 24.397,4.991 L 24.401,4.994 L 24.406,4.996 L 24.409,4.999 L 24.415,5.001 L 24.418,5.003 L 24.424,5.005 L 24.429,5.007 L 24.436,5.008 L 24.440,5.009 L 24.445,5.011 L 24.452,5.011 L 24.457,5.013 L 24.463,5.014 L 24.468,5.014 L 24.474,5.014 L 24.480,5.014 L 24.486,5.014 L 24.486,5.014 L 24.492,5.014 L 24.498,5.014 L 24.503,5.014 L 24.510,5.014 L 24.515,5.013 L 24.521,5.011 L 24.527,5.011 L 24.532,5.009 L 24.537,5.008 L 24.543,5.007 L 24.548,5.005 L 24.554,5.003 L 24.558,5.001 L 24.562,4.999 L 24.566,4.996 L 24.571,4.994 L 24.574,4.991 L 24.578,4.989 L 24.582,4.986 L 24.585,4.983 L 24.589,4.980 L 24.591,4.978 L 24.593,4.974 L 24.596,4.971 L 24.599,4.968 L 24.599,4.964 L 24.601,4.961 L 24.602,4.959 L 24.602,4.955 L 24.603,4.951 L 24.603,4.948 "
+     id="path108"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#626248"
+     fill="none"
+     stroke-width="0.001"
+     d="M 24.203,5.014 L 24.203,5.022 L 24.204,5.028 L 24.206,5.034 L 24.208,5.042 L 24.212,5.048 L 24.216,5.054 L 24.221,5.061 L 24.227,5.068 L 24.233,5.073 L 24.239,5.079 L 24.248,5.085 L 24.255,5.091 L 24.265,5.096 L 24.274,5.101 L 24.284,5.106 L 24.295,5.111 L 24.307,5.116 L 24.318,5.120 L 24.331,5.124 L 24.344,5.128 L 24.357,5.132 L 24.370,5.135 L 24.384,5.137 L 24.397,5.139 L 24.412,5.142 L 24.427,5.143 L 24.441,5.146 L 24.456,5.147 L 24.472,5.148 L 24.487,5.148 L 24.502,5.148 "
+     id="path110"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#626248"
+     fill="none"
+     stroke-width="0.001"
+     d="M 24.468,5.148 L 24.484,5.148 L 24.498,5.148 L 24.514,5.146 L 24.527,5.144 L 24.542,5.143 L 24.557,5.142 L 24.570,5.139 L 24.584,5.136 L 24.597,5.133 L 24.611,5.131 L 24.624,5.127 L 24.636,5.123 L 24.647,5.119 L 24.659,5.113 L 24.670,5.109 L 24.679,5.104 L 24.689,5.099 L 24.698,5.093 L 24.706,5.088 L 24.714,5.081 L 24.721,5.076 L 24.728,5.069 L 24.734,5.062 L 24.737,5.055 L 24.743,5.049 L 24.745,5.042 L 24.749,5.035 L 24.751,5.028 L 24.751,5.022 L 24.752,5.014 "
+     id="path112"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#626248"
+     fill="none"
+     stroke-width="0.001"
+     d="M 24.535,4.764 L 24.521,4.764 L 24.506,4.765 L 24.491,4.765 L 24.476,4.766 L 24.460,4.768 L 24.445,4.768 L 24.432,4.771 L 24.417,4.773 L 24.403,4.776 L 24.390,4.778 L 24.377,4.781 L 24.364,4.784 L 24.352,4.788 L 24.341,4.792 L 24.329,4.796 L 24.318,4.800 L 24.308,4.804 L 24.298,4.808 L 24.289,4.814 L 24.281,4.819 L 24.274,4.823 L 24.266,4.830 L 24.259,4.834 L 24.254,4.839 L 24.249,4.846 L 24.245,4.851 L 24.241,4.857 L 24.239,4.862 L 24.237,4.868 L 24.236,4.875 L 24.236,4.881 "
+     id="path114"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#626248"
+     fill="none"
+     stroke-width="0.001"
+     d="M 24.786,4.881 L 24.785,4.874 L 24.784,4.868 L 24.783,4.862 L 24.780,4.856 L 24.776,4.850 L 24.772,4.844 L 24.767,4.839 L 24.761,4.833 L 24.755,4.827 L 24.747,4.822 L 24.740,4.816 L 24.732,4.811 L 24.722,4.807 L 24.713,4.803 L 24.702,4.798 L 24.692,4.793 L 24.681,4.790 L 24.669,4.786 L 24.656,4.783 L 24.644,4.780 L 24.631,4.776 L 24.618,4.774 L 24.604,4.771 L 24.589,4.769 L 24.576,4.768 L 24.562,4.766 L 24.547,4.765 L 24.531,4.765 L 24.517,4.764 L 24.502,4.764 "
+     id="path116"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#7A7A5A"
+     stroke-width="0.001"
+     d="M 27.127,4.043 L 25.841,5.334 L 25.841,5.216 L 27.127,3.925 L 27.127,4.043 "
+     id="path118"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#494936"
+     fill="none"
+     stroke-width="0.001"
+     d="M 27.127,4.043 L 25.841,5.334 L 25.841,5.216 L 27.127,3.925 L 27.127,4.043 "
+     id="path120"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#7A7A5A"
+     stroke-width="0.001"
+     d="M 26.693,3.827 L 26.693,3.859 L 26.944,3.859 L 26.944,3.827 L 26.693,3.827 "
+     id="path122"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#494936"
+     fill="none"
+     stroke-width="0.001"
+     d="M 26.693,3.827 L 26.693,3.859 L 26.944,3.859 L 26.944,3.827 L 26.693,3.827 "
+     id="path124"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.001"
+     d="M 26.624,4.194 L 24.068,4.194 "
+     id="path126"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.001"
+     d="M 26.458,4.362 L 23.901,4.362 "
+     id="path128"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.001"
+     d="M 26.291,4.530 L 23.734,4.530 "
+     id="path130"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#C9C9B6"
+     stroke-width="0.001"
+     d="M 24.151,1.750 L 27.211,1.750 L 27.127,1.832 L 24.068,1.832 L 24.151,1.750 "
+     id="path132"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#494936"
+     fill="none"
+     stroke-width="0.001"
+     d="M 24.151,1.750 L 27.211,1.750 L 27.127,1.832 L 24.068,1.832 L 24.151,1.750 "
+     id="path134"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.100"
+     d="M 19.046,7.056 C 21.262,9.500 23.762,7.250 24.176,5.818 "
+     id="path136"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <polygon
+     fill="#000000"
+     stroke="none"
+     stroke-width="0.100"
+     points="24.280,5.457 24.381,6.007 24.176,5.818 23.901,5.868 "
+     id="polygon138"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <polygon
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     points="24.280,5.457 24.381,6.007 24.176,5.818 23.901,5.868 "
+     id="polygon140"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.100"
+     d="M 17.005,10.200 C 19.662,14.000 27.562,7.650 17.903,4.481 "
+     id="path142"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <polygon
+     fill="#000000"
+     stroke="none"
+     stroke-width="0.100"
+     points="17.547,4.364 18.100,4.282 17.903,4.481 17.944,4.757 "
+     id="polygon144"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <polygon
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     points="17.547,4.364 18.100,4.282 17.903,4.481 17.944,4.757 "
+     id="polygon146"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.100"
+     d="M 15.835,4.329 C 11.312,7.800 10.663,0.850 8.818,2.443 "
+     id="path148"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <polygon
+     fill="#000000"
+     stroke="none"
+     stroke-width="0.100"
+     points="8.534,2.688 8.750,2.172 8.818,2.443 9.076,2.550 "
+     id="polygon150"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <polygon
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     points="8.534,2.688 8.750,2.172 8.818,2.443 9.076,2.550 "
+     id="polygon152"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.100"
+     d="M 5.294,1.893 C 11.213,-2.450 24.512,-1.735 25.526,1.288 "
+     id="path154"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <polygon
+     fill="#000000"
+     stroke="none"
+     stroke-width="0.100"
+     points="25.645,1.644 25.249,1.249 25.526,1.288 25.723,1.090 "
+     id="polygon156"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <polygon
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     points="25.645,1.644 25.249,1.249 25.526,1.288 25.723,1.090 "
+     id="polygon158"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#0078AA"
+     stroke-width="0.001"
+     d="M 8.450,7.074 L 8.445,7.019 L 8.432,6.964 L 8.412,6.909 L 8.385,6.854 L 8.350,6.801 L 8.306,6.748 L 8.254,6.696 L 8.195,6.645 L 8.128,6.595 L 8.054,6.546 L 7.971,6.498 L 7.884,6.451 L 7.790,6.407 L 7.691,6.365 L 7.582,6.324 L 7.471,6.284 L 7.352,6.247 L 7.228,6.213 L 7.099,6.180 L 6.967,6.150 L 6.828,6.121 L 6.688,6.097 L 6.541,6.073 L 6.395,6.051 L 6.242,6.034 L 6.089,6.018 L 5.934,6.007 L 5.777,5.998 L 5.618,5.990 L 5.460,5.985 L 5.299,5.985 L 5.299,5.985 L 5.141,5.985 L 4.981,5.990 L 4.823,5.998 L 4.666,6.007 L 4.511,6.018 L 4.358,6.034 L 4.206,6.051 L 4.057,6.073 L 3.912,6.097 L 3.771,6.121 L 3.634,6.150 L 3.501,6.180 L 3.371,6.213 L 3.249,6.247 L 3.129,6.284 L 3.018,6.324 L 2.909,6.365 L 2.810,6.407 L 2.715,6.451 L 2.628,6.498 L 2.546,6.546 L 2.472,6.595 L 2.405,6.645 L 2.347,6.696 L 2.294,6.748 L 2.250,6.801 L 2.216,6.854 L 2.187,6.909 L 2.167,6.964 L 2.154,7.019 L 2.151,7.074 L 2.151,7.074 L 2.154,7.129 L 2.167,7.184 L 2.187,7.239 L 2.216,7.294 L 2.250,7.348 L 2.294,7.401 L 2.347,7.453 L 2.405,7.504 L 2.472,7.554 L 2.546,7.602 L 2.628,7.651 L 2.715,7.698 L 2.810,7.742 L 2.909,7.783 L 3.018,7.825 L 3.129,7.865 L 3.249,7.902 L 3.371,7.936 L 3.501,7.969 L 3.634,8.000 L 3.771,8.028 L 3.912,8.052 L 4.057,8.076 L 4.206,8.097 L 4.358,8.115 L 4.511,8.130 L 4.666,8.141 L 4.823,8.152 L 4.981,8.159 L 5.141,8.163 L 5.299,8.164 L 5.299,8.164 L 5.460,8.163 L 5.618,8.159 L 5.777,8.152 L 5.934,8.141 L 6.089,8.130 L 6.242,8.115 L 6.395,8.097 L 6.541,8.076 L 6.688,8.052 L 6.828,8.028 L 6.967,8.000 L 7.099,7.969 L 7.228,7.936 L 7.352,7.902 L 7.471,7.865 L 7.582,7.825 L 7.691,7.783 L 7.790,7.742 L 7.884,7.698 L 7.971,7.651 L 8.054,7.602 L 8.128,7.554 L 8.195,7.504 L 8.254,7.453 L 8.306,7.401 L 8.350,7.348 L 8.385,7.294 L 8.412,7.239 L 8.432,7.184 L 8.445,7.129 L 8.450,7.074 "
+     id="path160"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#AAE6FF"
+     fill="none"
+     stroke-width="0.001"
+     d="M 8.412,7.057 L 8.409,7.002 L 8.397,6.947 L 8.377,6.896 L 8.350,6.843 L 8.312,6.788 L 8.268,6.736 L 8.219,6.686 L 8.159,6.634 L 8.092,6.586 L 8.020,6.537 L 7.938,6.491 L 7.851,6.446 L 7.758,6.402 L 7.659,6.359 L 7.551,6.319 L 7.439,6.281 L 7.320,6.245 L 7.199,6.210 L 7.070,6.178 L 6.938,6.149 L 6.800,6.120 L 6.660,6.097 L 6.517,6.073 L 6.370,6.054 L 6.219,6.036 L 6.067,6.021 L 5.913,6.007 L 5.757,5.999 L 5.599,5.992 L 5.439,5.988 L 5.282,5.985 L 5.282,5.985 L 5.123,5.988 L 4.964,5.992 L 4.807,5.999 L 4.650,6.007 L 4.496,6.021 L 4.345,6.036 L 4.194,6.054 L 4.046,6.073 L 3.901,6.097 L 3.763,6.120 L 3.624,6.149 L 3.492,6.178 L 3.366,6.210 L 3.243,6.245 L 3.125,6.281 L 3.012,6.319 L 2.905,6.359 L 2.806,6.402 L 2.711,6.446 L 2.624,6.491 L 2.544,6.537 L 2.470,6.586 L 2.404,6.634 L 2.345,6.686 L 2.294,6.736 L 2.250,6.788 L 2.214,6.843 L 2.186,6.896 L 2.165,6.947 L 2.154,7.002 L 2.151,7.057 L 2.151,7.057 L 2.154,7.112 L 2.165,7.166 L 2.186,7.219 L 2.214,7.272 L 2.250,7.327 L 2.294,7.378 L 2.345,7.429 L 2.404,7.480 L 2.470,7.528 L 2.544,7.577 L 2.624,7.624 L 2.711,7.668 L 2.806,7.712 L 2.905,7.755 L 3.012,7.796 L 3.125,7.832 L 3.243,7.869 L 3.366,7.904 L 3.492,7.935 L 3.624,7.966 L 3.763,7.994 L 3.901,8.018 L 4.046,8.042 L 4.194,8.061 L 4.345,8.079 L 4.496,8.093 L 4.650,8.106 L 4.807,8.115 L 4.964,8.122 L 5.123,8.126 L 5.282,8.127 L 5.282,8.127 L 5.439,8.126 L 5.599,8.122 L 5.757,8.115 L 5.913,8.106 L 6.067,8.093 L 6.219,8.079 L 6.370,8.061 L 6.517,8.042 L 6.660,8.018 L 6.800,7.994 L 6.938,7.966 L 7.070,7.935 L 7.199,7.904 L 7.320,7.869 L 7.439,7.832 L 7.551,7.796 L 7.659,7.755 L 7.758,7.712 L 7.851,7.668 L 7.938,7.624 L 8.020,7.577 L 8.092,7.528 L 8.159,7.480 L 8.219,7.429 L 8.268,7.378 L 8.312,7.327 L 8.350,7.272 L 8.377,7.219 L 8.397,7.166 L 8.409,7.112 L 8.412,7.057 "
+     id="path162"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#0078AA"
+     stroke-width="0.001"
+     d="M 2.151,5.566 L 2.151,7.095 L 8.412,7.095 L 8.412,5.566 L 2.151,5.566 "
+     id="path164"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#00B4FF"
+     stroke-width="0.001"
+     d="M 8.450,5.545 L 8.445,5.490 L 8.432,5.435 L 8.412,5.381 L 8.385,5.325 L 8.350,5.272 L 8.306,5.220 L 8.254,5.168 L 8.195,5.115 L 8.128,5.066 L 8.054,5.016 L 7.971,4.968 L 7.884,4.923 L 7.790,4.879 L 7.691,4.836 L 7.582,4.795 L 7.471,4.756 L 7.352,4.719 L 7.228,4.685 L 7.099,4.652 L 6.967,4.621 L 6.828,4.593 L 6.688,4.569 L 6.541,4.544 L 6.395,4.523 L 6.242,4.506 L 6.089,4.491 L 5.934,4.479 L 5.777,4.469 L 5.618,4.462 L 5.460,4.457 L 5.299,4.457 L 5.299,4.457 L 5.141,4.457 L 4.981,4.462 L 4.823,4.469 L 4.666,4.479 L 4.511,4.491 L 4.358,4.506 L 4.206,4.523 L 4.057,4.544 L 3.912,4.569 L 3.771,4.593 L 3.634,4.621 L 3.501,4.652 L 3.371,4.685 L 3.249,4.719 L 3.129,4.756 L 3.018,4.795 L 2.909,4.836 L 2.810,4.879 L 2.715,4.923 L 2.628,4.968 L 2.546,5.016 L 2.472,5.066 L 2.405,5.115 L 2.347,5.168 L 2.294,5.220 L 2.250,5.272 L 2.216,5.325 L 2.187,5.381 L 2.167,5.435 L 2.154,5.490 L 2.151,5.545 L 2.151,5.545 L 2.154,5.601 L 2.167,5.655 L 2.187,5.710 L 2.216,5.764 L 2.250,5.818 L 2.294,5.870 L 2.347,5.923 L 2.405,5.974 L 2.472,6.024 L 2.546,6.073 L 2.628,6.121 L 2.715,6.166 L 2.810,6.212 L 2.909,6.254 L 3.018,6.296 L 3.129,6.334 L 3.249,6.370 L 3.371,6.406 L 3.501,6.439 L 3.634,6.469 L 3.771,6.497 L 3.912,6.523 L 4.057,6.546 L 4.206,6.567 L 4.358,6.584 L 4.511,6.599 L 4.666,6.611 L 4.823,6.621 L 4.981,6.628 L 5.141,6.632 L 5.299,6.634 L 5.299,6.634 L 5.460,6.632 L 5.618,6.628 L 5.777,6.621 L 5.934,6.611 L 6.089,6.599 L 6.242,6.584 L 6.395,6.567 L 6.541,6.546 L 6.688,6.523 L 6.828,6.497 L 6.967,6.469 L 7.099,6.439 L 7.228,6.406 L 7.352,6.370 L 7.471,6.334 L 7.582,6.296 L 7.691,6.254 L 7.790,6.212 L 7.884,6.166 L 7.971,6.121 L 8.054,6.073 L 8.128,6.024 L 8.195,5.974 L 8.254,5.923 L 8.306,5.870 L 8.350,5.818 L 8.385,5.764 L 8.412,5.710 L 8.432,5.655 L 8.445,5.601 L 8.450,5.545 "
+     id="path166"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#AAE6FF"
+     fill="none"
+     stroke-width="0.001"
+     d="M 8.412,5.527 L 8.409,5.472 L 8.397,5.418 L 8.377,5.364 L 8.350,5.312 L 8.312,5.257 L 8.268,5.206 L 8.219,5.154 L 8.159,5.104 L 8.092,5.056 L 8.020,5.007 L 7.938,4.960 L 7.851,4.915 L 7.758,4.871 L 7.659,4.829 L 7.551,4.789 L 7.439,4.751 L 7.320,4.715 L 7.199,4.680 L 7.070,4.649 L 6.938,4.618 L 6.800,4.589 L 6.660,4.566 L 6.517,4.542 L 6.370,4.523 L 6.219,4.505 L 6.067,4.491 L 5.913,4.478 L 5.757,4.469 L 5.599,4.462 L 5.439,4.457 L 5.282,4.457 L 5.282,4.457 L 5.123,4.457 L 4.964,4.462 L 4.807,4.469 L 4.650,4.478 L 4.496,4.491 L 4.345,4.505 L 4.194,4.523 L 4.046,4.542 L 3.901,4.566 L 3.763,4.589 L 3.624,4.618 L 3.492,4.649 L 3.366,4.680 L 3.243,4.715 L 3.125,4.751 L 3.012,4.789 L 2.905,4.829 L 2.806,4.871 L 2.711,4.915 L 2.624,4.960 L 2.544,5.007 L 2.470,5.056 L 2.404,5.104 L 2.345,5.154 L 2.294,5.206 L 2.250,5.257 L 2.214,5.312 L 2.186,5.364 L 2.165,5.418 L 2.154,5.472 L 2.151,5.527 L 2.151,5.527 L 2.154,5.582 L 2.165,5.635 L 2.186,5.689 L 2.214,5.741 L 2.250,5.796 L 2.294,5.848 L 2.345,5.897 L 2.404,5.949 L 2.470,5.998 L 2.544,6.046 L 2.624,6.093 L 2.711,6.138 L 2.806,6.182 L 2.905,6.224 L 3.012,6.265 L 3.125,6.303 L 3.243,6.339 L 3.366,6.373 L 3.492,6.406 L 3.624,6.435 L 3.763,6.464 L 3.901,6.487 L 4.046,6.511 L 4.194,6.530 L 4.345,6.548 L 4.496,6.563 L 4.650,6.576 L 4.807,6.585 L 4.964,6.592 L 5.123,6.596 L 5.282,6.598 L 5.282,6.598 L 5.439,6.596 L 5.599,6.592 L 5.757,6.585 L 5.913,6.576 L 6.067,6.563 L 6.219,6.548 L 6.370,6.530 L 6.517,6.511 L 6.660,6.487 L 6.800,6.464 L 6.938,6.435 L 7.070,6.406 L 7.199,6.373 L 7.320,6.339 L 7.439,6.303 L 7.551,6.265 L 7.659,6.224 L 7.758,6.182 L 7.851,6.138 L 7.938,6.093 L 8.020,6.046 L 8.092,5.998 L 8.159,5.949 L 8.219,5.897 L 8.268,5.848 L 8.312,5.796 L 8.350,5.741 L 8.377,5.689 L 8.397,5.635 L 8.409,5.582 L 8.412,5.527 "
+     id="path168"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#AAE6FF"
+     fill="none"
+     stroke-width="0.001"
+     d="M 2.151,5.527 L 2.151,7.054 "
+     id="path170"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#AAE6FF"
+     fill="none"
+     stroke-width="0.001"
+     d="M 8.412,5.527 L 8.412,7.054 "
+     id="path172"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#FFFFFF"
+     stroke-width="0.001"
+     d="M 4.137,5.183 L 4.288,5.833 L 4.365,5.833 L 4.479,5.451 L 4.594,5.833 L 4.670,5.833 L 4.823,5.183 L 4.710,5.183 L 4.633,5.566 L 4.518,5.183 L 4.441,5.183 L 4.328,5.566 L 4.211,5.183 L 4.137,5.183 "
+     id="path174"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.001"
+     d="M 4.137,5.183 L 4.288,5.833 L 4.365,5.833 L 4.479,5.451 L 4.594,5.833 L 4.670,5.833 L 4.823,5.183 L 4.710,5.183 L 4.633,5.566 L 4.518,5.183 L 4.441,5.183 L 4.328,5.566 L 4.211,5.183 L 4.137,5.183 "
+     id="path176"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#FFFFFF"
+     stroke-width="0.001"
+     d="M 4.899,5.183 L 5.093,5.833 L 5.167,5.833 L 5.282,5.451 L 5.395,5.833 L 5.472,5.833 L 5.626,5.183 L 5.511,5.183 L 5.435,5.566 L 5.319,5.183 L 5.243,5.183 L 5.129,5.566 L 5.014,5.183 L 4.899,5.183 "
+     id="path178"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.001"
+     d="M 4.899,5.183 L 5.093,5.833 L 5.167,5.833 L 5.282,5.451 L 5.395,5.833 L 5.472,5.833 L 5.626,5.183 L 5.511,5.183 L 5.435,5.566 L 5.319,5.183 L 5.243,5.183 L 5.129,5.566 L 5.014,5.183 L 4.899,5.183 "
+     id="path180"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#FFFFFF"
+     stroke-width="0.001"
+     d="M 5.702,5.183 L 5.855,5.833 L 5.968,5.833 L 6.084,5.451 L 6.198,5.833 L 6.275,5.833 L 6.428,5.183 L 6.313,5.183 L 6.236,5.566 L 6.121,5.183 L 6.045,5.183 L 5.931,5.566 L 5.814,5.183 L 5.702,5.183 "
+     id="path182"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.001"
+     d="M 5.702,5.183 L 5.855,5.833 L 5.968,5.833 L 6.084,5.451 L 6.198,5.833 L 6.275,5.833 L 6.428,5.183 L 6.313,5.183 L 6.236,5.566 L 6.121,5.183 L 6.045,5.183 L 5.931,5.566 L 5.814,5.183 L 5.702,5.183 "
+     id="path184"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#FFFFFF"
+     stroke-width="0.001"
+     d="M 3.868,4.724 L 3.220,4.954 L 3.868,5.220 L 3.868,5.068 L 7.342,5.068 L 7.342,4.839 L 3.868,4.839 L 3.868,4.724 "
+     id="path186"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#000000"
+     stroke-width="0.001"
+     d="M 3.868,4.762 L 7.342,4.762 L 7.342,4.839 L 3.868,4.839 L 3.868,4.762 "
+     id="path188"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#FFFFFF"
+     stroke-width="0.001"
+     d="M 6.732,5.910 L 7.382,6.139 L 6.732,6.368 L 6.732,6.216 L 3.106,6.216 L 3.106,6.024 L 6.732,6.024 L 6.732,5.910 "
+     id="path190"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#000000"
+     stroke-width="0.001"
+     d="M 6.732,5.910 L 7.382,6.139 L 7.457,6.100 L 6.732,5.833 L 6.732,5.910 "
+     id="path192"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#000000"
+     stroke-width="0.001"
+     d="M 6.732,5.946 L 3.106,5.946 L 3.106,6.024 L 6.732,6.024 L 6.732,5.946 "
+     id="path194"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#000000"
+     stroke-width="0.001"
+     d="M 3.868,4.724 L 3.220,4.954 L 3.142,4.915 L 3.868,4.686 L 3.868,4.724 "
+     id="path196"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.100"
+     d="M 5.299,5.600 C 4.979,7.084 8.550,9.750 14.938,7.636 "
+     id="path198"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <polygon
+     fill="#000000"
+     stroke="none"
+     stroke-width="0.100"
+     points="15.294,7.518 14.898,7.913 14.938,7.636 14.741,7.438 "
+     id="polygon200"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <polygon
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     points="15.294,7.518 14.898,7.913 14.938,7.636 14.741,7.438 "
+     id="polygon202"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#0078AA"
+     stroke-width="0.001"
+     d="M 8.450,9.638 L 8.445,9.583 L 8.432,9.528 L 8.412,9.473 L 8.385,9.418 L 8.350,9.366 L 8.306,9.312 L 8.254,9.260 L 8.195,9.209 L 8.128,9.159 L 8.054,9.110 L 7.971,9.062 L 7.884,9.015 L 7.790,8.971 L 7.691,8.929 L 7.582,8.888 L 7.471,8.848 L 7.352,8.811 L 7.228,8.777 L 7.099,8.744 L 6.967,8.714 L 6.828,8.686 L 6.688,8.661 L 6.541,8.637 L 6.395,8.615 L 6.242,8.598 L 6.089,8.583 L 5.934,8.571 L 5.777,8.562 L 5.618,8.554 L 5.460,8.549 L 5.299,8.549 L 5.299,8.549 L 5.141,8.549 L 4.981,8.554 L 4.823,8.562 L 4.666,8.571 L 4.511,8.583 L 4.358,8.598 L 4.206,8.615 L 4.057,8.637 L 3.912,8.661 L 3.771,8.686 L 3.634,8.714 L 3.501,8.744 L 3.371,8.777 L 3.249,8.811 L 3.129,8.848 L 3.018,8.888 L 2.909,8.929 L 2.810,8.971 L 2.715,9.015 L 2.628,9.062 L 2.546,9.110 L 2.472,9.159 L 2.405,9.209 L 2.347,9.260 L 2.294,9.312 L 2.250,9.366 L 2.216,9.418 L 2.187,9.473 L 2.167,9.528 L 2.154,9.583 L 2.151,9.638 L 2.151,9.638 L 2.154,9.693 L 2.167,9.748 L 2.187,9.803 L 2.216,9.858 L 2.250,9.912 L 2.294,9.966 L 2.347,10.017 L 2.405,10.068 L 2.472,10.119 L 2.546,10.166 L 2.628,10.215 L 2.715,10.262 L 2.810,10.306 L 2.909,10.347 L 3.018,10.390 L 3.129,10.429 L 3.249,10.466 L 3.371,10.500 L 3.501,10.533 L 3.634,10.564 L 3.771,10.592 L 3.912,10.617 L 4.057,10.640 L 4.206,10.661 L 4.358,10.679 L 4.511,10.694 L 4.666,10.705 L 4.823,10.716 L 4.981,10.723 L 5.141,10.727 L 5.299,10.728 L 5.299,10.728 L 5.460,10.727 L 5.618,10.723 L 5.777,10.716 L 5.934,10.705 L 6.089,10.694 L 6.242,10.679 L 6.395,10.661 L 6.541,10.640 L 6.688,10.617 L 6.828,10.592 L 6.967,10.564 L 7.099,10.533 L 7.228,10.500 L 7.352,10.466 L 7.471,10.429 L 7.582,10.390 L 7.691,10.347 L 7.790,10.306 L 7.884,10.262 L 7.971,10.215 L 8.054,10.166 L 8.128,10.119 L 8.195,10.068 L 8.254,10.017 L 8.306,9.966 L 8.350,9.912 L 8.385,9.858 L 8.412,9.803 L 8.432,9.748 L 8.445,9.693 L 8.450,9.638 "
+     id="path204"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#AAE6FF"
+     fill="none"
+     stroke-width="0.001"
+     d="M 8.412,9.622 L 8.409,9.566 L 8.397,9.512 L 8.377,9.460 L 8.350,9.407 L 8.312,9.352 L 8.268,9.300 L 8.219,9.250 L 8.159,9.198 L 8.092,9.150 L 8.020,9.102 L 7.938,9.055 L 7.851,9.010 L 7.758,8.966 L 7.659,8.923 L 7.551,8.883 L 7.439,8.846 L 7.320,8.810 L 7.199,8.774 L 7.070,8.742 L 6.938,8.713 L 6.800,8.685 L 6.660,8.661 L 6.517,8.637 L 6.370,8.618 L 6.219,8.600 L 6.067,8.585 L 5.913,8.571 L 5.757,8.563 L 5.599,8.556 L 5.439,8.552 L 5.282,8.549 L 5.282,8.549 L 5.123,8.552 L 4.964,8.556 L 4.807,8.563 L 4.650,8.571 L 4.496,8.585 L 4.345,8.600 L 4.194,8.618 L 4.046,8.637 L 3.901,8.661 L 3.763,8.685 L 3.624,8.713 L 3.492,8.742 L 3.366,8.774 L 3.243,8.810 L 3.125,8.846 L 3.012,8.883 L 2.905,8.923 L 2.806,8.966 L 2.711,9.010 L 2.624,9.055 L 2.544,9.102 L 2.470,9.150 L 2.404,9.198 L 2.345,9.250 L 2.294,9.300 L 2.250,9.352 L 2.214,9.407 L 2.186,9.460 L 2.165,9.512 L 2.154,9.566 L 2.151,9.622 L 2.151,9.622 L 2.154,9.676 L 2.165,9.730 L 2.186,9.783 L 2.214,9.836 L 2.250,9.891 L 2.294,9.942 L 2.345,9.993 L 2.404,10.044 L 2.470,10.092 L 2.544,10.142 L 2.624,10.188 L 2.711,10.232 L 2.806,10.276 L 2.905,10.319 L 3.012,10.360 L 3.125,10.397 L 3.243,10.434 L 3.366,10.468 L 3.492,10.500 L 3.624,10.530 L 3.763,10.559 L 3.901,10.582 L 4.046,10.606 L 4.194,10.625 L 4.345,10.643 L 4.496,10.657 L 4.650,10.670 L 4.807,10.679 L 4.964,10.686 L 5.123,10.690 L 5.282,10.691 L 5.282,10.691 L 5.439,10.690 L 5.599,10.686 L 5.757,10.679 L 5.913,10.670 L 6.067,10.657 L 6.219,10.643 L 6.370,10.625 L 6.517,10.606 L 6.660,10.582 L 6.800,10.559 L 6.938,10.530 L 7.070,10.500 L 7.199,10.468 L 7.320,10.434 L 7.439,10.397 L 7.551,10.360 L 7.659,10.319 L 7.758,10.276 L 7.851,10.232 L 7.938,10.188 L 8.020,10.142 L 8.092,10.092 L 8.159,10.044 L 8.219,9.993 L 8.268,9.942 L 8.312,9.891 L 8.350,9.836 L 8.377,9.783 L 8.397,9.730 L 8.409,9.676 L 8.412,9.622 "
+     id="path206"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#0078AA"
+     stroke-width="0.001"
+     d="M 2.151,8.130 L 2.151,9.659 L 8.412,9.659 L 8.412,8.130 L 2.151,8.130 "
+     id="path208"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#00B4FF"
+     stroke-width="0.001"
+     d="M 8.450,8.109 L 8.445,8.054 L 8.432,7.999 L 8.412,7.945 L 8.385,7.889 L 8.350,7.837 L 8.306,7.784 L 8.254,7.732 L 8.195,7.679 L 8.128,7.630 L 8.054,7.581 L 7.971,7.532 L 7.884,7.487 L 7.790,7.443 L 7.691,7.400 L 7.582,7.359 L 7.471,7.320 L 7.352,7.283 L 7.228,7.249 L 7.099,7.216 L 6.967,7.186 L 6.828,7.157 L 6.688,7.133 L 6.541,7.108 L 6.395,7.087 L 6.242,7.070 L 6.089,7.055 L 5.934,7.043 L 5.777,7.033 L 5.618,7.026 L 5.460,7.021 L 5.299,7.021 L 5.299,7.021 L 5.141,7.021 L 4.981,7.026 L 4.823,7.033 L 4.666,7.043 L 4.511,7.055 L 4.358,7.070 L 4.206,7.087 L 4.057,7.108 L 3.912,7.133 L 3.771,7.157 L 3.634,7.186 L 3.501,7.216 L 3.371,7.249 L 3.249,7.283 L 3.129,7.320 L 3.018,7.359 L 2.909,7.400 L 2.810,7.443 L 2.715,7.487 L 2.628,7.532 L 2.546,7.581 L 2.472,7.630 L 2.405,7.679 L 2.347,7.732 L 2.294,7.784 L 2.250,7.837 L 2.216,7.889 L 2.187,7.945 L 2.167,7.999 L 2.154,8.054 L 2.151,8.109 L 2.151,8.109 L 2.154,8.165 L 2.167,8.219 L 2.187,8.275 L 2.216,8.328 L 2.250,8.382 L 2.294,8.434 L 2.347,8.487 L 2.405,8.539 L 2.472,8.588 L 2.546,8.637 L 2.628,8.686 L 2.715,8.730 L 2.810,8.776 L 2.909,8.818 L 3.018,8.860 L 3.129,8.898 L 3.249,8.934 L 3.371,8.971 L 3.501,9.003 L 3.634,9.033 L 3.771,9.061 L 3.912,9.087 L 4.057,9.110 L 4.206,9.131 L 4.358,9.148 L 4.511,9.163 L 4.666,9.176 L 4.823,9.185 L 4.981,9.192 L 5.141,9.197 L 5.299,9.198 L 5.299,9.198 L 5.460,9.197 L 5.618,9.192 L 5.777,9.185 L 5.934,9.176 L 6.089,9.163 L 6.242,9.148 L 6.395,9.131 L 6.541,9.110 L 6.688,9.087 L 6.828,9.061 L 6.967,9.033 L 7.099,9.003 L 7.228,8.971 L 7.352,8.934 L 7.471,8.898 L 7.582,8.860 L 7.691,8.818 L 7.790,8.776 L 7.884,8.730 L 7.971,8.686 L 8.054,8.637 L 8.128,8.588 L 8.195,8.539 L 8.254,8.487 L 8.306,8.434 L 8.350,8.382 L 8.385,8.328 L 8.412,8.275 L 8.432,8.219 L 8.445,8.165 L 8.450,8.109 "
+     id="path210"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#AAE6FF"
+     fill="none"
+     stroke-width="0.001"
+     d="M 8.412,8.091 L 8.409,8.036 L 8.397,7.983 L 8.377,7.928 L 8.350,7.876 L 8.312,7.822 L 8.268,7.771 L 8.219,7.719 L 8.159,7.668 L 8.092,7.620 L 8.020,7.571 L 7.938,7.524 L 7.851,7.479 L 7.758,7.435 L 7.659,7.393 L 7.551,7.353 L 7.439,7.315 L 7.320,7.279 L 7.199,7.244 L 7.070,7.213 L 6.938,7.182 L 6.800,7.153 L 6.660,7.130 L 6.517,7.106 L 6.370,7.087 L 6.219,7.069 L 6.067,7.055 L 5.913,7.042 L 5.757,7.033 L 5.599,7.026 L 5.439,7.021 L 5.282,7.021 L 5.282,7.021 L 5.123,7.021 L 4.964,7.026 L 4.807,7.033 L 4.650,7.042 L 4.496,7.055 L 4.345,7.069 L 4.194,7.087 L 4.046,7.106 L 3.901,7.130 L 3.763,7.153 L 3.624,7.182 L 3.492,7.213 L 3.366,7.244 L 3.243,7.279 L 3.125,7.315 L 3.012,7.353 L 2.905,7.393 L 2.806,7.435 L 2.711,7.479 L 2.624,7.524 L 2.544,7.571 L 2.470,7.620 L 2.404,7.668 L 2.345,7.719 L 2.294,7.771 L 2.250,7.822 L 2.214,7.876 L 2.186,7.928 L 2.165,7.983 L 2.154,8.036 L 2.151,8.091 L 2.151,8.091 L 2.154,8.146 L 2.165,8.199 L 2.186,8.253 L 2.214,8.305 L 2.250,8.360 L 2.294,8.412 L 2.345,8.461 L 2.404,8.513 L 2.470,8.562 L 2.544,8.610 L 2.624,8.657 L 2.711,8.702 L 2.806,8.746 L 2.905,8.788 L 3.012,8.829 L 3.125,8.867 L 3.243,8.903 L 3.366,8.937 L 3.492,8.971 L 3.624,9.000 L 3.763,9.028 L 3.901,9.051 L 4.046,9.075 L 4.194,9.094 L 4.345,9.112 L 4.496,9.127 L 4.650,9.140 L 4.807,9.149 L 4.964,9.156 L 5.123,9.160 L 5.282,9.162 L 5.282,9.162 L 5.439,9.160 L 5.599,9.156 L 5.757,9.149 L 5.913,9.140 L 6.067,9.127 L 6.219,9.112 L 6.370,9.094 L 6.517,9.075 L 6.660,9.051 L 6.800,9.028 L 6.938,9.000 L 7.070,8.971 L 7.199,8.937 L 7.320,8.903 L 7.439,8.867 L 7.551,8.829 L 7.659,8.788 L 7.758,8.746 L 7.851,8.702 L 7.938,8.657 L 8.020,8.610 L 8.092,8.562 L 8.159,8.513 L 8.219,8.461 L 8.268,8.412 L 8.312,8.360 L 8.350,8.305 L 8.377,8.253 L 8.397,8.199 L 8.409,8.146 L 8.412,8.091 "
+     id="path212"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#AAE6FF"
+     fill="none"
+     stroke-width="0.001"
+     d="M 2.151,8.091 L 2.151,9.618 "
+     id="path214"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#AAE6FF"
+     fill="none"
+     stroke-width="0.001"
+     d="M 8.412,8.091 L 8.412,9.618 "
+     id="path216"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#FFFFFF"
+     stroke-width="0.001"
+     d="M 4.137,7.747 L 4.288,8.397 L 4.365,8.397 L 4.479,8.015 L 4.594,8.397 L 4.670,8.397 L 4.823,7.747 L 4.710,7.747 L 4.633,8.130 L 4.518,7.747 L 4.441,7.747 L 4.328,8.130 L 4.211,7.747 L 4.137,7.747 "
+     id="path218"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.001"
+     d="M 4.137,7.747 L 4.288,8.397 L 4.365,8.397 L 4.479,8.015 L 4.594,8.397 L 4.670,8.397 L 4.823,7.747 L 4.710,7.747 L 4.633,8.130 L 4.518,7.747 L 4.441,7.747 L 4.328,8.130 L 4.211,7.747 L 4.137,7.747 "
+     id="path220"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#FFFFFF"
+     stroke-width="0.001"
+     d="M 4.899,7.747 L 5.093,8.397 L 5.167,8.397 L 5.282,8.015 L 5.395,8.397 L 5.472,8.397 L 5.626,7.747 L 5.511,7.747 L 5.435,8.130 L 5.319,7.747 L 5.243,7.747 L 5.129,8.130 L 5.014,7.747 L 4.899,7.747 "
+     id="path222"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.001"
+     d="M 4.899,7.747 L 5.093,8.397 L 5.167,8.397 L 5.282,8.015 L 5.395,8.397 L 5.472,8.397 L 5.626,7.747 L 5.511,7.747 L 5.435,8.130 L 5.319,7.747 L 5.243,7.747 L 5.129,8.130 L 5.014,7.747 L 4.899,7.747 "
+     id="path224"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#FFFFFF"
+     stroke-width="0.001"
+     d="M 5.702,7.747 L 5.855,8.397 L 5.968,8.397 L 6.084,8.015 L 6.198,8.397 L 6.275,8.397 L 6.428,7.747 L 6.313,7.747 L 6.236,8.130 L 6.121,7.747 L 6.045,7.747 L 5.931,8.130 L 5.814,7.747 L 5.702,7.747 "
+     id="path226"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.001"
+     d="M 5.702,7.747 L 5.855,8.397 L 5.968,8.397 L 6.084,8.015 L 6.198,8.397 L 6.275,8.397 L 6.428,7.747 L 6.313,7.747 L 6.236,8.130 L 6.121,7.747 L 6.045,7.747 L 5.931,8.130 L 5.814,7.747 L 5.702,7.747 "
+     id="path228"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#FFFFFF"
+     stroke-width="0.001"
+     d="M 3.868,7.288 L 3.220,7.518 L 3.868,7.785 L 3.868,7.632 L 7.342,7.632 L 7.342,7.403 L 3.868,7.403 L 3.868,7.288 "
+     id="path230"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#000000"
+     stroke-width="0.001"
+     d="M 3.868,7.326 L 7.342,7.326 L 7.342,7.403 L 3.868,7.403 L 3.868,7.326 "
+     id="path232"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#FFFFFF"
+     stroke-width="0.001"
+     d="M 6.732,8.474 L 7.382,8.703 L 6.732,8.932 L 6.732,8.781 L 3.106,8.781 L 3.106,8.588 L 6.732,8.588 L 6.732,8.474 "
+     id="path234"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#000000"
+     stroke-width="0.001"
+     d="M 6.732,8.474 L 7.382,8.703 L 7.457,8.664 L 6.732,8.397 L 6.732,8.474 "
+     id="path236"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#000000"
+     stroke-width="0.001"
+     d="M 6.732,8.510 L 3.106,8.510 L 3.106,8.588 L 6.732,8.588 L 6.732,8.510 "
+     id="path238"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="none"
+     fill="#000000"
+     stroke-width="0.001"
+     d="M 3.868,7.288 L 3.220,7.518 L 3.142,7.479 L 3.868,7.250 L 3.868,7.288 "
+     id="path240"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.100"
+     d="M 5.299,10.728 C 6.929,13.660 13.292,11.610 14.995,10.471 "
+     id="path242"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <polygon
+     fill="#000000"
+     stroke="none"
+     stroke-width="0.100"
+     points="15.307,10.262 15.030,10.748 14.995,10.471 14.752,10.332 "
+     id="polygon244"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <polygon
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     points="15.307,10.262 15.030,10.748 14.995,10.471 14.752,10.332 "
+     id="polygon246"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.100"
+     d="M 8.450,8.874 C 15.767,15.357 26.586,10.266 27.164,4.328 "
+     id="path248"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <polygon
+     fill="#000000"
+     stroke="none"
+     stroke-width="0.100"
+     points="27.200,3.954 27.401,4.476 27.164,4.328 26.903,4.428 "
+     id="polygon250"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <polygon
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     points="27.200,3.954 27.401,4.476 27.164,4.328 26.903,4.428 "
+     id="polygon252"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <path
+     stroke="#000000"
+     fill="none"
+     stroke-width="0.100"
+     d="M 17.441,4.329 C 14.636,1.922 11.435,6.310 8.937,6.310 "
+     id="path254"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <polygon
+     fill="#000000"
+     stroke="none"
+     stroke-width="0.100"
+     points="8.562,6.310 9.062,6.060 8.937,6.310 9.062,6.560 "
+     id="polygon256"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+  <polygon
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     points="8.562,6.310 9.062,6.060 8.937,6.310 9.062,6.560 "
+     id="polygon258"
+     inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/dataMiningBackground.png"
+     inkscape:export-xdpi="90.510002"
+     inkscape:export-ydpi="90.510002"
+     style="opacity:0.6" />
+</svg>

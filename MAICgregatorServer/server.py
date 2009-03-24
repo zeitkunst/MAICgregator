@@ -31,7 +31,7 @@ version = "0.01"
 urls = (
     '/MAICgregator', 'index',
     '/MAICgregator/', 'index',
-    '/MAICgregator/about', 'about',
+    '/MAICgregator/statement', 'statement',
     '/MAICgregator/help', 'help',
     '/MAICgregator/DoDBR/(.*?)', 'DoDBR',
     '/MAICgregator/STTR/(.*?)', 'STTR',
@@ -62,7 +62,12 @@ class help:
 
 class FAQ:
     def GET(self):
-        return render.FAQ()
+        fp = open('data/FAQ.txt')
+        FAQlist = "".join(fp.readlines())
+        fp.close()
+        FAQs = FAQlist.split('#@!')
+        FAQs = [FAQ.split('!@#') for FAQ in FAQs]
+        return render.FAQ(FAQs)
 
 class RSSList:
     def GET(self):
@@ -494,9 +499,9 @@ class STTR:
         web.header('Content-Encoding', 'utf-8')
         return output
 
-class about:
+class statement:
     def GET(self):
-        return render.about(version)
+        return render.statement()
 
 class process:
     def GET(self, data):
