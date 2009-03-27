@@ -8,6 +8,7 @@ import feedparser
 import PyRSS2Gen
 from BeautifulSoup import BeautifulSoup
 import smartypants
+from bsddb.db import *
 
 import post
 import web
@@ -15,6 +16,16 @@ import whois
 import db
 
 version = "0.01"
+
+# Home directory for databases
+DB_HOME = "data/"
+
+# Flags for environment creation
+DB_ENV_CREATE_FLAGS = DB_CREATE | DB_RECOVER | DB_INIT_LOG | DB_INIT_LOCK | DB_INIT_MPOOL | DB_INIT_TXN | DB_THREAD
+DB_ENV_FLAGS = DB_CREATE | DB_RECOVER | DB_INIT_LOG | DB_INIT_LOCK | DB_INIT_MPOOL | DB_INIT_TXN | DB_THREAD
+
+# XML DB Name
+DB_NAME = "MAICgregator.db"
 
 # Setup REST-like service
 # URLs of the form:
@@ -93,6 +104,7 @@ class ProcessBase(object):
 
     def __init__(self):
         # Setup the school data object dictionary
+        #self.__createEnvironment(DB_HOME)
         pass
 
     def getWhois(self):
@@ -105,6 +117,11 @@ class ProcessBase(object):
         if not (self.schoolMapping.has_key(schoolName)):
             self.schoolMapping[schoolName] = db.SchoolData(schoolName)
         return self.schoolMapping[schoolName]
+
+    def __createEnvironment(self, dbHome):
+        self.dbHome = dbHome
+        self.environment = DBEnv()
+        self.environment.open(dbHome, DB_ENV_CREATE_FLAGS, 0)
 
     def GoogleNewsSearch(self, hostname):
         whoisStore = self.getWhois()
@@ -326,8 +343,10 @@ class ProcessBase(object):
         
         output = ""
         for contract in STTRData:
-            output += "\t".join(unicode(contract[key], errors='replace') for key in usefulKeys) + "\n"
+            output += "\t".join(unicode(contract[key], errors='ignore') for key in usefulKeys) + "\n"
         
+        output = output.replace("<", "&lt;")
+        output = output.replace(">", "&gt;")
         return output
 
     def DoDSTTRRSS2(self, hostname):
@@ -509,8 +528,8 @@ class process:
         return data
 
 if __name__ == "__main__":
-    app = web.application(urls, globals())
     try:
+        app = web.application(urls, globals())
         app.run()
-    except KeyboardInterrupt:
+    except:
         print "got a keyboard interrupt"

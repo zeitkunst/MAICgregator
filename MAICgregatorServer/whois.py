@@ -1,5 +1,6 @@
 import socket
 import cPickle
+import time
 
 from bsddb.db import *
 
@@ -7,8 +8,8 @@ from bsddb.db import *
 DB_HOME = "data/"
 
 # Flags for environment creation
-DB_ENV_CREATE_FLAGS = DB_CREATE | DB_INIT_LOG | DB_INIT_MPOOL | DB_INIT_TXN
-DB_ENV_FLAGS = DB_CREATE | DB_RECOVER | DB_INIT_LOG | DB_INIT_MPOOL | DB_INIT_TXN
+DB_ENV_CREATE_FLAGS = DB_CREATE | DB_RECOVER | DB_INIT_LOG | DB_INIT_LOCK | DB_INIT_MPOOL | DB_INIT_TXN | DB_THREAD
+DB_ENV_FLAGS = DB_CREATE | DB_RECOVER | DB_INIT_LOG | DB_INIT_LOCK | DB_INIT_MPOOL | DB_INIT_TXN | DB_THREAD
 
 # XML DB Name
 DB_NAME = "MAICgregator.db"
@@ -43,10 +44,13 @@ def getEduWHOIS(domain, whoisServer = "whois.educause.net", port = 43):
 class WhoisStore(object):
     """Class for storing metadata about schools that we can check before we go directly to the XML (and other types) data store."""
 
-    def __init__(self, dbHome = DB_HOME, dbName = DB_NAME):
+    def __init__(self, environment = None, dbHome = DB_HOME, dbName = DB_NAME):
         # Call methods for creating environments and DB object
-
-        self.__createEnvironment(dbHome)
+        
+        if (environment):
+            self.environment = environment
+        else:
+            self.__createEnvironment(dbHome)
         self.__createDB(dbName)
 
         # Try and get our current whois store
@@ -70,13 +74,19 @@ class WhoisStore(object):
         """Put the value at key.  Pickle all data so that we don't have questions at load time."""
 
         pickledValue = cPickle.dumps(value)
-
-        self.db.put(key, pickledValue)
+        try:
+            # HEINOUS
+            # This sleep seems to get rid of some of the strange DB errors that we were seeing before...not sure why
+            time.sleep(1)
+            xtxn = self.environment.txn_begin()
+            self.db.put(key, pickledValue)
+            self.db.sync()
+            xtxn.commit()
+        except DBRunRecoveryError:
+            pass
 
     def get(self, key):
-        """Get the value, and return it as an unpickled object.
-
-        TODO: Need to handle key errors."""
+        """Get the value, and return it as an unpickled object."""
 
         if (self.db.has_key(key) == False):
             return None
@@ -103,9 +113,12 @@ class WhoisStore(object):
         s.close()
     
         responseSplit = response.split("\n")
-        registrantIndex = responseSplit.index("Registrant:")
-        result = responseSplit[registrantIndex + 1].strip()
-        
+        try:
+            registrantIndex = responseSplit.index("Registrant:")
+            result = responseSplit[registrantIndex + 1].strip()
+        except ValueError:
+            return None
+
         # HEINOUS, but the WHOIS entry doesn't help us here
         if (domain == "umich.edu"):
             result = "University of Michigan"
@@ -118,7 +131,6 @@ class WhoisStore(object):
             schoolName = self._getEduWHOIS(hostname)
             self.whois[hostname] = schoolName
             self.put("whois", self.whois)
-            self.sync()
             return schoolName
 
     def sync(self):

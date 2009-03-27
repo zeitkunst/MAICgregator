@@ -45,8 +45,8 @@ So, format of data in the SchoolMetadataStore class will be as follows:
 DB_HOME = "data/"
 
 # Flags for environment creation
-DB_ENV_CREATE_FLAGS = DB_CREATE | DB_RECOVER | DB_INIT_LOG | DB_INIT_MPOOL | DB_INIT_LOCK | DB_INIT_TXN
-DB_ENV_FLAGS = DB_CREATE | DB_RECOVER | DB_INIT_LOG | DB_INIT_LOCK | DB_INIT_MPOOL | DB_INIT_TXN
+DB_ENV_CREATE_FLAGS = DB_CREATE | DB_RECOVER | DB_INIT_LOG | DB_INIT_MPOOL | DB_INIT_LOCK | DB_INIT_TXN | DB_THREAD
+DB_ENV_FLAGS = DB_CREATE | DB_RECOVER | DB_INIT_LOG | DB_INIT_LOCK | DB_INIT_MPOOL | DB_INIT_TXN | DB_THREAD
 
 # XML DB Name
 DB_XML_NAME = "MAICgregator.dbxml"
@@ -57,7 +57,7 @@ class SchoolData(object):
     MONTH = 60 *60 * 24 * 30
     DAY = 60 *60 * 24
 
-    def __init__(self, schoolName):
+    def __init__(self, schoolName, storage = None):
         """What school name are we dealing with here?"""
         
         schoolName = schoolName.replace("-", " ")
@@ -74,7 +74,7 @@ class SchoolData(object):
             self.mgr = XmlManager(self.environment, 0)
         
             uc = self.mgr.createUpdateContext()
-            self.container = self.mgr.createContainer(DB_XML_NAME)
+            self.container = self.mgr.createContainer(DB_XML_NAME, DBXML_TRANSACTIONAL)
        
       
             xtxn = self.mgr.createTransaction()
@@ -87,7 +87,7 @@ class SchoolData(object):
             self.environment.open(DB_HOME + "xml/", DB_ENV_FLAGS, 0)
             self.mgr = XmlManager(self.environment, 0)
 
-            self.container = self.mgr.openContainer(DB_XML_NAME)
+            self.container = self.mgr.openContainer(DB_XML_NAME, DBXML_TRANSACTIONAL)
         except XmlDatabaseError, e:
             print "Some kind of strange error: "
             print e.getDbErrno()
@@ -100,9 +100,13 @@ class SchoolData(object):
         except TypeError:
             self.schoolMetadata = self.createSchoolInfo()
 
-        # Get RDF model
-        self.storage = RDF.HashStorage('data/trustees/MAICgregator', options="hash-type='bdb'")
-        self.model = RDF.Model(self.storage)
+        if (storage):
+            self.storage = storage
+            self.model = model
+        else:
+            # Get RDF model
+            self.storage = RDF.HashStorage('data/trustees/MAICgregator', options="hash-type='bdb'")
+            self.model = RDF.Model(self.storage)
         self.maicNS = RDF.NS("http://maicgregator.org/MAIC#")
 
     def getXML(self):
@@ -116,21 +120,30 @@ class SchoolData(object):
             grants = data[0]
             contracts = data[1]
             
-            uc = self.mgr.createUpdateContext()
-            xtxn = self.mgr.createTransaction()
-            self.container.putDocument(xtxn, schoolNameCompactGrants, grants, uc)
-            self.container.sync()
-            xtxn.commit()
-            
-            uc = self.mgr.createUpdateContext()
-            xtxn = self.mgr.createTransaction()
-            self.container.putDocument(xtxn, schoolNameCompactContracts, contracts, uc)
-            self.container.sync()
-            xtxn.commit()
+            try:
+                uc = self.mgr.createUpdateContext()
+                xtxn = self.mgr.createTransaction()
+                self.container.putDocument(schoolNameCompactGrants, grants, uc)
+                self.container.sync()
+                xtxn.commit()
 
+                uc = self.mgr.createUpdateContext()
+                xtxn = self.mgr.createTransaction()
+                self.container.putDocument(schoolNameCompactContracts, contracts, uc)
+                self.container.sync()
+                xtxn.commit()
+    
+                self.schoolMetadata['XML']['timestamp'] = time.time()
+                self.sync()
+            except XmlException, inst:
+                print "XMLException (", inst.exceptionCode, "):", inst.what
+
+                if inst.exceptionCode == DATABASE_ERROR:
+                    print "Database error code:", inst.dbError
+            
+            print "setting timestamp"
             self.schoolMetadata['XML']['timestamp'] = time.time()
             self.sync()
-
         else:
             pass
         
@@ -158,8 +171,10 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
         #print xquery % (DB_XML_NAME, self.schoolName.replace(" ", ""))
 #return <results>{data($x/project_description),$delim,data($x/agency_name)}</results>"""
         #results = self.mgr.query("collection('%s')//record/                               project_and_award_info[maj_agency_cat='Department of Defense']" % DB_XML_NAME, qc)
+        xtxn = self.mgr.createTransaction()
         DoDGrants = self.mgr.query(grantsQuery % (DB_XML_NAME, schoolNameCompactGrants), qc)
         DoDContracts = self.mgr.query(contractsQuery % (DB_XML_NAME, schoolNameCompactContracts), qc)
+        xtxn.commit()
 
         finalResults = []
         regex = re.compile("<result>(.+?)</result")
@@ -210,8 +225,10 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
                 self.sync()
                 
                 trusteeResults = self.getTrusteeNamesFromModel()
+                trusteeImages = self.getTrusteeImagesFromModel()
             else:
                 trusteeResults = []
+                trusteeImages = []
         else:
             trusteeResults = self.getTrusteeNamesFromModel()
             trusteeImages = self.getTrusteeImagesFromModel()
@@ -390,15 +407,16 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
 
     def sync(self):
         self.schoolMetadataStore.put(self.schoolName, self.schoolMetadata)
+        #self.schoolMetadataStore.sync()
         self.container.sync()
 
     def close(self):
         self.sync()
         #self.container.close()
         del self.container
-        self.environment.close(0)
-        self.schoolMetadataStore.sync()
-        self.schoolMetadataStore.close()
+        #self.environment.close(0)
+        #self.schoolMetadataStore.sync()
+        #self.schoolMetadataStore.close()
 
     def _deleteXML(self):
         """This method removes the XML files from the database, as well as setting the timestamp value to be none."""
@@ -432,38 +450,49 @@ class SchoolMetadataStore(object):
 
     def __init__(self, dbHome = DB_HOME, dbName = "MAICgregator.db"):
         # Call methods for creating environments and DB object
-
-        self.__createEnvironment(dbHome)
-        self.__createDB(dbName)
+        pass
+        #self.__createEnvironment(dbHome)
+        #self.__createDB(dbName)
 
     def __createEnvironment(self, dbHome):
         self.dbHome = dbHome
         self.environment = DBEnv()
+        self.environment.set_flags(DB_AUTO_COMMIT, True)
         self.environment.open(dbHome, DB_ENV_CREATE_FLAGS, 0)
 
     def __createDB(self, dbName):
         self.dbName = dbName
         self.db = DB(dbEnv = self.environment)
-        self.db.open(dbName, dbtype = DB_HASH, flags = DB_CREATE)
+        xtxn = self.environment.txn_begin()
+        self.db.open(dbName, dbtype = DB_HASH, flags = DB_CREATE, txn = xtxn)
+        xtxn.commit()
 
     def put(self, key, value):
         """Put the value at key.  Pickle all data so that we don't have questions at load time."""
-
+        self.open()
         pickledValue = cPickle.dumps(value)
-
-        self.db.put(key, pickledValue)
+        xtxn = self.environment.txn_begin()
+        returnValue = self.db.put(key, pickledValue, txn = xtxn)
+        xtxn.commit()
+        self.sync()
+        self.close()
 
     def get(self, key):
         """Get the value, and return it as an unpickled object.
 
         TODO: Need to handle key errors."""
-
+        
+        self.open()
         pickledValue = self.db.get(key)
-
+        self.close()
         return cPickle.loads(pickledValue)
 
     def sync(self):
         self.db.sync()
+
+    def open(self, dbHome = DB_HOME, dbName = "MAICgregator.db"):
+        self.__createEnvironment(dbHome)
+        self.__createDB(dbName)
 
     def close(self):
         self.db.sync()

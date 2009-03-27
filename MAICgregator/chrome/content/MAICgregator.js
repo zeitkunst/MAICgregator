@@ -151,7 +151,7 @@ var MAICgregator = {
         
         if (results == null) {
             if (newsNode != null) {
-                newsNode.innerHTML = "<div><p>There was some problem MAICgregating the data...the tubes must be stuck or something.</p></div>";
+                newsNode.innerHTML = "<div><p>There was some problem MAICgregating the data...the tubes must be stuck or something.  Please try again in a bit, or if the problem persists, <a href=\"mailto:info --at-- maicgregator ---dot--- org\">e-mail</a> us and tell us the site you were trying to view.</p></div>";
                 return;
             }
         }
@@ -382,6 +382,14 @@ var MAICgregator = {
         }
         // Parse our formatted STTR data
         itemArray = resultsText.split("\n");
+        if (itemArray[1] == "") {
+            divNode = MAICgregator.doc.createElement("div");
+            divNode.setAttribute("id", "MAICgregatorDoDBR");
+            h3Node = MAICgregator.doc.createElement("h3");
+            h3Node.appendChild(MAICgregator.doc.createTextNode("No Results"));
+            divNode.appendChild(h3Node);
+            return divNode;
+        }        
 
         // Get a random item from our result
         randomIndex = Math.floor(Math.random() * itemArray.length);
@@ -453,9 +461,20 @@ var MAICgregator = {
 
     processDoDSTTRResults: function(results) {
         var results = getNodeValue(results);
-
+        results = new String(results);
+        results = results.trim();
         // Parse our formatted STTR data
         itemArray = results.split("\n");
+        
+        if (itemArray[1] == "") {
+            divNode = MAICgregator.doc.createElement("div");
+            divNode.setAttribute("id", "MAICgregatorDoDSTTR");
+            h3Node = MAICgregator.doc.createElement("h3");
+            h3Node.appendChild(MAICgregator.doc.createTextNode("No Results"));
+            divNode.appendChild(h3Node);
+
+            return divNode;
+        } 
 
         // Get a random item from our result
         randomIndex = Math.floor(Math.random() * itemArray.length);
@@ -553,6 +572,16 @@ var MAICgregator = {
             // Parse our formatted STTR data
             itemArray = results.split("\n");
 
+            if (itemArray[1] == "") {
+                divNode = MAICgregator.doc.createElement("div");
+                divNode.setAttribute("id", "MAICgregatorTrusteeRelationshipSearch");
+                h3Node = MAICgregator.doc.createElement("h3");
+                h3Node.appendChild(MAICgregator.doc.createTextNode("No Results"));
+                divNode.appendChild(h3Node);
+
+                return divNode;
+            }        
+
             divNode = MAICgregator.doc.createElement("div");
             divNode.setAttribute("id", "MAICgregatorTrusteeRelationshipSearch");
             h3Node = MAICgregator.doc.createElement("h3");
@@ -581,8 +610,17 @@ var MAICgregator = {
 
     processTrusteeRelationshipSearchResults: function(results) {
         var results = getNodeValue(results);
-
+        
         itemArray = results.split("\n");
+        if ((itemArray[1] == "") || (itemArray[1] == "None")) {
+            divNode = MAICgregator.doc.createElement("div");
+            divNode.setAttribute("id", "MAICgregatorTrusteeRelationshipSearch");
+            h3Node = MAICgregator.doc.createElement("h3");
+            h3Node.appendChild(MAICgregator.doc.createTextNode("No Results"));
+            divNode.appendChild(h3Node);
+
+            return divNode;
+        }        
 
         divNode = MAICgregator.doc.createElement("div");
         divNode.setAttribute("id", "MAICgregatorTrusteeRelationshipSearch");
@@ -770,6 +808,20 @@ var MAICgregator = {
 
         if (newsNode == null) {
             var newsNode = MAICgregator.doc.getElementById("content_block");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+        }
+
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("content");
+            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
+                newsNode = null;
+            }
+        }
+
+        if (newsNode == null) {
+            var newsNode = MAICgregator.doc.getElementById("billboard");
             if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
                 newsNode = null;
             }
@@ -1007,7 +1059,7 @@ function showPreferencesDialog(){
 }
 
 String.prototype.trim = function() {
-      return this.replace(/^\s+|\s+$/g, "");
+    return this.replace(/^\s+|\s+$/g, "");
 }
 
 
