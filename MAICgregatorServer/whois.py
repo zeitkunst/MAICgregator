@@ -63,35 +63,41 @@ class WhoisStore(object):
     def __createEnvironment(self, dbHome):
         self.dbHome = dbHome
         self.environment = DBEnv()
+        self.environment.set_flags(DB_AUTO_COMMIT, True)
         self.environment.open(dbHome, DB_ENV_CREATE_FLAGS, 0)
 
     def __createDB(self, dbName):
         self.dbName = dbName
         self.db = DB(dbEnv = self.environment)
-        self.db.open(dbName, dbtype = DB_HASH, flags = DB_CREATE)
+        xtxn = self.environment.txn_begin()
+        self.db.open(dbName, dbtype = DB_HASH, flags = DB_CREATE, txn = xtxn)
+        xtxn.commit()
 
     def put(self, key, value):
         """Put the value at key.  Pickle all data so that we don't have questions at load time."""
-
+        self.open()
         pickledValue = cPickle.dumps(value)
-        try:
-            # HEINOUS
-            # This sleep seems to get rid of some of the strange DB errors that we were seeing before...not sure why
-            time.sleep(1)
-            xtxn = self.environment.txn_begin()
-            self.db.put(key, pickledValue)
-            self.db.sync()
-            xtxn.commit()
-        except DBRunRecoveryError:
-            pass
+        # HEINOUS
+        # This sleep seems to get rid of some of the strange DB errors that we were seeing before...not sure why
+        time.sleep(1)
+        xtxn = self.environment.txn_begin()
+        self.db.put(key, pickledValue, txn = xtxn)
+        xtxn.commit()
+        self.sync()
+        self.close()
+
+    def open(self, dbHome = DB_HOME, dbName = "MAICgregator.db"):
+        self.__createEnvironment(dbHome)
+        self.__createDB(dbName)
 
     def get(self, key):
         """Get the value, and return it as an unpickled object."""
 
         if (self.db.has_key(key) == False):
             return None
-
+        self.open()
         pickledValue = self.db.get(key)
+        self.close()
 
         return cPickle.loads(pickledValue)
 
@@ -140,4 +146,3 @@ class WhoisStore(object):
         self.db.sync()
         self.db.close()
         self.environment.close()
-

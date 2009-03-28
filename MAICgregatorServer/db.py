@@ -45,8 +45,8 @@ So, format of data in the SchoolMetadataStore class will be as follows:
 DB_HOME = "data/"
 
 # Flags for environment creation
-DB_ENV_CREATE_FLAGS = DB_CREATE | DB_RECOVER | DB_INIT_LOG | DB_INIT_MPOOL | DB_INIT_LOCK | DB_INIT_TXN | DB_THREAD
-DB_ENV_FLAGS = DB_CREATE | DB_RECOVER | DB_INIT_LOG | DB_INIT_LOCK | DB_INIT_MPOOL | DB_INIT_TXN | DB_THREAD
+DB_ENV_CREATE_FLAGS = DB_CREATE | DB_RECOVER | DB_INIT_LOG | DB_INIT_MPOOL | DB_INIT_LOCK | DB_INIT_TXN
+DB_ENV_FLAGS = DB_CREATE | DB_RECOVER | DB_INIT_LOG | DB_INIT_LOCK | DB_INIT_MPOOL | DB_INIT_TXN
 
 # XML DB Name
 DB_XML_NAME = "MAICgregator.dbxml"
@@ -84,6 +84,7 @@ class SchoolData(object):
 
         except XmlContainerExists:
             self.environment = DBEnv()
+            self.environment.set_tx_max(1000)
             self.environment.open(DB_HOME + "xml/", DB_ENV_FLAGS, 0)
             self.mgr = XmlManager(self.environment, 0)
 
@@ -141,7 +142,6 @@ class SchoolData(object):
                 if inst.exceptionCode == DATABASE_ERROR:
                     print "Database error code:", inst.dbError
             
-            print "setting timestamp"
             self.schoolMetadata['XML']['timestamp'] = time.time()
             self.sync()
         else:
@@ -171,10 +171,19 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
         #print xquery % (DB_XML_NAME, self.schoolName.replace(" ", ""))
 #return <results>{data($x/project_description),$delim,data($x/agency_name)}</results>"""
         #results = self.mgr.query("collection('%s')//record/                               project_and_award_info[maj_agency_cat='Department of Defense']" % DB_XML_NAME, qc)
-        xtxn = self.mgr.createTransaction()
-        DoDGrants = self.mgr.query(grantsQuery % (DB_XML_NAME, schoolNameCompactGrants), qc)
-        DoDContracts = self.mgr.query(contractsQuery % (DB_XML_NAME, schoolNameCompactContracts), qc)
-        xtxn.commit()
+        try:
+            qcGrants = self.mgr.createQueryContext() 
+            qcGrants.setNamespace("xs", "http://www.w3.org/2001/XMLSchema")
+            DoDGrants = self.mgr.query(grantsQuery % (DB_XML_NAME, schoolNameCompactGrants), qcGrants)
+
+            qcContracts = self.mgr.createQueryContext() 
+            qcContracts.setNamespace("xs", "http://www.w3.org/2001/XMLSchema")
+            DoDContracts = self.mgr.query(contractsQuery % (DB_XML_NAME, schoolNameCompactContracts), qcContracts)
+        except XmlDatabaseError, e:
+            print "Some kind of strange error: "
+            print e.getDbErrno()
+            print dir(e)
+            return ""
 
         finalResults = []
         regex = re.compile("<result>(.+?)</result")

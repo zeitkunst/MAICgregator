@@ -466,7 +466,7 @@ var MAICgregator = {
         // Parse our formatted STTR data
         itemArray = results.split("\n");
         
-        if (itemArray[1] == "") {
+        if (itemArray[0] == "") {
             divNode = MAICgregator.doc.createElement("div");
             divNode.setAttribute("id", "MAICgregatorDoDSTTR");
             h3Node = MAICgregator.doc.createElement("h3");
@@ -515,10 +515,13 @@ var MAICgregator = {
         //textToInsert = "<strong>" + AGENCY.trim() + "</strong>" + "<em>" + PRO_TITLE.trim() + "</em>" + " <strong>$" + AWARD_AMT.trim() + "</strong>" + WholeAbstract.trim();
         pNode.innerHTML = textToInsert;
         divNode.appendChild(pNode);
-        
-        pNode = MAICgregator.doc.createElement("p");
-        pNode.appendChild(MAICgregator.doc.createTextNode(WholeAbstract.trim()));
-        divNode.appendChild(pNode);
+
+        // Sometimes we don't have an abstract...
+        if (WholeAbstract) {
+            pNode = MAICgregator.doc.createElement("p");
+            pNode.appendChild(MAICgregator.doc.createTextNode(WholeAbstract.trim()));
+            divNode.appendChild(pNode);
+        }
 
         //newsNode.innerHTML = "";
         //newsNode.appendChild(divNode);
@@ -808,13 +811,6 @@ var MAICgregator = {
 
         if (newsNode == null) {
             var newsNode = MAICgregator.doc.getElementById("content_block");
-            if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
-                newsNode = null;
-            }
-        }
-
-        if (newsNode == null) {
-            var newsNode = MAICgregator.doc.getElementById("content");
             if (newsNode != null && newsNode.nodeName.toLowerCase() != "div" && newsNode.nodeName.toLowerCase() != "p") {
                 newsNode = null;
             }
