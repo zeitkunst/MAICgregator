@@ -378,7 +378,7 @@ class SchoolData(object):
             statement = RDF.Statement(name, HasImage, imageSrc)
             print imageSrc
             self.model.add_statement(statement)
-            randSleep = random.randrange(5, 15)
+            randSleep = random.randrange(3, 10)
             print "Finished %s, sleeping for %d" % (trusteeName, randSleep)
             time.sleep(randSleep)
 
