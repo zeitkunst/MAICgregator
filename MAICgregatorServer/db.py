@@ -11,45 +11,137 @@ import RDF
 
 import post
 
-"""
-Let's say we have one main class, that contains the SchoolMetadataStore class and the soon-to-be-written class that deals with the XML data store.  Then, this main class looks at the two different stores to determine whether or not there is data currently there.  If there is, take that data (unless it's expired for some reason).  If there isn't, use the methods from post.py to go and fetch it.
-
-The main class will call appropriate methods in the XML class to pull requisite stuff from the XML files via xpath/xquery.
-
-So, format of data in the SchoolMetadataStore class will be as follows:
-    For each type of data, we have a timestamp.  We then check this timestamp as a way of having a certain type of cache system.
-
-    For XML:
-        timestamp
-        fetched (bool)
-
-    For STTR:
-        timestamp
-        data
-
-    GoogleNews
-        timestamp
-        data
-
-    PRNews
-        timestamp
-        data
-
-    Trustee info:
-        timestamp
-        ?
-
-"""
-
 # Home directory for databases
 DB_HOME = "data/"
+DB_XML_HOME = "data/xml/"
 
 # Flags for environment creation
-DB_ENV_CREATE_FLAGS = DB_CREATE | DB_RECOVER | DB_INIT_LOG | DB_INIT_MPOOL | DB_INIT_LOCK | DB_INIT_TXN
-DB_ENV_FLAGS = DB_CREATE | DB_RECOVER | DB_INIT_LOG | DB_INIT_LOCK | DB_INIT_MPOOL | DB_INIT_TXN
+DB_ENV_CREATE_FLAGS = DB_CREATE | DB_RECOVER | DB_INIT_LOG | DB_INIT_MPOOL | DB_INIT_LOCK | DB_INIT_TXN | DB_THREAD
 
 # XML DB Name
+DB_NAME = "MAICgregator.db"
 DB_XML_NAME = "MAICgregator.dbxml"
+
+class DBManager(object):
+    """This is a class that manages database environments, connections, and so on."""
+
+    def __init__(self, dbHome = DB_HOME, dbName = DB_NAME, dbXMLName = DB_XML_NAME):
+        self.dbHome = dbHome
+        self.dbName = dbName
+        self.dbXMLName = dbXMLName
+
+        # Setup our environments
+        self.createDBEnvironment()
+        self.createDBXMLEnvironment()
+
+        # Open the databases
+        self.openDB()
+        self.openDBXML()
+
+    def createDBEnvironment(self):
+        self.dbEnvironment = DBEnv()
+        self.dbEnvironment.set_flags(DB_AUTO_COMMIT, True)
+        self.dbEnvironment.open(self.dbHome, DB_ENV_CREATE_FLAGS, 0)
+
+    def createDBXMLEnvironment(self):
+        self.dbXMLEnvironment = DBEnv()
+        self.dbXMLEnvironment.set_flags(DB_AUTO_COMMIT, True)
+        self.dbXMLEnvironment.open(self.dbHome + "xml/", DB_ENV_CREATE_FLAGS, 0)
+        self.mgr = XmlManager(self.dbXMLEnvironment, 0)
+
+    def openDB(self):
+        self.db = DB(dbEnv = self.dbEnvironment)
+        try:
+            xtxn = self.dbEnvironment.txn_begin()
+            self.db.open(self.dbName, dbtype = DB_HASH, flags = DB_CREATE, txn = xtxn)
+            xtxn.commit()
+        except Exception, e:
+            print e
+
+    def openDBXML(self):
+        try:
+            uc = self.mgr.createUpdateContext()
+            self.container = self.mgr.createContainer(self.dbXMLName, DBXML_TRANSACTIONAL)
+          
+            xtxn = self.mgr.createTransaction()
+            self.container.putDocument(xtxn, r"initialization", r"<init>MAICgregator begun!</init>", uc)
+            self.container.sync()
+            xtxn.commit()
+        except XmlContainerExists:
+            self.container = self.mgr.openContainer(self.dbXMLName, DBXML_TRANSACTIONAL)
+        except XmlDatabaseError, e:
+            print "Some kind of strange error: "
+            print e.getDbErrno()
+
+    def close(self):
+        # TODO
+        # HEINOUS
+        # Need to make sure that there is nothing using the database before we try and close
+        del self.container
+        self.db.close()
+        self.dbXMLEnvironment.close(0)
+        self.dbEnvironment.close()
+
+    def put(self, key, value):
+        pickledValue = cPickle.dumps(value)
+        try:
+            xtxn = self.dbEnvironment.txn_begin()
+            self.db.put(key, pickledValue, txn = xtxn)
+            xtxn.commit()
+            self.syncDB()
+        except Exception, e:
+            print e
+
+    def get(self, key):
+        if (self.db.has_key(key) == False):
+            return None
+        xtxn = self.dbEnvironment.txn_begin()
+        pickledValue = self.db.get(key, txn = xtxn)
+        xtxn.commit()
+        return cPickle.loads(pickledValue)
+
+    def syncDB(self):
+        self.db.sync()
+
+    def syncDBXML(self):
+        self.container.sync()
+
+    def putDocument(self, documentName, document):
+        try:
+            uc = self.mgr.createUpdateContext()
+            xtxn = self.mgr.createTransaction()
+            self.container.putDocument(xtxn, documentName, document, uc)
+            self.container.sync()
+            xtxn.commit()
+            del xtxn
+            del uc
+            return True
+        except XmlUniqueError:
+            return False
+        except XmlDatabaseError, inst:
+            print "XMLException (", inst.exceptionCode, "):", inst.what
+            if inst.exceptionCode == DATABASE_ERROR:
+                print "Database error code:", inst.dbError
+
+    def getDocument(self, documentName):
+        uc = self.mgr.createUpdateContext()
+        xtxn = self.mgr.createTransaction()
+        document = self.container.getDocument(xtxn, documentName)
+        documentData = document.getContent()
+        xtxn.commit()
+        del xtxn
+        del uc
+
+        return documentData
+
+    def query(self, queryString):
+        """ To test:
+            doc("dbxml:/DB_XML_NAME/key/init")
+            """
+        qc = self.mgr.createQueryContext() 
+        qc.setNamespace("xs", "http://www.w3.org/2001/XMLSchema")
+        queryResults = self.mgr.query(queryString, qc)
+        return queryResults
 
 class SchoolData(object):
     """Class for dealing with school data and querying our data stores."""
@@ -57,50 +149,27 @@ class SchoolData(object):
     MONTH = 60 *60 * 24 * 30
     DAY = 60 *60 * 24
 
-    def __init__(self, schoolName, storage = None):
+    def __init__(self, schoolName, dbManager = None, storage = None):
         """What school name are we dealing with here?"""
         
         schoolName = schoolName.replace("-", " ")
 
         self.schoolName = schoolName
 
-        self.schoolMetadataStore = SchoolMetadataStore()
+        # Setup our DBManager object
+        if (dbManager is None):
+            self.dbManager = DBManager()
+        else:
+            self.dbManager = dbManager
 
-        try:
-            self.environment = DBEnv()
-            self.environment.set_lk_max_locks(10000)
-            self.environment.open(DB_HOME + "xml/", DB_ENV_CREATE_FLAGS, 0)
-
-            self.mgr = XmlManager(self.environment, 0)
-        
-            uc = self.mgr.createUpdateContext()
-            self.container = self.mgr.createContainer(DB_XML_NAME, DBXML_TRANSACTIONAL)
-       
-      
-            xtxn = self.mgr.createTransaction()
-            self.container.putDocument(xtxn, r"initialization", r"<init>MAICgregator begun!</init>", uc)
-            self.container.sync()
-            xtxn.commit()
-
-        except XmlContainerExists:
-            self.environment = DBEnv()
-            self.environment.set_tx_max(1000)
-            self.environment.open(DB_HOME + "xml/", DB_ENV_FLAGS, 0)
-            self.mgr = XmlManager(self.environment, 0)
-
-            self.container = self.mgr.openContainer(DB_XML_NAME, DBXML_TRANSACTIONAL)
-        except XmlDatabaseError, e:
-            print "Some kind of strange error: "
-            print e.getDbErrno()
-            print dir(e)
-            #return
+        self.schoolDoDBR = None
 
         # Initialize or get metadata
-        try:
-            self.schoolMetadata = self.schoolMetadataStore.get(schoolName)
-        except TypeError:
+        self.schoolMetadata = self.dbManager.get(schoolName)
+        if (self.schoolMetadata is None):
             self.schoolMetadata = self.createSchoolInfo()
 
+        # Initialize and/or setup RDF
         if (storage):
             self.storage = storage
             self.model = model
@@ -116,98 +185,80 @@ class SchoolData(object):
         schoolNameCompactGrants = schoolNameCompact + "Grants"
         schoolNameCompactContracts = schoolNameCompact + "Contracts"
 
+        # are our data dirty, mon?
+        schoolMetadataDirty = False 
+
         if ((timestamp is None)):
+            # In case we've been running a long time, make sure that we clear out old data first
+            self.schoolDoDBR = None
             data = post.USASpendingQuery(self.schoolName)
             grants = data[0]
             contracts = data[1]
             
-            try:
-                uc = self.mgr.createUpdateContext()
-                xtxn = self.mgr.createTransaction()
-                self.container.putDocument(schoolNameCompactGrants, grants, uc)
-                self.container.sync()
-                xtxn.commit()
+            returnValue = self.dbManager.putDocument(schoolNameCompactGrants, grants)
+            if (returnValue == False):
+                print "%s already exists" % schoolNameCompactGrants
 
-                uc = self.mgr.createUpdateContext()
-                xtxn = self.mgr.createTransaction()
-                self.container.putDocument(schoolNameCompactContracts, contracts, uc)
-                self.container.sync()
-                xtxn.commit()
-    
-                self.schoolMetadata['XML']['timestamp'] = time.time()
-                self.sync()
-            except XmlException, inst:
-                print "XMLException (", inst.exceptionCode, "):", inst.what
+            returnValue = self.dbManager.putDocument(schoolNameCompactContracts, contracts)
+            if (returnValue == False):
+                print "%s already exists" % schoolNameCompactContracts
 
-                if inst.exceptionCode == DATABASE_ERROR:
-                    print "Database error code:", inst.dbError
-            
             self.schoolMetadata['XML']['timestamp'] = time.time()
-            self.sync()
-        else:
-            pass
-        
-        qc = self.mgr.createQueryContext() 
-        qc.setNamespace("xs", "http://www.w3.org/2001/XMLSchema")
-        grantsQuery = """for $record in doc("dbxml:/%s/%s")//record
-let $agency_name := data($record/project_and_award_info/agency_name)
-let $project_description := data($record/project_and_award_info/project_description)
-let $fed_funding_amount := number($record/action/fed_funding_amount)
-let $federal_award_id := data($record/project_and_award_info/federal_award_id)
-let $delim := "^"
-where contains($record/project_and_award_info/maj_agency_cat, "Defense")
-order by $fed_funding_amount descending
-return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_name,$delim,$fed_funding_amount}</result>"""
-        contractsQuery = """for $record in doc("dbxml:/%s/%s")//record
-let $agency_name := data($record/purchaser_information/contractingOfficeAgencyID)
-let $project_description := data($record/contract_information/descriptionOfContractRequirement)
-let $fed_funding_amount := number($record/amounts/obligatedAmount)
-let $federal_award_id := data($record/record_information/IDVPIID)
-let $delim := "^"
-where contains($record/purchaser_information/maj_agency_cat, "Defense")
-order by $fed_funding_amount descending
-return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_name,$delim,$fed_funding_amount}</result>"""
-       
-        #print xquery % (DB_XML_NAME, self.schoolName.replace(" ", ""))
-#return <results>{data($x/project_description),$delim,data($x/agency_name)}</results>"""
-        #results = self.mgr.query("collection('%s')//record/                               project_and_award_info[maj_agency_cat='Department of Defense']" % DB_XML_NAME, qc)
-        try:
-            qcGrants = self.mgr.createQueryContext() 
-            qcGrants.setNamespace("xs", "http://www.w3.org/2001/XMLSchema")
-            DoDGrants = self.mgr.query(grantsQuery % (DB_XML_NAME, schoolNameCompactGrants), qcGrants)
+            self.dbManager.put(self.schoolName, self.schoolMetadata)
 
-            qcContracts = self.mgr.createQueryContext() 
-            qcContracts.setNamespace("xs", "http://www.w3.org/2001/XMLSchema")
-            DoDContracts = self.mgr.query(contractsQuery % (DB_XML_NAME, schoolNameCompactContracts), qcContracts)
-        except XmlDatabaseError, e:
-            print "Some kind of strange error: "
-            print e.getDbErrno()
-            print dir(e)
-            return ""
+        if (self.schoolDoDBR is None):
+            grantsQuery = """for $record in doc("dbxml:/%s/%s")//record
+    let $agency_name := data($record/project_and_award_info/agency_name)
+    let $project_description := data($record/project_and_award_info/project_description)
+    let $fed_funding_amount := number($record/action/fed_funding_amount)
+    let $federal_award_id := data($record/project_and_award_info/federal_award_id)
+    let $delim := "^"
+    where contains($record/project_and_award_info/maj_agency_cat, "Defense")
+    order by $fed_funding_amount descending
+    return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_name,$delim,$fed_funding_amount}</result>"""
+            contractsQuery = """for $record in doc("dbxml:/%s/%s")//record
+    let $agency_name := data($record/purchaser_information/contractingOfficeAgencyID)
+    let $project_description := data($record/contract_information/descriptionOfContractRequirement)
+    let $fed_funding_amount := number($record/amounts/obligatedAmount)
+    let $federal_award_id := data($record/record_information/IDVPIID)
+    let $delim := "^"
+    where contains($record/purchaser_information/maj_agency_cat, "Defense")
+    order by $fed_funding_amount descending
+    return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_name,$delim,$fed_funding_amount}</result>"""
+           
+            DoDGrants = self.dbManager.query(grantsQuery % (DB_XML_NAME, schoolNameCompactGrants))
+    
+            DoDContracts = self.dbManager.query(contractsQuery % (DB_XML_NAME, schoolNameCompactContracts))
+    
+            finalResults = []
+            regex = re.compile("<result>(.+?)</result")
+            for item in DoDGrants:
+                item = regex.findall(item.asString())[0]
+                toAdd = "\t".join([value.strip() for value in item.split("^")])
+                finalResults.append("grant\t" + toAdd)
+    
+            for item in DoDContracts:
+                item = regex.findall(item.asString())[0]
+                toAdd = "\t".join([value.strip() for value in item.split("^")])
+                finalResults.append("contract\t" + toAdd)
 
-        finalResults = []
-        regex = re.compile("<result>(.+?)</result")
-        for item in DoDGrants:
-            item = regex.findall(item.asString())[0]
-            toAdd = "\t".join([value.strip() for value in item.split("^")])
-            finalResults.append("grant\t" + toAdd)
+            self.schoolDoDBR = "\n".join(finalResults)
 
-        for item in DoDContracts:
-            item = regex.findall(item.asString())[0]
-            toAdd = "\t".join([value.strip() for value in item.split("^")])
-            finalResults.append("contract\t" + toAdd)
-
-        return "\n".join(finalResults)
+        return self.schoolDoDBR
 
     def getTrustees(self):
         #trusteeList = post.TrusteeSearch(self.schoolName)
         
+        # are our data dirty, mon?
+        schoolMetadataDirty = False 
+
         try:
             timestamp = self.schoolMetadata['Trustees']['timestamp']
         except KeyError:
             self.schoolMetadata['Trustees'] = {}
             self.schoolMetadata['Trustees']['timestamp'] = None
             timestamp = None
+            schoolMetadataDirty = True
         
         trusteeResults = []
         if ((timestamp is None) or (time.time() >= (timestamp + self.MONTH))):
@@ -231,7 +282,7 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
 
                 # For the moment, we only set the time if we're certain we got the right trustee results 
                 self.schoolMetadata['Trustees']['timestamp'] = time.time()
-                self.sync()
+                schoolMetadataDirty = True
                 
                 trusteeResults = self.getTrusteeNamesFromModel()
                 trusteeImages = self.getTrusteeImagesFromModel()
@@ -241,13 +292,16 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
         else:
             trusteeResults = self.getTrusteeNamesFromModel()
             trusteeImages = self.getTrusteeImagesFromModel()
-            
+
+        if (schoolMetadataDirty is True):
+            self.dbManager.put(self.schoolName, self.schoolMetadata)
+
         if ((trusteeResults != []) and (trusteeImages != [])):
             trustees = list(zip(trusteeResults, trusteeImages))
             trustees = ["\t".join(list(trustee)) for trustee in trustees]
             return "\n".join(trustees)
-        else:
-            return None
+        elif (trusteeResults != []):
+            return "\n".join(trusteeResults)
 
     def getTrusteeNamesFromModel(self):
         schoolNameCompact = self.schoolName.replace(" ", "")
@@ -336,20 +390,30 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
         # Or, we need to figure out a better way of searching for these things...
         timestamp = self.schoolMetadata['STTR']['timestamp']
 
+        # are our data dirty, mon?
+        schoolMetadataDirty = False 
+
         if ((timestamp is None) or (time.time() >= (timestamp + self.MONTH))):
             data = post.STTRQuery(self.schoolName)
 
             self.schoolMetadata['STTR']['data'] = data 
             self.schoolMetadata['STTR']['timestamp'] = time.time()
-            self.sync()
 
-            return data
+            schoolMetadataDirty = True
+
         else:
             data = self.schoolMetadata['STTR']['data']
-            return data 
+
+        if (schoolMetadataDirty is True):
+            self.dbManager.put(self.schoolName, self.schoolMetadata)
+
+        return data
 
     def getPRNews(self):
         timestamp = self.schoolMetadata['PRNews']['timestamp']
+        
+        # are our data dirty, mon?
+        schoolMetadataDirty = False 
 
         if ((timestamp is None) or (time.time() >= (timestamp + self.DAY))):
             data = post.MarketwireQuery(self.schoolName)
@@ -370,16 +434,23 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
 
             self.schoolMetadata['PRNews']['data'] = linksCleaned
             self.schoolMetadata['PRNews']['timestamp'] = time.time()
-            self.sync()
+            
+            schoolMetadataDirty = True
 
-            return linksCleaned
+            data = linksCleaned
         else:
             data = self.schoolMetadata['PRNews']['data']
-            return data 
 
+        if (schoolMetadataDirty is True):
+            self.dbManager.put(self.schoolName, self.schoolMetadata)
+        
+        return data
 
     def getGoogleNews(self):
         timestamp = self.schoolMetadata['GoogleNews']['timestamp']
+
+        # are our data dirty, mon?
+        schoolMetadataDirty = False 
 
         if ((timestamp is None) or (time.time() >= (timestamp + self.DAY))):
             data = post.GoogleNewsQuery(self.schoolName)
@@ -394,13 +465,17 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
                 output.append(temp)
             self.schoolMetadata['GoogleNews']['data'] = output
             self.schoolMetadata['GoogleNews']['timestamp'] = time.time()
-            self.sync()
+
+            schoolMetadataDirty = True
 
             toReturn = "\n".join(data['summary'] for data in self.schoolMetadata['GoogleNews']['data'])
-            return toReturn
         else:
             toReturn = "\n".join(data['summary'] for data in self.schoolMetadata['GoogleNews']['data'])
-            return toReturn
+
+        if (schoolMetadataDirty is True):
+            self.dbManager.put(self.schoolName, self.schoolMetadata)
+
+        return toReturn
 
     def createSchoolInfo(self):
         data = {}
@@ -409,23 +484,10 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
         data['GoogleNews'] = {'timestamp': None, 'data': None}
         data['PRNews'] = {'timestamp': None, 'data': None}
 
-        self.schoolMetadataStore.put(self.schoolName, data)
+        self.dbManager.put(self.schoolName, data)
         self.schoolMetadata = data
 
         return data
-
-    def sync(self):
-        self.schoolMetadataStore.put(self.schoolName, self.schoolMetadata)
-        #self.schoolMetadataStore.sync()
-        self.container.sync()
-
-    def close(self):
-        self.sync()
-        #self.container.close()
-        del self.container
-        #self.environment.close(0)
-        #self.schoolMetadataStore.sync()
-        #self.schoolMetadataStore.close()
 
     def _deleteXML(self):
         """This method removes the XML files from the database, as well as setting the timestamp value to be none."""
@@ -457,56 +519,52 @@ return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_nam
 class SchoolMetadataStore(object):
     """Class for storing metadata about schools that we can check before we go directly to the XML (and other types) data store."""
 
-    def __init__(self, dbHome = DB_HOME, dbName = "MAICgregator.db"):
+    def __init__(self, environment = None, db = None, dbHome = DB_HOME, dbName = "MAICgregator.db"):
         # Call methods for creating environments and DB object
-        pass
-        #self.__createEnvironment(dbHome)
-        #self.__createDB(dbName)
+        self.dbEnvironment = environment
+        self.db = db 
 
     def __createEnvironment(self, dbHome):
         self.dbHome = dbHome
-        self.environment = DBEnv()
-        self.environment.set_flags(DB_AUTO_COMMIT, True)
-        self.environment.open(dbHome, DB_ENV_CREATE_FLAGS, 0)
+        if (self.dbEnvironment is None):
+            self.dbEnvironment = DBEnv()
+            self.dbEnvironment.set_flags(DB_AUTO_COMMIT, True)
+            self.dbEnvironment.open(dbHome, DB_ENV_CREATE_FLAGS, 0)
 
     def __createDB(self, dbName):
         self.dbName = dbName
-        self.db = DB(dbEnv = self.environment)
-        xtxn = self.environment.txn_begin()
-        self.db.open(dbName, dbtype = DB_HASH, flags = DB_CREATE, txn = xtxn)
-        xtxn.commit()
-
-    def put(self, key, value):
-        """Put the value at key.  Pickle all data so that we don't have questions at load time."""
-        self.open()
-        pickledValue = cPickle.dumps(value)
-        xtxn = self.environment.txn_begin()
-        returnValue = self.db.put(key, pickledValue, txn = xtxn)
-        xtxn.commit()
-        self.sync()
-        self.close()
-
-    def get(self, key):
-        """Get the value, and return it as an unpickled object.
-
-        TODO: Need to handle key errors."""
-        
-        self.open()
-        pickledValue = self.db.get(key)
-        self.close()
-        return cPickle.loads(pickledValue)
-
-    def sync(self):
-        self.db.sync()
+        if (self.db is None):
+            self.db = DB(dbEnv = self.dbEnvironment)
+            try:
+                xtxn = self.dbEnvironment.txn_begin()
+                self.db.open(dbName, dbtype = DB_HASH, flags = DB_CREATE, txn = xtxn)
+                xtxn.commit()
+            except Exception, e:
+                print e
 
     def open(self, dbHome = DB_HOME, dbName = "MAICgregator.db"):
         self.__createEnvironment(dbHome)
         self.__createDB(dbName)
 
-    def close(self):
-        self.db.sync()
-        self.db.close()
-        self.environment.close()
+    def put(self, key, value):
+        """Put the value at key.  Pickle all data so that we don't have questions at load time."""
+        pickledValue = cPickle.dumps(value)
+        try:
+            xtxn = self.dbEnvironment.txn_begin()
+            self.db.put(key, pickledValue, txn = xtxn)
+            xtxn.commit()
+            self.db.sync()
+        except Exception, e:
+            print e
+
+    def get(self, key):
+        """Get the value, and return it as an unpickled object.
+
+        TODO: Need to handle key errors."""
+        if (self.db.has_key(key) == False):
+            return None
+        pickledValue = self.db.get(key)
+        return cPickle.loads(pickledValue)
 
 """mgr = XmlManager()
 container = mgr.createContainer("test.MAICxml")

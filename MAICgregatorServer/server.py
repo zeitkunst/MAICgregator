@@ -9,6 +9,7 @@ import PyRSS2Gen
 from BeautifulSoup import BeautifulSoup
 import smartypants
 from bsddb.db import *
+from dbxml import *
 
 import post
 import web
@@ -22,10 +23,9 @@ DB_HOME = "data/"
 
 # Flags for environment creation
 DB_ENV_CREATE_FLAGS = DB_CREATE | DB_RECOVER | DB_INIT_LOG | DB_INIT_LOCK | DB_INIT_MPOOL | DB_INIT_TXN | DB_THREAD
-DB_ENV_FLAGS = DB_CREATE | DB_RECOVER | DB_INIT_LOG | DB_INIT_LOCK | DB_INIT_MPOOL | DB_INIT_TXN | DB_THREAD
 
-# XML DB Name
 DB_NAME = "MAICgregator.db"
+DB_XML_NAME = "MAICgregator.dbxml"
 
 # Setup REST-like service
 # URLs of the form:
@@ -45,10 +45,6 @@ urls = (
     '/MAICgregator/', 'index',
     '/MAICgregator/statement', 'statement',
     '/MAICgregator/help', 'help',
-    '/MAICgregator/DoDBR/(.*?)', 'DoDBR',
-    '/MAICgregator/STTR/(.*?)', 'STTR',
-    '/MAICgregator/PRNews/(.*?)', 'PRNews',
-    '/MAICgregator/TrusteeSearch/(.*?)', 'TrusteeSearch',
     '/MAICgregator/TrusteeImage/(.*?)', 'TrusteeImage',
     '/MAICgregator/TrusteeRelationshipSearch/(.*?)', 'TrusteeSearch',
     '/MAICgregator/GoogleNews/(.*?)', 'GoogleNews',
@@ -102,26 +98,57 @@ class ProcessBase(object):
     schoolMapping = {}
     whoisStore = None
 
-    def __init__(self):
+    def __init__(self, dbManager = None):
         # Setup the school data object dictionary
-        #self.__createEnvironment(DB_HOME)
-        pass
+        self.dbManager = dbManager
 
     def getWhois(self):
         if (self.whoisStore == None):
-            self.whoisStore = whois.WhoisStore()
+            self.whoisStore = whois.WhoisStore(dbManager = self.dbManager)
 
         return self.whoisStore
 
     def getSchoolData(self, schoolName):
         if not (self.schoolMapping.has_key(schoolName)):
-            self.schoolMapping[schoolName] = db.SchoolData(schoolName)
+            self.schoolMapping[schoolName] = db.SchoolData(schoolName, dbManager = self.dbManager)
         return self.schoolMapping[schoolName]
 
     def __createEnvironment(self, dbHome):
         self.dbHome = dbHome
-        self.environment = DBEnv()
-        self.environment.open(dbHome, DB_ENV_CREATE_FLAGS, 0)
+
+        # Create XML DB Environment
+        self.dbXMLEnvironment = DBEnv()
+        self.dbXMLEnvironment.set_flags(DB_AUTO_COMMIT, True)
+        self.dbXMLEnvironment.open(dbHome + "xml/", DB_ENV_CREATE_FLAGS, 0)
+
+        # Create DB Environment
+        self.dbEnvironment = DBEnv()
+        self.dbEnvironment.set_flags(DB_AUTO_COMMIT, True)
+        self.dbEnvironment.open(dbHome, DB_ENV_CREATE_FLAGS, 0)
+
+        self.mgr = XmlManager(self.dbXMLEnvironment, DBXML_ALLOW_AUTO_OPEN)
+
+    def __createDB(self, dbName):
+        self.dbName = dbName
+        self.db = DB(dbEnv = self.dbEnvironment)
+        try:
+            xtxn = self.dbEnvironment.txn_begin()
+            self.db.open(dbName, dbtype = DB_HASH, flags = DB_CREATE, txn = xtxn)
+            xtxn.commit()
+        except Exception, e:
+            print e
+
+    def __createXMLDB(self, dbName = DB_XML_NAME):
+        uc = self.mgr.createUpdateContext()
+        self.container = self.mgr.createContainer(dbName, DBXML_TRANSACTIONAL)
+      
+        xtxn = self.mgr.createTransaction()
+        self.container.putDocument(xtxn, r"initialization", r"<init>MAICgregator begun!</init>", uc)
+        self.container.sync()
+        xtxn.commit()
+
+    def __openXMLDB(self, dbName = DB_XML_NAME):
+        self.container = self.mgr.openContainer(dbName, DBXML_TRANSACTIONAL)
 
     def GoogleNewsSearch(self, hostname):
         whoisStore = self.getWhois()
@@ -133,7 +160,7 @@ class ProcessBase(object):
         # TODO
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
         # This means we need to come up with a REST api, as well as return error messages
-        print "|| MAICgregator server || Getting Google News"
+        print schoolName + " || MAICgregator server || Getting Google News"
         results = schoolData.getGoogleNews()
         #schoolData.close()
         return results
@@ -143,7 +170,7 @@ class ProcessBase(object):
         schoolName = whoisStore.getSchoolName(hostname)
         schoolData = self.getSchoolData(schoolName)
 
-        print "|| MAICgregator server || Getting Google News RSS"
+        print schooName + " || MAICgregator server || Getting Google News RSS"
         results = schoolData.getGoogleNews()
         soup = BeautifulSoup(results)
 
@@ -177,7 +204,7 @@ class ProcessBase(object):
         schoolName = whoisStore.getSchoolName(hostname)
         schoolData = self.getSchoolData(schoolName)
 
-        print "|| MAICgregator server || Getting Trustee data"
+        print schoolName + " || MAICgregator server || Getting Trustee data"
         results = schoolData.getTrustees()
         
         return results
@@ -200,7 +227,7 @@ class ProcessBase(object):
         schoolName = whoisStore.getSchoolName(hostname)
         schoolData = self.getSchoolData(schoolName)
 
-        print "|| MAICgregator server || Getting Trustee RSS data"
+        print schoolName + " || MAICgregator server || Getting Trustee RSS data"
         results = schoolData.getTrustees()
 
         resultList = results.split("\n")
@@ -232,7 +259,8 @@ class ProcessBase(object):
         # TODO
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
         # This means we need to come up with a REST api, as well as return error messages
-        print "|| MAICgregator server || Getting DoDBR data"
+        print schoolName + " || MAICgregator server || Getting DoDBR data"
+        
         results = schoolData.getXML()
         
         return results
@@ -249,7 +277,7 @@ class ProcessBase(object):
         # TODO
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
         # This means we need to come up with a REST api, as well as return error messages
-        print "|| MAICgregator server || Getting DoDBR RSS data"
+        print schoolName + " || MAICgregator server || Getting DoDBR RSS data"
         results = schoolData.getXML()
         
         resultList = results.split("\n")
@@ -284,7 +312,7 @@ class ProcessBase(object):
         # TODO
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
         # This means we need to come up with a REST api, as well as return error messages
-        print "|| MAICgregator server || Getting PR data"
+        print schoolName + " || MAICgregator server || Getting PR data"
         web.header('Content-Encoding', 'utf-8')
         results = u"\n".join(unicode(item, "utf-8") for item in schoolData.getPRNews())
         
@@ -302,7 +330,7 @@ class ProcessBase(object):
         # TODO
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
         # This means we need to come up with a REST api, as well as return error messages
-        print "|| MAICgregator server || Getting PR data"
+        print schoolName + " || MAICgregator server || Getting PR data"
         #web.header('Content-Encoding', 'utf-8')
         #results = u"\n".join(unicode(item, "utf-8") for item in schoolData.getPRNews())
         results = schoolData.getPRNews()
@@ -338,7 +366,7 @@ class ProcessBase(object):
         schoolName = whoisStore.getSchoolName(hostname)
         schoolData = self.getSchoolData(schoolName)
 
-        print "|| MAICgregator server || Getting STTR data"
+        print schoolName + " || MAICgregator server || Getting STTR data"
         STTRData = schoolData.getSTTR()
         
         output = ""
@@ -362,7 +390,7 @@ class ProcessBase(object):
         schoolName = whoisStore.getSchoolName(hostname)
         schoolData = self.getSchoolData(schoolName)
 
-        print "|| MAICgregator server || Getting STTR RSS data"
+        print schoolName + " || MAICgregator server || Getting STTR RSS data"
         STTRData = schoolData.getSTTR()
         
         items = []
@@ -455,69 +483,9 @@ class ProcessSingleton(ProcessBase):
     process = None
     def getProcess():
         if ProcessSingleton.process == None:
-            ProcessSingleton.process = ProcessBase()
+            ProcessSingleton.process = ProcessBase(dbManager = db.DBManager())
         return ProcessSingleton.process
     getProcess = staticmethod(getProcess)
-
-class GoogleNews:
-    def GET(self, hostname):
-        schoolName = whois.getEduWHOIS(hostname)
-        schoolData = db.SchoolData(schoolName)
-
-        # TODO
-        # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
-        # This means we need to come up with a REST api, as well as return error messages
-
-        return schoolData.getGoogleNews()
-
-class TrusteeSearch:
-    def GET(self, hostname):
-        schoolName = whois.getEduWHOIS(hostname)
-        schoolData = db.SchoolData(schoolName)
-
-        return schoolData.getTrustees()
-
-class DoDBR:
-    def GET(self, hostname):
-        schoolName = whois.getEduWHOIS(hostname)
-        schoolData = db.SchoolData(schoolName)
-
-        # TODO
-        # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
-        # This means we need to come up with a REST api, as well as return error messages
-
-        return schoolData.getXML()
-
-class PRNews:
-    def GET(self, hostname):
-        schoolName = whois.getEduWHOIS(hostname)
-        schoolData = db.SchoolData(schoolName)
-
-        # TODO
-        # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
-        # This means we need to come up with a REST api, as well as return error messages
-        web.header('Content-Encoding', 'utf-8')
-        return "\n".join(str(item) for item in schoolData.getPRNews())
-
-class STTR:
-    def GET(self, hostname):
-        # Interesting keys to return in our result
-        usefulKeys = ["PK_AWARDS", "AGENCY", "CONTRACT", "AWARD_AMT", "PI_NAME", "FIRM", "URL", "PRO_TITLE", "WholeAbstract"]
-        # TODO
-        # Deal with case when we don't get a school name back
-        schoolName = whois.getEduWHOIS(hostname)
-        schoolData = db.SchoolData(schoolName)
-
-        STTRData = schoolData.getSTTR()
-
-        output = u""
-        for contract in STTRData:
-            # TODO
-            # Fix this to deal with the unicode characters properly
-            output += u"\t".join(unicode(contract[key], errors='replace') for key in usefulKeys) + u"\n"
-
-        web.header('Content-Encoding', 'utf-8')
-        return output
 
 class statement:
     def GET(self):

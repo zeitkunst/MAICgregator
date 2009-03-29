@@ -321,6 +321,15 @@ var MAICgregator = {
     },
 
     processGoogleNewsResults: function(results) {
+        if (!results) {
+            divNode = MAICgregator.doc.createElement("div");
+            divNode.setAttribute("id", "MAICgregatorGoogleNewsSearch");
+            h3Node = MAICgregator.doc.createElement("h3");
+            h3Node.appendChild(MAICgregator.doc.createTextNode("No results"));
+            divNode.appendChild(h3Node);
+            return divNode;
+        }
+
         var children = results.getElementsByTagName("table");
         var newChildren = new Array();
 
