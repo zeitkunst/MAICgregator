@@ -3,6 +3,7 @@
 import urllib
 import urllib2
 import datetime
+import threading
 
 import feedparser
 import PyRSS2Gen
@@ -95,12 +96,12 @@ class name:
         return whoisStore.getSchoolName(hostname)
 
 class ProcessBase(object):
-    schoolMapping = {}
-    whoisStore = None
 
     def __init__(self, dbManager = None):
         # Setup the school data object dictionary
         self.dbManager = dbManager
+        self.schoolMapping = {}
+        self.whoisStore = None
 
     def getWhois(self):
         if (self.whoisStore == None):
@@ -206,7 +207,22 @@ class ProcessBase(object):
 
         print schoolName + " || MAICgregator server || Getting Trustee data"
         results = schoolData.getTrustees()
+
+        class UpdateImagesThread(threading.Thread):
+            def __init__(self, schoolData, dbManager):
+                threading.Thread.__init__(self)
+                self.schoolData = schoolData
+                self.dbManager = dbManager
+
+            def run(self):
+                self.schoolData.updateTrusteeImages()
         
+        # This seems to work.  What we need to do is:
+        # * Make sure that we provide some sort of timestamp that prevents us from checking each time
+        # * Make sure that we don't try checking at the same time; setup some sort of "lock" that prevents us from doing so
+        updateImagesThread = UpdateImagesThread(schoolData, self.dbManager)
+        updateImagesThread.start()
+
         return results
 
     def TrusteeImages(self, hostname):

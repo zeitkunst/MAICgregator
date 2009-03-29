@@ -37,6 +37,7 @@ class DBManager(object):
         # Open the databases
         self.openDB()
         self.openDBXML()
+        self.openRDF()
 
     def createDBEnvironment(self):
         self.dbEnvironment = DBEnv()
@@ -48,6 +49,17 @@ class DBManager(object):
         self.dbXMLEnvironment.set_flags(DB_AUTO_COMMIT, True)
         self.dbXMLEnvironment.open(self.dbHome + "xml/", DB_ENV_CREATE_FLAGS, 0)
         self.mgr = XmlManager(self.dbXMLEnvironment, 0)
+
+    def openRDF(self, storage = None):
+        # Initialize and/or setup RDF
+        if (storage):
+            self.storage = storage
+            self.model = model
+        else:
+            # Get RDF model
+            self.storage = RDF.HashStorage('data/trustees/MAICgregator', options="hash-type='bdb'")
+            self.model = RDF.Model(self.storage)
+
 
     def openDB(self):
         self.db = DB(dbEnv = self.dbEnvironment)
@@ -147,6 +159,7 @@ class SchoolData(object):
     """Class for dealing with school data and querying our data stores."""
 
     MONTH = 60 *60 * 24 * 30
+    WEEK = 60 *60 * 24 * 7
     DAY = 60 *60 * 24
 
     def __init__(self, schoolName, dbManager = None, storage = None):
@@ -169,14 +182,6 @@ class SchoolData(object):
         if (self.schoolMetadata is None):
             self.schoolMetadata = self.createSchoolInfo()
 
-        # Initialize and/or setup RDF
-        if (storage):
-            self.storage = storage
-            self.model = model
-        else:
-            # Get RDF model
-            self.storage = RDF.HashStorage('data/trustees/MAICgregator', options="hash-type='bdb'")
-            self.model = RDF.Model(self.storage)
         self.maicNS = RDF.NS("http://maicgregator.org/MAIC#")
 
     def getXML(self):
@@ -273,12 +278,12 @@ class SchoolData(object):
                     school = self.maicNS[schoolNameCompact]
     
                     statement = RDF.Statement(name, HasName, trustee)
-                    self.model.add_statement(statement)
+                    self.dbManager.model.add_statement(statement)
     
                     statement = RDF.Statement(name, IsTrusteeOf, school)
-                    self.model.add_statement(statement)
+                    self.dbManager.model.add_statement(statement)
     
-                self.model.sync()
+                self.dbManager.model.sync()
 
                 # For the moment, we only set the time if we're certain we got the right trustee results 
                 self.schoolMetadata['Trustees']['timestamp'] = time.time()
@@ -316,7 +321,7 @@ class SchoolData(object):
 
         nameQuery = RDF.Query(query, query_language="sparql")
 
-        results = nameQuery.execute(self.model)
+        results = nameQuery.execute(self.dbManager.model)
 
         return [result['name'].literal_value['string'] for result in results]
 
@@ -333,7 +338,7 @@ class SchoolData(object):
 
         nameQuery = RDF.Query(query, query_language="sparql")
 
-        results = nameQuery.execute(self.model)
+        results = nameQuery.execute(self.dbManager.model)
         
         return [result['image'].literal_value['string'] for result in results]
 
@@ -350,39 +355,53 @@ class SchoolData(object):
 
         nameQuery = RDF.Query(query, query_language="sparql")
 
-        results = nameQuery.execute(self.model)
+        results = nameQuery.execute(self.dbManager.model)
 
         HasImage = self.maicNS['HasImage']
         for result in results:
-            del self.model[RDF.Statement(result['x'], HasImage, result['image'])]
+            del self.dbManager.model[RDF.Statement(result['x'], HasImage, result['image'])]
 
     def updateTrusteeImages(self):
         """Get the latest trustee images from the Google Image Search results"""
-        # Delete images from database before we update them
-        self._deleteTrusteeImages()
-
-        # Then go through and update things
-        trusteeNames = self.getTrusteeNamesFromModel()
-        HasImage = self.maicNS['HasImage']
-        schoolNameCompact = self.schoolName.replace(" ", "")
-        for trusteeName in trusteeNames:
-            trusteeNameCompact = str(trusteeName.replace(" ", ""))
-            name = self.maicNS[trusteeNameCompact]
-            imageSrc = post.TrusteeImage(trusteeName)
-            if (imageSrc is None):
-                print "searching without quotes"
-                imageSrc = post.TrusteeImage(trusteeName, withQuotes = False)
+        try:
+            timestamp = self.schoolMetadata['TrusteeImages']['timestamp']
+        except KeyError:
+            self.schoolMetadata['TrusteeImages'] = {}
+            self.schoolMetadata['TrusteeImages']['timestamp'] = None
+            timestamp = None
+            schoolMetadataDirty = True
+        
+        # TODO
+        # Make sure that we put in some sort of "lock" so that two threads aren't trying to update things at once
+        if ((timestamp is None) or (time.time() >= (timestamp + self.WEEK))):
+            # Delete images from database before we update them
+            self._deleteTrusteeImages()
+    
+            # Then go through and update things
+            trusteeNames = self.getTrusteeNamesFromModel()
+            HasImage = self.maicNS['HasImage']
+            schoolNameCompact = self.schoolName.replace(" ", "")
+            for trusteeName in trusteeNames:
+                trusteeNameCompact = str(trusteeName.replace(" ", ""))
+                name = self.maicNS[trusteeNameCompact]
+                imageSrc = post.TrusteeImage(trusteeName)
                 if (imageSrc is None):
-                    imageSrc = ""
+                    print "searching without quotes"
+                    imageSrc = post.TrusteeImage(trusteeName, withQuotes = False)
+                    if (imageSrc is None):
+                        imageSrc = ""
+    
+                statement = RDF.Statement(name, HasImage, imageSrc)
+                print imageSrc
+                self.dbManager.model.add_statement(statement)
+                randSleep = random.randrange(3, 10)
+                print "Finished %s, sleeping for %d" % (trusteeName, randSleep)
+                time.sleep(randSleep)
+    
+            self.dbManager.model.sync()
 
-            statement = RDF.Statement(name, HasImage, imageSrc)
-            print imageSrc
-            self.model.add_statement(statement)
-            randSleep = random.randrange(3, 10)
-            print "Finished %s, sleeping for %d" % (trusteeName, randSleep)
-            time.sleep(randSleep)
-
-        self.model.sync()
+            self.schoolMetadata['TrusteeImages']['timestamp'] = time.time()
+            self.dbManager.put(self.schoolName, self.schoolMetadata)
 
     def getSTTR(self):
         # TODO
