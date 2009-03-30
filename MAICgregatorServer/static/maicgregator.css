@@ -34,6 +34,7 @@ div#menu {
     margin: 0em;
     padding: 0em;
     background-image: url('/static/target.png');
+    background-repeat: none;
     width: 18em;
     position: relative;
     top: 3em;
@@ -44,8 +45,8 @@ div#menu {
 div#menu ul {
     margin-left: 3.0em;
     padding: 0em;
-    padding-top: 3.5em;
-    padding-bottom: 4.5em;
+    padding-top: 2.5em;
+    padding-bottom: 3.5em;
     width: 10em;
     opacity: 0.9;
     list-style-type: none;

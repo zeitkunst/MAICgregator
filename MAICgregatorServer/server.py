@@ -44,18 +44,19 @@ DB_XML_NAME = "MAICgregator.dbxml"
 # and so on...
 
 urls = (
-    '/MAICgregator', 'index',
-    '/MAICgregator/', 'index',
-    '/MAICgregator/statement', 'statement',
-    '/MAICgregator/help', 'help',
+    '/', 'index',
+    '/statement', 'statement',
+    '/help', 'help',
     '/MAICgregator/TrusteeImage/(.*?)', 'TrusteeImage',
     '/MAICgregator/TrusteeRelationshipSearch/(.*?)', 'TrusteeSearch',
     '/MAICgregator/GoogleNews/(.*?)', 'GoogleNews',
     '/MAICgregator/Aggregate/(.*?)/(.*?)', 'Aggregate',
     '/MAICgregator/feed/rss/(.*?)/(.*?)', 'RSS',
-    '/MAICgregator/RSS', 'RSSList',
-    '/MAICgregator/FAQ', 'FAQ',
-    '/MAICgregator/faq', 'FAQ',
+    '/RSS', 'RSSList',
+    '/FAQ', 'FAQ',
+    '/docs', 'documentation',
+    '/download', 'download',
+    '/faq', 'FAQ',
     '/MAICgregator/name/(.*?)', 'name'
 )
 """
@@ -66,6 +67,14 @@ render = web.template.render('templates/', base = 'layout', cache = False)
 class index:
     def GET(self):
         return render.index(version)
+
+class documentation:
+    def GET(self):
+        return render.documentation()
+
+class download:
+    def GET(self):
+        return render.download()
 
 class help:
     def GET(self):
