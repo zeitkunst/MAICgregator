@@ -3,7 +3,7 @@ import re
 import time
 import random
 
-from bsddb.db import *
+from bsddb3.db import *
 from dbxml import *
 import feedparser
 from BeautifulSoup import BeautifulSoup

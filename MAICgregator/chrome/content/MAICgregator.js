@@ -643,6 +643,8 @@ var MAICgregator = {
         ulNode = MAICgregator.doc.createElement("ul");
 
         currentImageList = MAICgregator.doc.getElementsByTagName("img");
+        currentObjectList = MAICgregator.doc.getElementsByTagName("object");
+        currentEmbedList = MAICgregator.doc.getElementsByTagName("embed");
         for (index in itemArray) {
             liNode = MAICgregator.doc.createElement("ul");
             trusteeInfo = itemArray[index].split("\t");

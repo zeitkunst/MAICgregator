@@ -8,7 +8,7 @@ import threading
 import feedparser
 import PyRSS2Gen
 from BeautifulSoup import BeautifulSoup
-from bsddb.db import *
+from bsddb3.db import *
 from dbxml import *
 import web
 
@@ -171,7 +171,7 @@ class ProcessBase(object):
         schoolName = whoisStore.getSchoolName(hostname)
         schoolData = self.getSchoolData(schoolName)
 
-        print schooName + " || MAICgregator server || Getting Google News RSS"
+        print schoolName + " || MAICgregator server || Getting Google News RSS"
         results = schoolData.getGoogleNews()
         soup = BeautifulSoup(results)
 

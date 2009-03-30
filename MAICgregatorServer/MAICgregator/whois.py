@@ -2,7 +2,7 @@ import socket
 import cPickle
 import time
 
-from bsddb.db import *
+from bsddb3.db import *
 
 from db import DBManager
 
