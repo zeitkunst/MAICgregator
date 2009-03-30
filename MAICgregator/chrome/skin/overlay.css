@@ -11,3 +11,32 @@ toolbar[iconsize="small"] #MAICgregatorToolbarButton {
     list-style-image: url("chrome://MAICgregator/skin/icon16.png");
 }
 
+#MAICgregatorInterjectGroupbox {
+    /*border: 1px solid #000000;
+    -moz-border-radius: 5px;*/
+}
+
+.url {
+    color: #0000ef;
+    text-decoration: underline;
+    font-weight: bolder;
+}
+
+#serverURL {
+    width: 20em;
+}
+
+caption {
+    color: #ef2121;
+}
+
+#preferencesMAICgregatorInfo {
+    width: 25em;
+    margin: 0em;
+    margin-top: 1em;
+    padding: 0em;
+    font-family: serif;
+    border: none;
+    background-color: transparent;
+    -moz-appearance: none;
+}

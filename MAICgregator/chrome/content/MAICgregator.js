@@ -290,7 +290,6 @@ var MAICgregator = {
             aNode.href = "#" + dataType;
             aNode.className = "MAICgregator" + dataType;
             aNode.addEventListener("click", function() {
-                //divNodeToDisplay = $(this.className);
                 divNodeToDisplay = MAICgregator.doc.getElementById(this.className);
 
                 if (divNodeToDisplay == null) {

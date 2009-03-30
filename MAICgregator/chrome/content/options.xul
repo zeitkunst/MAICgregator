@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://MAICgregator/skin/overlay.css" type="text/css"?>
 
 <!DOCTYPE overlay SYSTEM "chrome://MAICgregator/locale/MAICgregator.dtd">
 
@@ -98,12 +99,18 @@
 <tabpanel>
     <vbox>
     <groupbox id="MAICgregatorAboutGroupbox">
-        <hbox>
-            <image width="256" height="256" src="chrome://MAICgregator/skin/icon.png"/>
+        <hbox pack="center">
+            <image onclick="window.open('http://maicgregator.org');" width="196" height="196" src="chrome://MAICgregator/skin/icon.png"/>
         </hbox>
     </groupbox>
     <hbox>
-        <description id="preferencesMAICgregatorInfo" value="&preferences.Info;"/>
+        <text value="&preferences.FAQLink;" class="url" onclick="window.open('http://maicgregator.org/MAICgregator/FAQ');"/>
+    </hbox>
+    <hbox>
+        <textbox multiline="true" rows="8" readonly="true" id="preferencesMAICgregatorInfo" value="&preferences.Info;" />
+        <!--<description pack="start" id="preferencesMAICgregatorInfo" value="&preferences.Info;" />-->
+        <spacer flex="1" />
+        <!--<description id="preferencesMAICgregatorInfo" value="&preferences.Info;"/>-->
     </hbox>
     </vbox>
 
