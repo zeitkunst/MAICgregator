@@ -4,6 +4,7 @@ import urllib
 import urllib2
 import datetime
 import threading
+import operator
 
 import feedparser
 import PyRSS2Gen
@@ -16,6 +17,7 @@ from MAICgregator import post
 from MAICgregator import whois
 from MAICgregator import db
 from MAICgregator import smartypants
+import config
 
 version = "0.01"
 
@@ -82,7 +84,7 @@ class RSSList:
     def GET(self):
         whoisStore = whois.WhoisStore()
         schoolNamesList = list(zip(whoisStore.whois.keys(), whoisStore.whois.values()))
-        schoolNamesList.sort()
+        schoolNamesList.sort(key=operator.itemgetter(1))
         
         return render.RSS(schoolNamesList)
 
@@ -113,43 +115,6 @@ class ProcessBase(object):
         if not (self.schoolMapping.has_key(schoolName)):
             self.schoolMapping[schoolName] = db.SchoolData(schoolName, dbManager = self.dbManager)
         return self.schoolMapping[schoolName]
-
-    def __createEnvironment(self, dbHome):
-        self.dbHome = dbHome
-
-        # Create XML DB Environment
-        self.dbXMLEnvironment = DBEnv()
-        self.dbXMLEnvironment.set_flags(DB_AUTO_COMMIT, True)
-        self.dbXMLEnvironment.open(dbHome + "xml/", DB_ENV_CREATE_FLAGS, 0)
-
-        # Create DB Environment
-        self.dbEnvironment = DBEnv()
-        self.dbEnvironment.set_flags(DB_AUTO_COMMIT, True)
-        self.dbEnvironment.open(dbHome, DB_ENV_CREATE_FLAGS, 0)
-
-        self.mgr = XmlManager(self.dbXMLEnvironment, DBXML_ALLOW_AUTO_OPEN)
-
-    def __createDB(self, dbName):
-        self.dbName = dbName
-        self.db = DB(dbEnv = self.dbEnvironment)
-        try:
-            xtxn = self.dbEnvironment.txn_begin()
-            self.db.open(dbName, dbtype = DB_HASH, flags = DB_CREATE, txn = xtxn)
-            xtxn.commit()
-        except Exception, e:
-            print e
-
-    def __createXMLDB(self, dbName = DB_XML_NAME):
-        uc = self.mgr.createUpdateContext()
-        self.container = self.mgr.createContainer(dbName, DBXML_TRANSACTIONAL)
-      
-        xtxn = self.mgr.createTransaction()
-        self.container.putDocument(xtxn, r"initialization", r"<init>MAICgregator begun!</init>", uc)
-        self.container.sync()
-        xtxn.commit()
-
-    def __openXMLDB(self, dbName = DB_XML_NAME):
-        self.container = self.mgr.openContainer(dbName, DBXML_TRANSACTIONAL)
 
     def GoogleNewsSearch(self, hostname):
         whoisStore = self.getWhois()
@@ -189,7 +154,7 @@ class ProcessBase(object):
                     description = description,
                     guid = PyRSS2Gen.Guid(url),
                     categories = ["Google News"],
-                    author = schoolName,
+                    author = "info@maicgregator.org (%s)" % schoolName,
                     pubDate = datetime.datetime.fromtimestamp(timestamp))
             items.append(item)
 
@@ -363,7 +328,7 @@ class ProcessBase(object):
                     description = description,
                     guid = PyRSS2Gen.Guid(url),
                     categories = ["PR News"],
-                    author = schoolName,
+                    author = "info@maicgregator.org (%s)" % schoolName,
                     pubDate = datetime.datetime.fromtimestamp(timestamp))
             items.append(item)
 
@@ -430,7 +395,7 @@ class ProcessBase(object):
                     description = description,
                     guid = PyRSS2Gen.Guid(url),
                     categories = ["DoD", "STTR"],
-                                     author = schoolName,
+                                         author = "info@maicgregator.org (%s)" % schoolName,
                     pubDate = datetime.datetime.fromtimestamp(timestamp))
             items.append(item)
 
@@ -511,9 +476,10 @@ class process:
     def GET(self, data):
         return data
 
+# Finally, setup our web application
+app = web.application(urls, globals())
+if (config.fastcgi):
+    web.wsgi.runwsgi = lambda func, addr=None: web.wsgi.runfcgi(func, addr)
+
 if __name__ == "__main__":
-    try:
-        app = web.application(urls, globals())
-        app.run()
-    except:
-        print "got a keyboard interrupt"
+    app.run()

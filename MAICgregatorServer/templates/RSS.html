@@ -2,6 +2,7 @@ $def with (schoolNamesList)
 $var title: Currently Available MAIC RSS Feeds
 <h1>Currently Available RSS Feeds</h1>
 <p>These feeds provide you with daily MAICgregated information about the following schools culled from Google News results and press releases.  Often the press releases will mention the name in the context of the education of a principal of a company or business; this is a good way to see where and in what industries former students of a particular college or university find themselves in.</p>
+<p>Only schools that people have visited using MAICgregator will appear here.  If you want your school to be listed, download the extension today!</p>
 <ul>
 $for schoolName in schoolNamesList:
     <li><a href="/MAICgregator/feed/rss/$schoolName[0]/GoogleNewsSearch+PRNewsSearch" title="MAIC info for $schoolName[1]">$schoolName[1]</a></li>

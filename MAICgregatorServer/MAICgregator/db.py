@@ -43,11 +43,13 @@ class DBManager(object):
         self.dbEnvironment = DBEnv()
         self.dbEnvironment.set_flags(DB_AUTO_COMMIT, True)
         self.dbEnvironment.open(self.dbHome, DB_ENV_CREATE_FLAGS, 0)
+        self.dbEnvironment.log_archive(DB_ARCH_REMOVE)
 
     def createDBXMLEnvironment(self):
         self.dbXMLEnvironment = DBEnv()
         self.dbXMLEnvironment.set_flags(DB_AUTO_COMMIT, True)
         self.dbXMLEnvironment.open(self.dbHome + "xml/", DB_ENV_CREATE_FLAGS, 0)
+        self.dbXMLEnvironment.log_archive(DB_ARCH_REMOVE)
         self.mgr = XmlManager(self.dbXMLEnvironment, 0)
 
     def openRDF(self, storage = None):
