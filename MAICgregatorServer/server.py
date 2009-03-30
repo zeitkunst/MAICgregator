@@ -8,14 +8,14 @@ import threading
 import feedparser
 import PyRSS2Gen
 from BeautifulSoup import BeautifulSoup
-import smartypants
 from bsddb.db import *
 from dbxml import *
-
-import post
 import web
-import whois
-import db
+
+from MAICgregator import post
+from MAICgregator import whois
+from MAICgregator import db
+from MAICgregator import smartypants
 
 version = "0.01"
 

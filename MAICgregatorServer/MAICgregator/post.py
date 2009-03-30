@@ -10,6 +10,28 @@ from BeautifulSoup import BeautifulSoup
 import html5lib
 from html5lib import treebuilders
 
+"""
+can use sites like:
+    http://cornell.erecruiting.com/corp/employer_cf_list?page_id=career_fairs&channel_id=university&_tcgis_public_fairs=%3Ctcgis+tag%3D%224%22+page%3D%223%22%3E%3C%2Ftcgis%3E
+    to start to find public career fairs for schools.  need to look for even more sites to see what are the other major players in the field
+
+    something to look at here, as well, if we could just figure things out with the site:
+        https://virginia-csm.symplicity.com/events/students.php?cf=SJIF09&cck=1&au=&ck=
+    also:
+        https://wsu-csm.symplicity.com/events/students.php?cf=spring2009
+
+    and something like this is quite extensive:
+        http://www.careers.uiowa.edu/fairs/spring_participants09.cfm#
+    but hard to figure out ahead of time
+
+    maybe here:
+        http://efair.careerlink.com/
+
+    this seems like its hidden behind passwords:
+        http://www.ucanintern.com/
+        https://nic-csm.symplicity.com/students/
+"""
+
 COOKIEFILE = "cookies.lwp"
 
 # Pre-comile all of our regular expressions

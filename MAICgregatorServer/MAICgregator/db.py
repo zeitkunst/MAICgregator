@@ -161,6 +161,7 @@ class SchoolData(object):
     MONTH = 60 *60 * 24 * 30
     WEEK = 60 *60 * 24 * 7
     DAY = 60 *60 * 24
+    updateTrusteeImagesLock = False
 
     def __init__(self, schoolName, dbManager = None, storage = None):
         """What school name are we dealing with here?"""
@@ -363,6 +364,11 @@ class SchoolData(object):
 
     def updateTrusteeImages(self):
         """Get the latest trustee images from the Google Image Search results"""
+        if (self.updateTrusteeImagesLock):
+            return
+        else:
+            self.updateTrusteeImagesLock = True
+
         try:
             timestamp = self.schoolMetadata['TrusteeImages']['timestamp']
         except KeyError:
@@ -402,6 +408,8 @@ class SchoolData(object):
 
             self.schoolMetadata['TrusteeImages']['timestamp'] = time.time()
             self.dbManager.put(self.schoolName, self.schoolMetadata)
+
+        self.updateTrusteeImagesLock = False
 
     def getSTTR(self):
         # TODO
