@@ -69,7 +69,6 @@
         </hbox>
     </groupbox>
 
-    <description id="preferencesMAICgregatorInfo" value="&preferences.Info;"/>
 </vbox>
 </tabpanel>
 <tabpanel>
@@ -83,8 +82,6 @@
         </hbox>
 
     </groupbox>
-    </vbox>
-    <vbox>
     <groupbox id="MAICgregatorAdvancedImagesGroupbox">
         <caption label="&preferences.imagesGroup;"/>
         <hbox>
@@ -99,9 +96,16 @@
 
 </tabpanel>
 <tabpanel>
+    <vbox>
     <groupbox id="MAICgregatorAboutGroupbox">
-        <image src="chrome://MAICgregator/skin/icon128.png"/>
+        <hbox>
+            <image width="256" height="256" src="chrome://MAICgregator/skin/icon.png"/>
+        </hbox>
     </groupbox>
+    <hbox>
+        <description id="preferencesMAICgregatorInfo" value="&preferences.Info;"/>
+    </hbox>
+    </vbox>
 
 </tabpanel>
 

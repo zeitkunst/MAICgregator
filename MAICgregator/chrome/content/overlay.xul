@@ -6,7 +6,6 @@
 <overlay id="MAICgregatorOverlay"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-         <script src="chrome://MAICgregator/content/MAICgregatorExtras.js"/>
          <script src="chrome://MAICgregator/content/MAICgregator.js"/>
 
 <toolbarpalette id="BrowserToolbarPalette">

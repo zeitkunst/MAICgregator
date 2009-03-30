@@ -20,7 +20,7 @@
 <!ENTITY preferences.DoDSTTR "Department of Defense STTR">
 <!ENTITY preferences.DoDSTTRTooltip "Small Business Technology Transfer (STTR) program for connecting defense research at colleges and universities with small businesses">
 <!ENTITY preferences.DHS "Department of Homeland Securty Grants">
-<!ENTITY preferences.DHSTooltip "Funding for 'homeland security' research, which is often a euphamism for defense-related research">
+<!ENTITY preferences.DHSTooltip "Funding for 'homeland security' research, which is often a euphamism for defense-related research (not currently implemented)">
 <!ENTITY preferences.GoogleNews "Google News Search">
 <!ENTITY preferences.GoogleNewsTooltip "Mentions of the university in mainstream media sources, such as quotes by professors, press relations, community outreach, and relationships with small businesses">
 <!ENTITY preferences.PR "PR News Search">
