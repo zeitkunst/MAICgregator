@@ -5,6 +5,7 @@ import urllib2
 import datetime
 import threading
 import operator
+import logging
 
 import feedparser
 import PyRSS2Gen
@@ -12,6 +13,7 @@ from BeautifulSoup import BeautifulSoup
 from bsddb3.db import *
 from dbxml import *
 import web
+from wsgilog import WsgiLog, LogIO
 
 from MAICgregator import post
 from MAICgregator import whois
@@ -63,6 +65,20 @@ urls = (
 """
 
 render = web.template.render('templates/', base = 'layout', cache = False)
+
+class Log(WsgiLog):
+    def __init__(self, application):
+        WsgiLog.__init__(
+            self,
+            application,
+            logformat = '%(message)s',
+            tofile = True,
+            file = config.log_file,
+            interval = config.log_interval,
+            backups = config.log_backups
+        )
+        sys.stdout = LogIO(self.logger, logging.INFO)
+        sys.stderr = LogIO(self.logger, logging.ERROR)
 
 class index:
     def GET(self):
@@ -152,7 +168,7 @@ class ProcessBase(object):
         tables = soup.findAll("table")
         items = []
         for table in tables:
-            timestamp = schoolData.schoolMetadata['PRNews']['timestamp']
+            timestamp = schoolData.schoolMetadata['GoogleNews']['timestamp']
             
             title = "".join(unicode(item) for item in table.a.contents)
             description = unicode(table.findAll("font")[3])
@@ -491,4 +507,4 @@ if (config.fastcgi):
     web.wsgi.runwsgi = lambda func, addr=None: web.wsgi.runfcgi(func, addr)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(Log)
