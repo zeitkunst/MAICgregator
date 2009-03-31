@@ -107,8 +107,29 @@ class DBManager(object):
             print e
 
     def get(self, key):
-        if (self.db.has_key(key) == False):
-            return None
+        try:
+            if (self.db.has_key(key) == False):
+                return None
+        except DBRunRecoveryError:
+            # TODO
+            # Totally heinous, but it seems to work :-)
+            print "PANIC: trying to close and run recovery"
+            del self.model
+            del self.container
+            del self.mgr
+            del self.db
+            del self.dbXMLEnvironment
+            del self.dbEnvironment
+
+            # Setup our environments
+            self.createDBEnvironment()
+            self.createDBXMLEnvironment()
+    
+            # Open the databases
+            self.openDB()
+            self.openDBXML()
+            self.openRDF()
+
         xtxn = self.dbEnvironment.txn_begin()
         pickledValue = self.db.get(key, txn = xtxn)
         xtxn.commit()
