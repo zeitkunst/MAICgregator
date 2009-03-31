@@ -1,0 +1,42 @@
+$def with (schoolNamesList)
+$var title: Update Trustee Information
+<div>
+    <p id="message">&nbsp;</p>
+</div>
+<form>
+    <fieldset>
+            <label>School Name:</label>
+        <select id="SchoolSelect">
+$for schoolName in schoolNamesList:
+    <option value="$schoolName[0]">$schoolName[1]</option>
+</select>
+    </fieldset>
+
+<div>
+    <fieldset id="TrusteeInfoFieldset" style="display: none;">
+        <p>No trustees were found.  If you can provide us any information about where we can get these trustee names, we'd appreciate it.  Thanks!</p>
+        <textarea id="TrusteeInfoTextarea" rows="10" cols = "40">
+            &nbsp;
+        </textarea>
+        <input type="button" value="Submit trustee information" id="submitTrusteeInfo" name="submitTrusteeInfo" />
+
+    </fieldset>
+    <fieldset id="TrusteeUpdateInfoFieldset" style="display: none;">
+            <label>Trustee Name:</label>
+        <select name="TrusteeSelect" id="TrusteeSelect">
+        </select><br/>
+        <label>Trustee Place of Business (URL)</label>
+        <input type="text" name="trusteeURL" id="trusteeURL" /><br/>
+        <label>Trustee Bio</label><br/>
+        <textarea id="trusteeBio" rows = "10" cols = "40"></textarea>
+        <input type="button" value="Submit trustee information" id="submitTrusteeInfoUpdate" name="submitTrusteeInfo" />
+    </fieldset>
+</div>
+</form>
+$# We need to do the following:
+$#  Setup page that lists the available schools
+$#  Do an ajax request that gets the trustees for that school
+$#      If there are no trustees, put form that gives place to get trustee info
+$#  Put trustee names in list
+$#  Upon selecting trustee, have options for bio and place of work
+$#  On submit, send via ajax and store in separate RDF store for review

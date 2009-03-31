@@ -11,4 +11,4 @@ log_interval = 'w0'
 log_backups = 4
 
 # Are we in fastcgi mode?
-fastcgi = True
+fastcgi = False

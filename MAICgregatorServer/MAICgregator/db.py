@@ -349,6 +349,31 @@ class SchoolData(object):
 
         return [result['name'].literal_value['string'] for result in results]
 
+    def getTrusteeNamesAndResourcesFromModel(self):
+        schoolNameCompact = self.schoolName.replace(" ", "")
+        query = """
+            PREFIX maic: <http://maicgregator.org/MAIC#>
+            SELECT ?name, ?x
+            WHERE {
+                ?x maic:IsTrusteeOf maic:%s . 
+                ?x maic:HasName ?name .
+            }
+            ORDER BY ?x""" % schoolNameCompact
+
+        nameQuery = RDF.Query(query, query_language="sparql")
+
+        results = nameQuery.execute(self.dbManager.model)
+
+        toReturn = []
+        for result in results:
+            uri = result['x'].uri
+            name = result['name'].literal_value['string']
+            uri = str(uri).split("#")[1]
+            toReturn.append([name, uri])
+
+        return toReturn
+
+
     def getTrusteeImagesFromModel(self):
         schoolNameCompact = self.schoolName.replace(" ", "")
         query = """

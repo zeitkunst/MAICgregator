@@ -56,6 +56,7 @@ urls = (
     '/MAICgregator/feed/rss/(.*?)/(.*?)', 'RSS',
     '/RSS', 'RSSList',
     '/FAQ', 'FAQ',
+    '/TrusteeInfo', 'TrusteeInfo',
     '/docs', 'documentation',
     '/download', 'download',
     '/faq', 'FAQ',
@@ -112,6 +113,14 @@ class RSSList:
         schoolNamesList.sort(key=operator.itemgetter(1))
         
         return render.RSS(schoolNamesList)
+
+class TrusteeInfo:
+    def GET(self):
+        whoisStore = whois.WhoisStore()
+        schoolNamesList = list(zip(whoisStore.whois.keys(), whoisStore.whois.values()))
+        schoolNamesList.sort(key=operator.itemgetter(1))
+        
+        return render.TrusteeInfo(schoolNamesList)
 
 class TrusteeImage:
     def GET(self, personName):
