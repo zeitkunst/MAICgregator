@@ -1,0 +1,32 @@
+$def with (content)
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/MAICgregator.css"/>
+    <script type="text/javascript" src="/static/MAICgregatorSite.js"></script>
+    <title>$content.title</title>
+</head>
+<body>
+<div id="logo">
+    <img src="/static/iconWeb.png" alt="MAICgregator"/>
+</div>
+<div id="menu">
+    <ul>
+        <li><a href="/" title="homepage">home</a></li>
+        <li><a href="/statement" title="statement">statement</a></li>
+        <li><a href="/docs" title="docs">documentation</a></li>
+        <li><a href="/download" title="download">download</a></li>
+        <li><a href="/FAQ" title="FAQ">faq</a></li>
+        <li><a href="/RSS" title="automatically generated RSS feeds">rss feeds</a></li>
+    </ul>
+</div>
+<!--<div id="header">
+    <h1><img width="100px" src="/static/icon.png" alt="MAICgregator"/>MAICgregator</h1>
+</div>-->
+<div id="content">
+    <div><p><a href="/admin/logout" title="admin logout">logout</a></p></div>
+    $:content
+</div>
+</body>
+</html>
+

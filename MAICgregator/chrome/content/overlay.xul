@@ -9,7 +9,7 @@
          <script src="chrome://MAICgregator/content/MAICgregator.js"/>
 
 <toolbarpalette id="BrowserToolbarPalette">
-    <toolbarbutton orient="vertical" id="MAICgregatorToolbarButton" class="toolbarbutton-class" label="&browser.toolbarLabel;" tooltiptext="&browser.toolbarTooltip;" oncommand="alert('hi');" />
+    <toolbarbutton orient="vertical" id="MAICgregatorToolbarButton" class="toolbarbutton-class" label="&browser.toolbarLabel;" tooltiptext="&browser.toolbarTooltip;" oncommand="toggleMAICgregator();" />
 </toolbarpalette>
 
 <menupopup id="menu_ToolsPopup">

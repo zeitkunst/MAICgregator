@@ -112,3 +112,17 @@ li {
     margin-bottom: 5px;
     padding: 0em;
 }
+
+label {
+    width: 20em;
+    text-align: right;
+}
+
+input, textarea {
+    border: 3px solid #444;
+    padding: 5px;
+}
+
+fieldset {
+    border: none;
+}

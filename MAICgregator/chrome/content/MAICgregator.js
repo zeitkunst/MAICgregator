@@ -43,6 +43,8 @@ var MAICgregator = {
 
     onPageLoad: function(aEvent) {
         MAICgregator.doc = aEvent.originalTarget;
+    var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
+    var enumerator = wm.getEnumerator("navigator:browser");
 
         // Update the preferences in case something has changed
         MAICgregator._readPrefs();
@@ -1079,4 +1081,39 @@ function testAJAX() {
     var p = this.doc.createElement("p");
     p.appendChild(doc.createTextNode(results));
     this.doc.body.appendChild(p);
+}
+
+function toggleMAICgregator() {
+    currentState = MAICgregator.interject;
+    var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
+    var enumerator = wm.getEnumerator("navigator:browser");
+        //
+    if (currentState == "None") {
+        if (MAICgregator.previousState == null) {
+            MAICgregator.interject = "All";
+        } else {
+            MAICgregator.interject = MAICgregator.previousState;
+        }
+        buttonNode = document.getElementById("MAICgregatorToolbarButton");
+        //buttonNode.style.listStyleImage = "url('chrome://MAICgregator/skin/icon24.png')";
+        buttonStyle = "url('chrome://MAICgregator/skin/icon24.png')";
+    } else {
+        if (MAICgregator.previousState == null) {
+            MAICgregator.interject = "None";
+        } else {
+            MAICgregator.interject = MAICgregator.previousState;
+        }
+        buttonNode = document.getElementById("MAICgregatorToolbarButton");
+        //buttonNode.style.listStyleImage = "url('chrome://MAICgregator/skin/icon24Disabled.png')";
+        buttonStyle = "url('chrome://MAICgregator/skin/icon24Disabled.png')";
+
+    }
+    while(enumerator.hasMoreElements()) {
+        var win = enumerator.getNext();
+        buttonNode = win.document.getElementById("MAICgregatorToolbarButton");
+        buttonNode.style.listStyleImage = buttonStyle;
+    }
+
+    MAICgregator.previousState = currentState;
+    MAICgregator._savePreferences();
 }

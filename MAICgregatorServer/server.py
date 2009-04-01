@@ -6,6 +6,7 @@ import datetime
 import threading
 import operator
 import logging
+import hashlib
 
 import feedparser
 import PyRSS2Gen
@@ -14,6 +15,7 @@ from bsddb3.db import *
 from dbxml import *
 import web
 from wsgilog import WsgiLog, LogIO
+import textile
 
 from MAICgregator import post
 from MAICgregator import whois
@@ -49,6 +51,14 @@ urls = (
     '/', 'index',
     '/statement', 'statement',
     '/help', 'help',
+    '/admin', 'adminIndex',
+    '/admin/', 'adminIndex',
+    '/admin/view', 'adminView',
+    '/admin/trustee/view', 'adminTrusteeView',
+    '/admin/edit/(.*?)', 'adminEdit',
+    '/admin/index', 'adminIndex',
+    '/admin/post', 'adminPost',
+    '/admin/logout', 'adminLogout',
     '/MAICgregator/TrusteeImage/(.*?)', 'TrusteeImage',
     '/MAICgregator/TrusteeRelationshipSearch/(.*?)', 'TrusteeSearch',
     '/MAICgregator/GoogleNews/(.*?)', 'GoogleNews',
@@ -62,10 +72,17 @@ urls = (
     '/faq', 'FAQ',
     '/MAICgregator/name/(.*?)', 'name'
 )
-"""
-"""
+
+app = web.application(urls, globals())
+webDB = web.database(dbn='mysql', db='MAICgregator', user='MAICgregator', pw='violas')
+if web.config.get('_session') is None:
+    session = web.session.Session(app, web.session.DiskStore('sessions'),  initializer = {'loggedIn': False})
+    web.config._session = session
+else:
+    session = web.config._session
 
 render = web.template.render('templates/', base = 'layout', cache = False)
+renderAdmin = web.template.render('templates/', base = 'layoutAdmin', cache = False)
 
 class Log(WsgiLog):
     def __init__(self, application):
@@ -83,7 +100,113 @@ class Log(WsgiLog):
 
 class index:
     def GET(self):
-        return render.index(version)
+        results = webDB.select("posts", limit=10, order="datetime DESC")
+        posts = ""
+        posts += "<div id='posts'>"
+        for item in results:
+            posts += "<h2>" + item["title"] + "</h2>\n"
+            posts += "<div>" + textile.textile(item["content"]) + "</div>\n"
+            posts += "<p>Posted on " + str(item["datetime"]) + "</p>\n"
+        posts += "</div>"
+
+        return render.index(version, posts)
+
+class adminIndex:
+
+    def GET(self):
+        return render.adminIndex(session)
+
+    def POST(self):
+        form = web.input()
+        result = webDB.query( "select * from users where username = '%s' and password = '%s'" % (form['username'], hashlib.sha256(form['password']).hexdigest()))
+        if len(result)>0:
+            session.loggedIn = True
+            session.username = form['username'] 
+        return renderAdmin.adminIndex(session)
+
+class adminLogout:
+    def GET(self):
+        session.kill()
+        web.redirect("/")
+
+class adminPost:
+    def GET(self):
+        if (session.loggedIn == False):
+            web.redirect("/admin/")
+        return renderAdmin.adminPost(session, False)
+
+    def POST(self):
+        if (session.loggedIn == False):
+            web.redirect("/admin/")
+
+        form = web.input()
+        sequenceID = webDB.insert("posts", title=form['title'], content=form['content'], datetime=web.SQLLiteral("NOW()"), username=session.username)
+        return renderAdmin.adminPost(session, True)
+
+class adminTrusteeView:
+    def GET(self):
+        if (session.loggedIn == False):
+            web.redirect("/admin/")
+
+        process = ProcessSingleton.getProcess()
+        whoisStore = process.getWhois()
+        schoolName = whoisStore.getSchoolName("cornell.edu")
+        schoolData = process.getSchoolData(schoolName) 
+        
+        output = ""
+        urls = schoolData.getTrusteeURLToAddFromModel()
+        bios = schoolData.getTrusteeBioToAddFromModel()
+
+        # TODO
+        # Need to format better, put in checkboxes to update
+        for url in urls:
+            output += "\t".join(url) + "\n"
+        for bio in bios:
+            output += "\t".join(bio) + "\n"
+        return output
+
+class adminView:
+    def GET(self):
+        if (session.loggedIn == False):
+            web.redirect("/admin/")
+        results = webDB.select("posts", order="datetime DESC")
+        items = []
+        for result in results:
+            item = []
+            item.append(result['pid'])
+            item.append(result['title'])
+            item.append(result['content'])
+            item.append(result['datetime'])
+            items.append(item)
+        return renderAdmin.adminView(items)
+
+class adminEdit:
+
+    def GET(self, postID):
+        if (session.loggedIn == False):
+            web.redirect("/admin/")
+        dbVars = dict(postID = postID)
+        results = webDB.select("posts", dbVars, where="pid = $postID", order="datetime DESC")
+        item = []
+        for result in results:
+            item.append(result['pid'])
+            item.append(result['title'])
+            item.append(result['content'])
+            item.append(result['datetime'])
+
+        return renderAdmin.adminEdit(item)
+
+    def POST(self, postID):
+        if (session.loggedIn == False):
+            web.redirect("/admin/")
+        
+        form = web.input()
+        print form
+        if form.has_key('submitButton'):
+            numRows = webDB.update("posts", "pid = " + postID, title=form['title'], content=form['content'], datetime=web.SQLLiteral("NOW()"), username=session.username)
+        elif form.has_key('deleteButton'):
+            numRows = webDB.delete("posts", where="pid = " + postID)
+        web.redirect("/admin/view")
 
 class documentation:
     def GET(self):
@@ -115,12 +238,38 @@ class RSSList:
         return render.RSS(schoolNamesList)
 
 class TrusteeInfo:
+
     def GET(self):
-        whoisStore = whois.WhoisStore()
+        process = ProcessSingleton.getProcess()
+        whoisStore = process.getWhois()
         schoolNamesList = list(zip(whoisStore.whois.keys(), whoisStore.whois.values()))
         schoolNamesList.sort(key=operator.itemgetter(1))
         
         return render.TrusteeInfo(schoolNamesList)
+
+    def POST(self):
+        process = ProcessSingleton.getProcess()
+        form = web.input()
+        print form
+        if (form['human'].lower().find("maicgregator") == -1):
+            return "NotHuman"
+
+        data = {}
+        hostname = form['hostname']
+        data['trusteeResource'] = form['trusteeResource']
+        if (form['trusteeURL'].strip() != ""):
+            data['trusteeURL'] = form['trusteeURL'].strip()
+    
+        if (form['trusteeBio'].strip() !=""):
+            data['trusteeBio'] = form['trusteeBio'].strip()
+        
+        process = ProcessSingleton.getProcess()
+        whoisStore = process.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+        schoolData = process.getSchoolData(schoolName) 
+        schoolData.addTrusteeInfo(data)
+
+        return "Done"
 
 class TrusteeImage:
     def GET(self, personName):
@@ -132,7 +281,6 @@ class name:
         return whoisStore.getSchoolName(hostname)
 
 class ProcessBase(object):
-
     def __init__(self, dbManager = None):
         # Setup the school data object dictionary
         self.dbManager = dbManager
@@ -511,7 +659,7 @@ class process:
         return data
 
 # Finally, setup our web application
-app = web.application(urls, globals())
+
 if (config.fastcgi):
     web.wsgi.runwsgi = lambda func, addr=None: web.wsgi.runfcgi(func, addr)
 

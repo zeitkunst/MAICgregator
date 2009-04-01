@@ -4,17 +4,18 @@
          xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <RDF:Description RDF:about="rdf:#$db.xm1"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="3.*"
+                   em:minVersion="3.0"
                    em:maxVersion="5.*" />
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="maicgregator@maicgregator.org"
                    em:name="MAICgregator"
                    em:version="0.1"
-                   em:creator="nick knouf; http://zeitkunst.org"
+                   em:creator="MAICgregator; info@maicgregator.org"
                    em:description="MAICgregator"
                    em:homepageURL="http://maicgregator.org"
                    em:optionsURL="chrome://MAICgregator/content/options.xul"
                    em:iconURL="chrome://MAICgregator/skin/icon.png"
+                   em:updateURL="http://maicgregator.org/static/update.rdf"
                    em:updateKey="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDUhtw/63VMA2Sc0vM72Xr+ZiyDlVdSswbO5IAVCXw/W4XdHZ8IdZCSiCWq8/2d8sOlgyzY82/HoToCvb3qdeH/21XveJS+f6yGgkDqTLr9XdWIyQp3IH6WV8JuC9yl4tNEgPfTPrHB85mApUKk5VIaEda1YqT2mQ5D6+mlTnDP0QIDAQAB">
     <em:targetApplication RDF:resource="rdf:#$db.xm1"/>
   </RDF:Description>

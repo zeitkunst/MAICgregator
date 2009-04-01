@@ -1,5 +1,5 @@
 pref("extensions.MAICgregator.interject", "News");
-pref("extensions.MAICgregator.serverURL", "http://localhost:8080/MAICgregator/");
+pref("extensions.MAICgregator.serverURL", "http://maicgregator.org/MAICgregator/");
 pref("extensions.MAICgregator.trusteeImages", "Replace");
 pref("extensions.MAICgregator.DoDBR", true);
 pref("extensions.MAICgregator.DoDSTTR", true);

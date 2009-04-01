@@ -1,0 +1,14 @@
+$def with (session, inserted)
+$var title: MAICgregator Blog Post 
+<h1>MAICgregator Blog Post</h1>
+$if inserted:
+    <p>Post Added!</p>
+$else:
+    <form action="/admin/post" method="post">
+        <label>Post Title:</label>
+        <input type="text" name="title" id="title" />
+        <label>Post Content:</label>
+        <textarea name="content" id="content"></textarea>
+        <input type="submit" name="submitButton" id="submitButton" />
+    </form>    
+

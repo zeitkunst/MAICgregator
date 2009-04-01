@@ -1,15 +1,12 @@
 $def with (schoolNamesList)
 $var title: Update Trustee Information
-<div>
-    <p id="message">&nbsp;</p>
-</div>
 <form>
-    <fieldset>
-            <label>School Name:</label>
+    <fieldset id="TrusteeSchoolNames">
+        <p><label>School Name:</label>
         <select id="SchoolSelect">
 $for schoolName in schoolNamesList:
     <option value="$schoolName[0]">$schoolName[1]</option>
-</select>
+</select></p>
     </fieldset>
 
 <div>
@@ -22,17 +19,24 @@ $for schoolName in schoolNamesList:
 
     </fieldset>
     <fieldset id="TrusteeUpdateInfoFieldset" style="display: none;">
-            <label>Trustee Name:</label>
+        <p><label>Trustee Name:</label>
         <select name="TrusteeSelect" id="TrusteeSelect">
-        </select><br/>
-        <label>Trustee Place of Business (URL)</label>
-        <input type="text" name="trusteeURL" id="trusteeURL" /><br/>
-        <label>Trustee Bio</label><br/>
-        <textarea id="trusteeBio" rows = "10" cols = "40"></textarea>
-        <input type="button" value="Submit trustee information" id="submitTrusteeInfoUpdate" name="submitTrusteeInfo" />
+        </select></p>
+        <p><label>Trustee Place of Business (URL)</label>
+        <input type="text" name="trusteeURL" id="trusteeURL" /></p>
+        <p><label>Trustee Bio</label><br/>
+        <textarea id="trusteeBio" rows = "10" cols = "40"></textarea></p>
+        <p><label>What is the name of this site?</label><input type="text" name="human" id="human" /></p>
+        <input type="button" value="Submit trustee information" id="submitTrusteeInfoUpdate" name="submitTrusteeInfoUpdate" />
     </fieldset>
 </div>
 </form>
+<div>
+    <p id="message">&nbsp;</p>
+</div>
+
+$# add a "captcha" thing, and maybe a hidden form element or two...
+
 $# We need to do the following:
 $#  Setup page that lists the available schools
 $#  Do an ajax request that gets the trustees for that school

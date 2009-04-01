@@ -58,9 +58,13 @@ class DBManager(object):
             self.storage = storage
             self.model = model
         else:
-            # Get RDF model
+            # Get Main RDF model
             self.storage = RDF.HashStorage('data/trustees/MAICgregator', options="hash-type='bdb'")
             self.model = RDF.Model(self.storage)
+
+            # Get/create ToAdd model
+            self.storageToAdd = RDF.HashStorage('data/trustees/MAICgregatorToAdd', options="hash-type='bdb'")
+            self.modelToAdd = RDF.Model(self.storageToAdd)
 
 
     def openDB(self):
@@ -391,6 +395,40 @@ class SchoolData(object):
         
         return [result['image'].literal_value['string'] for result in results]
 
+    def getTrusteeURLToAddFromModel(self):
+        query = """
+            PREFIX maic: <http://maicgregator.org/MAIC#>
+            SELECT ?url ?x
+            WHERE {
+                ?x maic:HasURL ?url . 
+            }
+            ORDER BY ?x"""
+
+        nameQuery = RDF.Query(query, query_language="sparql")
+
+        results = nameQuery.execute(self.dbManager.modelToAdd)
+        values = []
+        for result in results:
+            values.append(list((str(result['x'].uri), result['url'].literal_value['string'])))
+        return values
+
+    def getTrusteeBioToAddFromModel(self):
+        query = """
+            PREFIX maic: <http://maicgregator.org/MAIC#>
+            SELECT ?bio ?x
+            WHERE {
+                ?x maic:HasBio ?bio. 
+            }
+            ORDER BY ?x"""
+
+        nameQuery = RDF.Query(query, query_language="sparql")
+
+        results = nameQuery.execute(self.dbManager.modelToAdd)
+        values = []
+        for result in results:
+            values.append(list((str(result['x'].uri), result['bio'].literal_value['string'])))
+        return values
+
     def _deleteTrusteeImages(self):
         schoolNameCompact = self.schoolName.replace(" ", "")
         query = """
@@ -409,6 +447,29 @@ class SchoolData(object):
         HasImage = self.maicNS['HasImage']
         for result in results:
             del self.dbManager.model[RDF.Statement(result['x'], HasImage, result['image'])]
+
+    def addTrusteeInfo(self, data):
+        name = self.maicNS[str(data['trusteeResource'])]
+
+        # TODO
+        # Need to check if statement already exists
+        if (data.has_key('trusteeURL')):
+            HasURL = self.maicNS['HasURL']
+            url = data['trusteeURL']
+
+            statement = RDF.Statement(name, HasURL, url)
+            self.dbManager.modelToAdd.add_statement(statement)
+
+            self.dbManager.modelToAdd.sync()
+
+        if (data.has_key('trusteeBio')):
+            HasBio = self.maicNS['HasBio']
+            url = data['trusteeBio']
+
+            statement = RDF.Statement(name, HasBio, url)
+            self.dbManager.modelToAdd.add_statement(statement)
+
+            self.dbManager.modelToAdd.sync()
 
     def updateTrusteeImages(self):
         """Get the latest trustee images from the Google Image Search results"""

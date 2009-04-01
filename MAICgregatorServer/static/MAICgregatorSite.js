@@ -74,17 +74,22 @@ function processTrustees() {
 }
 
 function processUpdateInfo() {
+    hostname = document.getElementById("SchoolSelect");
+    hostname = hostname.value;
     trusteeURL = document.getElementById("trusteeURL");
     trusteeURL = trusteeURL.value;
     trusteeBio = document.getElementById("trusteeBio");
     trusteeBio = trusteeBio.value;
     trusteeResource = document.getElementById("TrusteeSelect");
     trusteeResource = trusteeResource.value;
+    human = document.getElementById("human");
+    // Wow, this is an equaion...programming using CS and web standards really gets you sometimes...
+    human = human.value;
 
     // This really needs to be done using an AJAX post request...
-    params = "trusteeResource=" + escape(trusteeResource) + "&trusteeURL=" + escape(trusteeURL) + "&trusteeBio=" + escape(trusteeBio);
+    params = "hostname=" + escape(hostname) + "&trusteeResource=" + escape(trusteeResource) + "&trusteeURL=" + escape(trusteeURL) + "&trusteeBio=" + escape(trusteeBio) + "&human=" + escape(human);
     alert(params);
-    url = "http://localhost:8080/MAICgregator/TrusteeInfoUpdate/";
+    url = "http://localhost:8080/TrusteeInfo";
     request.open("POST", url, true);
 
     //Send the proper header information along with the request
@@ -96,6 +101,23 @@ function processUpdateInfo() {
     request.onreadystatechange = doneUpdateInfo;
 }
 
+function doneUpdateInfo() {
+
+	if (request.readyState < 4)  {
+		return;
+    } else {
+        response = request.responseText;
+        if (response == "NotHuman") {
+            document.getElementById("message").innerHTML = "Need to enter in the name of the site...think \"maicgregator\".";
+
+        } else {
+            document.getElementById("message").innerHTML = "Trustee information update complete; thanks!";
+
+        }
+        //document.getElementById("TrusteeUpdateInfoFieldset").style.display = "none";
+        //document.getElementById("TrusteeSchoolNames").style.display = "none";
+    }
+}
 function createRequest() {
 
 	try {
