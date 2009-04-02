@@ -429,6 +429,23 @@ class SchoolData(object):
             values.append(list((str(result['x'].uri), result['bio'].literal_value['string'])))
         return values
 
+    def getTrusteeInfoToAddFromModel(self):
+        query = """
+            PREFIX maic: <http://maicgregator.org/MAIC#>
+            SELECT ?info ?x
+            WHERE {
+                ?x maic:HasInfo ?info. 
+            }
+            ORDER BY ?x"""
+
+        nameQuery = RDF.Query(query, query_language="sparql")
+
+        results = nameQuery.execute(self.dbManager.modelToAdd)
+        values = []
+        for result in results:
+            values.append(list((str(result['x'].uri), result['info'].literal_value['string'])))
+        return values
+
     def _deleteTrusteeImages(self):
         schoolNameCompact = self.schoolName.replace(" ", "")
         query = """
@@ -449,27 +466,36 @@ class SchoolData(object):
             del self.dbManager.model[RDF.Statement(result['x'], HasImage, result['image'])]
 
     def addTrusteeInfo(self, data):
-        name = self.maicNS[str(data['trusteeResource'])]
+        school = self.maicNS[str(data['schoolName'])]
 
-        # TODO
-        # Need to check if statement already exists
         if (data.has_key('trusteeURL')):
+            name = self.maicNS[str(data['trusteeResource'])]
             HasURL = self.maicNS['HasURL']
             url = data['trusteeURL']
 
             statement = RDF.Statement(name, HasURL, url)
-            self.dbManager.modelToAdd.add_statement(statement)
+            if not (self.dbManager.modelToAdd.contains_statement(statement)):
+                self.dbManager.modelToAdd.add_statement(statement)
+                self.dbManager.modelToAdd.sync()
 
-            self.dbManager.modelToAdd.sync()
+        if (data.has_key('trusteeInfo')):
+            HasInfo = self.maicNS['HasInfo']
+            url = data['trusteeInfo']
+
+            statement = RDF.Statement(school, HasInfo, url)
+            if not (self.dbManager.modelToAdd.contains_statement(statement)):
+                self.dbManager.modelToAdd.add_statement(statement)
+                self.dbManager.modelToAdd.sync()
 
         if (data.has_key('trusteeBio')):
+            name = self.maicNS[str(data['trusteeResource'])]
             HasBio = self.maicNS['HasBio']
             url = data['trusteeBio']
 
             statement = RDF.Statement(name, HasBio, url)
-            self.dbManager.modelToAdd.add_statement(statement)
-
-            self.dbManager.modelToAdd.sync()
+            if not (self.dbManager.modelToAdd.contains_statement(statement)):
+                self.dbManager.modelToAdd.add_statement(statement)
+                self.dbManager.modelToAdd.sync()
 
     def updateTrusteeImages(self):
         """Get the latest trustee images from the Google Image Search results"""

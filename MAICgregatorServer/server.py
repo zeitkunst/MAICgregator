@@ -156,6 +156,7 @@ class adminTrusteeView:
         output = ""
         urls = schoolData.getTrusteeURLToAddFromModel()
         bios = schoolData.getTrusteeBioToAddFromModel()
+        infos = schoolData.getTrusteeInfoToAddFromModel()
 
         # TODO
         # Need to format better, put in checkboxes to update
@@ -163,7 +164,10 @@ class adminTrusteeView:
             output += "\t".join(url) + "\n"
         for bio in bios:
             output += "\t".join(bio) + "\n"
-        return output
+        for info in infos:
+            output += "\t".join(info) + "\n"
+
+        return renderAdmin.adminTrusteeView(urls, bios, infos)
 
 class adminView:
     def GET(self):
@@ -256,16 +260,21 @@ class TrusteeInfo:
 
         data = {}
         hostname = form['hostname']
-        data['trusteeResource'] = form['trusteeResource']
-        if (form['trusteeURL'].strip() != ""):
+        if (form.has_key('trusteeURL')):
+            data['trusteeResource'] = form['trusteeResource']
             data['trusteeURL'] = form['trusteeURL'].strip()
     
-        if (form['trusteeBio'].strip() !=""):
+        if (form.has_key('trusteeBio')):
+            data['trusteeResource'] = form['trusteeResource']
             data['trusteeBio'] = form['trusteeBio'].strip()
-        
+
+        if (form.has_key('trusteeInfo')):
+            data['trusteeInfo'] = form['trusteeInfo'].strip()
+
         process = ProcessSingleton.getProcess()
         whoisStore = process.getWhois()
         schoolName = whoisStore.getSchoolName(hostname)
+        data['schoolName'] = schoolName.replace(" ", "")
         schoolData = process.getSchoolData(schoolName) 
         schoolData.addTrusteeInfo(data)
 

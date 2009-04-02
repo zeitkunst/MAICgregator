@@ -53,6 +53,8 @@ function processTrustees() {
     if (trusteeResults[1] == "None") {
         fieldsetNode = document.getElementById("TrusteeInfoFieldset");
         fieldsetNode.style.display = "inline";
+        buttonNode = document.getElementById("submitTrusteeInfo");
+        buttonNode.onclick = processInfo;
 
     } else {
         trusteeSelectNode = document.getElementById("TrusteeSelect");
@@ -82,7 +84,7 @@ function processUpdateInfo() {
     trusteeBio = trusteeBio.value;
     trusteeResource = document.getElementById("TrusteeSelect");
     trusteeResource = trusteeResource.value;
-    human = document.getElementById("human");
+    human = document.getElementById("humanUpdateInfo");
     // Wow, this is an equaion...programming using CS and web standards really gets you sometimes...
     human = human.value;
 
@@ -92,6 +94,28 @@ function processUpdateInfo() {
     url = "http://localhost:8080/TrusteeInfo";
     request.open("POST", url, true);
 
+    //Send the proper header information along with the request
+    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    request.setRequestHeader("Content-length", params.length);
+    request.setRequestHeader("Connection", "close");
+
+    request.send(params);
+    request.onreadystatechange = doneUpdateInfo;
+}
+
+function processInfo() {
+    hostname = document.getElementById("SchoolSelect");
+    hostname = hostname.value;
+    trusteeInfo = document.getElementById("trusteeInfo");
+    trusteeInfo = trusteeInfo.value;
+    human = document.getElementById("humanInfo");
+    // Wow, this is an equaion...programming using CS and web standards really gets you sometimes...
+    human = human.value;
+
+    // This really needs to be done using an AJAX post request...
+    params = "hostname=" + escape(hostname) + "&trusteeInfo=" + escape(trusteeInfo) + "&human=" + escape(human);
+    url = "http://localhost:8080/TrusteeInfo";
+    request.open("POST", url, true);
     //Send the proper header information along with the request
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.setRequestHeader("Content-length", params.length);
@@ -118,6 +142,7 @@ function doneUpdateInfo() {
         //document.getElementById("TrusteeSchoolNames").style.display = "none";
     }
 }
+
 function createRequest() {
 
 	try {

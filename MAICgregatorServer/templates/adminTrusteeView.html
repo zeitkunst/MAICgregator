@@ -1,0 +1,21 @@
+$def with (trusteeURLs, trusteeBios, trusteeInfos)
+$var title: MAICgregator Trustee Added Info View
+<h1>MAICgregator View Trustee Added Info</h1>
+$if len(trusteeURLs) != 0:
+    <div id="trusteeURLs">
+    <h2>Trustee Info URLs</h2>
+    $for trusteeURL in trusteeURLs:
+        <p>$trusteeURL[0]: <a href="$trusteeURL[1]">$trusteeURL[1]</a></p>
+    </div>
+$if len(trusteeBios) != 0:
+    <div id="trusteeBios">
+    <h2>Trustee Bios</h2>
+    $for trusteeBio in trusteeBios:
+        <p>$trusteeBio[0]: $trusteeBio[1]</p>
+    </div>
+$if len(trusteeInfos) != 0:
+    <div id="trusteeInfos">
+    <h2>Trustee Infos</h2>
+    $for trusteeInfo in trusteeInfos:
+        <p>$trusteeInfo[0]: $trusteeInfo[1]</p>
+    </div>

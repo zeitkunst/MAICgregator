@@ -12,9 +12,8 @@ $for schoolName in schoolNamesList:
 <div>
     <fieldset id="TrusteeInfoFieldset" style="display: none;">
         <p>No trustees were found.  If you can provide us any information about where we can get these trustee names, we'd appreciate it.  Thanks!</p>
-        <textarea id="TrusteeInfoTextarea" rows="10" cols = "40">
-            &nbsp;
-        </textarea>
+        <textarea id="trusteeInfo" rows="10" cols = "40"></textarea>
+        <p><label>What is the name of this site?</label><input type="text" name="human" id="humanInfo" /></p>
         <input type="button" value="Submit trustee information" id="submitTrusteeInfo" name="submitTrusteeInfo" />
 
     </fieldset>
@@ -26,7 +25,7 @@ $for schoolName in schoolNamesList:
         <input type="text" name="trusteeURL" id="trusteeURL" /></p>
         <p><label>Trustee Bio</label><br/>
         <textarea id="trusteeBio" rows = "10" cols = "40"></textarea></p>
-        <p><label>What is the name of this site?</label><input type="text" name="human" id="human" /></p>
+        <p><label>What is the name of this site?</label><input type="text" name="human" id="humanUpdateInfo" /></p>
         <input type="button" value="Submit trustee information" id="submitTrusteeInfoUpdate" name="submitTrusteeInfoUpdate" />
     </fieldset>
 </div>
