@@ -1,0 +1,52 @@
+$def with ()
+$var title: MAICgregator Preferences Documentation 
+<h2>MAICgregator Preferences</h2>
+<p>Back to the <a href="/docs">list of documentation</a>.</p>
+<h3>Standard Preferences</h3>
+<div>
+    <div class="imageDiv">
+        <a href="/static/images/standardPreferences.png"><img src="/static/images/standardPreferences.png" width="300" /></a>
+    </div>
+    <div>
+        <h3>Interject</h3>
+        <p><strong>All pages?</strong>: Do you want to have MAICgregator information on every page, even if there are no "news" areas of the page to be found?  If so, this option will either replace news areas with MAICgregated context, or if it cannot find news areas, it will create its own box at the top of the page with the requested MAICgregated data.</p>
+        <p><strong>Only the home page?</strong>: Currently unimplemented.</p>
+        <p><strong>Only pages with 'News' elements?</strong>: Instead of placing MAICgregated information on every page, this option will only place it on pages that it is able to find 'news'-like elements.  Note that this means that certain school websites, especially those designed using older web technologies, will not have any MAICgregated content on them.</p>
+        <p><strong>No pages at all?</strong>: This option will not replace any information on the page and will basically turn MAICgregator off.</p>
+    </div>
+    <div>
+        <h3>Include</h3>
+        <p><strong>Department of Defense Basic Research Grants</strong>: See <a href="http://localhost:8080/FAQ#qSources">the FAQ</a>.</p>
+        <p><strong>Department of Defense STTR</strong>: See <a href="http://localhost:8080/FAQ#qSources">the FAQ</a>.</p>
+        <p><strong>Department of Homeland Security Grants</strong>: See <a href="http://localhost:8080/FAQ#qSources">the FAQ</a>.</p>
+        <p><strong>Google News Search</strong>: See <a href="http://localhost:8080/FAQ#qSources">the FAQ</a>.</p>
+        <p><strong>PR News Search</strong>: See <a href="http://localhost:8080/FAQ#qSources">the FAQ</a>.</p>
+        <p><strong>Trustee Relationship Search</strong>: See <a href="http://localhost:8080/FAQ#qSources">the FAQ</a>.</p>
+    </div>
+
+    <div>
+        <h3>Randomize</h3>
+        <p><strong>Randomize links</strong>: Do you want to replace the links on the page to random links from the MAICgregated data?  This option will do so, making is so that, for example, a link that would normally go to the university's home page will now go to a random press release.  This option is dependent on the selection of news sources.</p>
+    </div>
+    <div>
+        <h3>Show info about</h3>
+        <p><strong>Status of data requests</strong>: Do you want to show status information of the data request to the MAICgregator server?  This option does so, creating a small box at the upper-left corner of the window that shows coarse information about the process of sending and parsing the data.  Note that this option is definitely not recommended for installations of MAICgregator on public computers, as it will give away what is going on.</p>
+    </div>
+<h3>Advanced Preferences</h3>
+<div>
+    <div class="imageDiv">
+        <a href="/static/images/advancedPreferences.png"><img src="/static/images/advancedPreferences.png" width="300" /></a>
+    </div>
+    <div>
+        <h3>Server Information</h3>
+        <p><strong>Server URL</strong>: It is possible to run MAICgregator on a local machine if properly installed and configured.  Set this value to point to the host, port (if necessary), and path to the REST interface to the MAICgregator server.</p>
+        <h3>Trustee Images</h3>
+        <p><strong>Replace existing images</strong>: If MAICgregator was able to find trustees, and was additionally able to find images for those trustees, replace existing images on the page with the trustee images.  Now, this process will only replace <em>some</em> images on the page, as images can sometimes be inserted on the page using CSS techniques that we currently do not detect.  However, this is the most "unobtrusive" of the two image-replacement methods, as it tries to keep the layout of the page intact, but only replacing the existing images.</p>
+        <p><strong>Display images randomly</strong>: Instead of trying to replace existing images, display the images randomly on the page in a series of boxes.  This will likely cover the entire page, making it impossible to use---which may be a good thing.  Clicking on an image will go to an image search for the person, and clicking on the person's name will go to a web search for the person.</p>
+        <p><strong>Don't replace any images</strong>: Don't do anything with the trustee images, if any.</p>
+
+
+
+    </div>
+</div>
+<p>Back to the <a href="/docs">list of documentation</a>.</p>

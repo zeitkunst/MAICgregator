@@ -67,9 +67,9 @@ urls = (
     '/RSS', 'RSSList',
     '/FAQ', 'FAQ',
     '/TrusteeInfo', 'TrusteeInfo',
+    '/docs/preferences', 'documentationPreferences',
     '/docs', 'documentation',
     '/docs/install', 'documentationInstall',
-    '/docs/preferences', 'documentationPreferences',
     '/download', 'download',
     '/faq', 'FAQ',
     '/MAICgregator/name/(.*?)', 'name'
@@ -83,8 +83,8 @@ if web.config.get('_session') is None:
 else:
     session = web.config._session
 
-render = web.template.render('templates/', base = 'layout', cache = False)
-renderAdmin = web.template.render('templates/', base = 'layoutAdmin', cache = False)
+render = web.template.render('templates/', base = 'layout', cache = config.cache)
+renderAdmin = web.template.render('templates/', base = 'layoutAdmin', cache = config.cache)
 
 class Log(WsgiLog):
     def __init__(self, application):
@@ -222,7 +222,7 @@ class documentationInstall:
     def GET(self):
         return render.documentationInstall()
 
-class documentationPreferneces:
+class documentationPreferences:
     def GET(self):
         return render.documentationPreferences()
 
