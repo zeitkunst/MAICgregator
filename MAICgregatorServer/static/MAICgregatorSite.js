@@ -90,7 +90,6 @@ function processUpdateInfo() {
 
     // This really needs to be done using an AJAX post request...
     params = "hostname=" + escape(hostname) + "&trusteeResource=" + escape(trusteeResource) + "&trusteeURL=" + escape(trusteeURL) + "&trusteeBio=" + escape(trusteeBio) + "&human=" + escape(human);
-    alert(params);
     url = "http://localhost:8080/TrusteeInfo";
     request.open("POST", url, true);
 

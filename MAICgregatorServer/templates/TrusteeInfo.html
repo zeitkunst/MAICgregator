@@ -1,5 +1,7 @@
 $def with (schoolNamesList)
 $var title: Update Trustee Information
+<h1>Provide Information about Trustees</h1>
+<p>Select the school below to update information about known trustees.  If there are no trustees found, please provide a source that lists, at the very least, the names of the trustees.  (If you don't see your desired school listed, please <a href="/download" title="download link">download</a> MAICgregator and use it on your school of choice.)  All information will be reviewed before it is entered into the public database.  If you want to provide information about a different trustee, simply select his or her name.  If you want to provide trustee information about a different school, please reload the page.</p>
 <form>
     <fieldset id="TrusteeSchoolNames">
         <p><label>School Name:</label>
@@ -12,8 +14,8 @@ $for schoolName in schoolNamesList:
 <div>
     <fieldset id="TrusteeInfoFieldset" style="display: none;">
         <p>No trustees were found.  If you can provide us any information about where we can get these trustee names, we'd appreciate it.  Thanks!</p>
-        <textarea id="trusteeInfo" rows="10" cols = "40"></textarea>
-        <p><label>What is the name of this site?</label><input type="text" name="human" id="humanInfo" /></p>
+        <textarea id="trusteeInfo" rows="10" cols = "50"></textarea>
+        <p><label>What is the name of this site (to prevent spamming)?</label><input type="text" name="human" id="humanInfo" /></p>
         <input type="button" value="Submit trustee information" id="submitTrusteeInfo" name="submitTrusteeInfo" />
 
     </fieldset>
@@ -24,8 +26,8 @@ $for schoolName in schoolNamesList:
         <p><label>Trustee Place of Business (URL)</label>
         <input type="text" name="trusteeURL" id="trusteeURL" /></p>
         <p><label>Trustee Bio</label><br/>
-        <textarea id="trusteeBio" rows = "10" cols = "40"></textarea></p>
-        <p><label>What is the name of this site?</label><input type="text" name="human" id="humanUpdateInfo" /></p>
+        <textarea id="trusteeBio" rows = "10" cols = "50"></textarea></p>
+        <p><label>What is the name of this site (to prevent spamming)?</label><input type="text" name="human" id="humanUpdateInfo" /></p>
         <input type="button" value="Submit trustee information" id="submitTrusteeInfoUpdate" name="submitTrusteeInfoUpdate" />
     </fieldset>
 </div>

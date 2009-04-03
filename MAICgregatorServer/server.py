@@ -68,6 +68,8 @@ urls = (
     '/FAQ', 'FAQ',
     '/TrusteeInfo', 'TrusteeInfo',
     '/docs', 'documentation',
+    '/docs/install', 'documentationInstall',
+    '/docs/preferences', 'documentationPreferences',
     '/download', 'download',
     '/faq', 'FAQ',
     '/MAICgregator/name/(.*?)', 'name'
@@ -215,6 +217,14 @@ class adminEdit:
 class documentation:
     def GET(self):
         return render.documentation()
+
+class documentationInstall:
+    def GET(self):
+        return render.documentationInstall()
+
+class documentationPreferneces:
+    def GET(self):
+        return render.documentationPreferences()
 
 class download:
     def GET(self):
