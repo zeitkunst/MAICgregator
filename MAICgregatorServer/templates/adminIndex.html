@@ -3,8 +3,9 @@ $var title: MAICgregator Admin login
 <h1>MAICgregator Admin Login</h1>
 $if session.loggedIn:
     <p>Congrats, you're logged in!</p>
-    <p><a href="/admin/view">View Posts</a></p>
-    <p><a href="/admin/post">Add Post</a></p>
+    <p><a href="/admin/view">View posts</a></p>
+    <p><a href="/admin/post">Add post</a></p>
+    <p><a href="/admin/trustee/view">View submitted trustee info</a></p>
 $else:
     <form action="/admin/" method="post">
         <label>Username:</label>

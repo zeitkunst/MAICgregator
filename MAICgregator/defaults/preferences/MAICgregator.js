@@ -1,4 +1,4 @@
-pref("extensions.MAICgregator.interject", "News");
+pref("extensions.MAICgregator.interject", "All");
 pref("extensions.MAICgregator.serverURL", "http://maicgregator.org/MAICgregator/");
 pref("extensions.MAICgregator.trusteeImages", "Replace");
 pref("extensions.MAICgregator.DoDBR", true);
@@ -7,5 +7,5 @@ pref("extensions.MAICgregator.DHS", false);
 pref("extensions.MAICgregator.GoogleNewsSearch", false);
 pref("extensions.MAICgregator.PRNewsSearch", false);
 pref("extensions.MAICgregator.TrusteeRelationshipSearch", false);
-pref("extensions.MAICgregator.randomize", false);
+pref("extensions.MAICgregator.randomize", true);
 pref("extensions.MAICgregator.infoStatus", false);

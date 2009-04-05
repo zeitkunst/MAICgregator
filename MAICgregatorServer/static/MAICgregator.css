@@ -96,6 +96,10 @@ div#content {
     opacity: 0.9;
     width: 30em;
 }
+
+div#content .downloadImage a, div#content .downloadImage a:hover {
+    background-color: transparent;
+}
 a:hover {
     color: #f66f5d;
     background-color: #dfef21;

@@ -6,6 +6,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="744.09448819"
@@ -14,9 +15,34 @@
    sodipodi:version="0.32"
    inkscape:version="0.46"
    sodipodi:docname="downloadMAICgregator.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-filename="/media/nomadicsounds/Users/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/images/downloadMAICgregator.png"
+   inkscape:export-xdpi="54.419998"
+   inkscape:export-ydpi="54.419998">
   <defs
      id="defs4">
+    <linearGradient
+       id="linearGradient3182">
+      <stop
+         style="stop-color:#000000;stop-opacity:0.20338982;"
+         offset="0"
+         id="stop3184" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop3186" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3174">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop3176" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop3178" />
+    </linearGradient>
     <inkscape:perspective
        sodipodi:type="inkscape:persp3d"
        inkscape:vp_x="0 : 526.18109 : 1"
@@ -24,6 +50,16 @@
        inkscape:vp_z="744.09448 : 526.18109 : 1"
        inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
        id="perspective10" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3182"
+       id="linearGradient3188"
+       x1="-415.21936"
+       y1="307.14288"
+       x2="-289.50508"
+       y2="307.14288"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.839256,0,0,1.1579461,-73.016698,-14.226326)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -35,15 +71,15 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="363.57143"
+     inkscape:zoom="0.7"
+     inkscape:cx="335.6903"
      inkscape:cy="520"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1084"
      inkscape:window-height="729"
-     inkscape:window-x="8"
+     inkscape:window-x="16"
      inkscape:window-y="63" />
   <metadata
      id="metadata7">
@@ -61,20 +97,31 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="opacity:0.90000000000000002;fill:#ef2121;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:7.64599999999999991;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.7467249;stroke-linejoin:round;stroke-linecap:round"
+       style="opacity:0.9;fill:#dfef21;fill-opacity:1;fill-rule:nonzero;stroke:#dfef21;stroke-width:16.17973137;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect2383"
-       width="457.14285"
-       height="91.428566"
-       x="105.71429"
-       y="315.21933"
+       width="468.39169"
+       height="91.248833"
+       x="107.23272"
+       y="323.11438"
        inkscape:export-filename="/home/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/images/downloadButton.png"
        inkscape:export-xdpi="54.419998"
        inkscape:export-ydpi="54.419998" />
+    <rect
+       style="opacity:0.9;fill:url(#linearGradient3188);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:16;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3164"
+       width="105.50647"
+       height="483.02893"
+       x="-421.49203"
+       y="99.914101"
+       inkscape:export-filename="/home/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/images/downloadButton.png"
+       inkscape:export-xdpi="54.419998"
+       inkscape:export-ydpi="54.419998"
+       transform="matrix(0,-1,1,0,0,0)" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot4613"
-       style="font-size:40px;font-style:normal;font-weight:normal;fill:#dfef21;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-       transform="translate(34.222007,191.56877)"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#ef2121;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       transform="translate(41.36486,199.37395)"
        inkscape:export-filename="/home/nknouf/Documents/Personal/Projects/FirefoxExtensions/MAICgregator/trunk/MAICgregatorServer/static/images/downloadButton.png"
        inkscape:export-xdpi="54.419998"
        inkscape:export-ydpi="54.419998"><flowRegion
@@ -84,7 +131,7 @@
            height="131.42857"
            x="108.57143"
            y="138.07646"
-           style="fill:#dfef21;fill-opacity:1" /></flowRegion><flowPara
+           style="fill:#ef2121;fill-opacity:1" /></flowRegion><flowPara
          id="flowPara4619"
-         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Delicious Heavy;-inkscape-font-specification:'Delicious Heavy, Heavy'">Download MAICgregator</flowPara></flowRoot>  </g>
+         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ef2121;fill-opacity:1;font-family:Delicious Heavy;-inkscape-font-specification:'Delicious Heavy, Heavy'">Download MAICgregator</flowPara></flowRoot>  </g>
 </svg>

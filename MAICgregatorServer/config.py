@@ -1,5 +1,5 @@
 # Cache requests?
-cache = True
+cache = False
 
 # Logfile location
 log_file = "logs/maicgregator.log"

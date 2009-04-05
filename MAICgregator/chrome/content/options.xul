@@ -104,7 +104,7 @@
         </hbox>
     </groupbox>
     <hbox>
-        <text value="&preferences.FAQLink;" class="url" onclick="window.open('http://maicgregator.org/MAICgregator/FAQ');"/>
+        <text value="&preferences.FAQLink;" class="url" onclick="window.open('http://maicgregator.org/FAQ');"/>
     </hbox>
     <hbox>
         <textbox multiline="true" rows="8" readonly="true" id="preferencesMAICgregatorInfo" value="&preferences.Info;" />
