@@ -54,8 +54,11 @@ urls = (
     '/admin', 'adminIndex',
     '/admin/', 'adminIndex',
     '/admin/view', 'adminView',
+    '/admin/viewComments', 'adminViewComments',
+    '/post/(.*?)', 'viewPost',
     '/admin/trustee/view', 'adminTrusteeView',
     '/admin/edit/(.*?)', 'adminEdit',
+    '/admin/editComment/(.*?)', 'adminEditComment',
     '/admin/index', 'adminIndex',
     '/admin/post', 'adminPost',
     '/admin/logout', 'adminLogout',
@@ -71,6 +74,7 @@ urls = (
     '/docs', 'documentation',
     '/docs/install', 'documentationInstall',
     '/download', 'download',
+    '/download/current', 'downloadCurrent',
     '/faq', 'FAQ',
     '/MAICgregator/name/(.*?)', 'name'
 )
@@ -106,12 +110,53 @@ class index:
         posts = ""
         posts += "<div id='posts'>"
         for item in results:
+            postID = item["pid"]
             posts += "<h2>" + item["title"] + "</h2>\n"
+            posts += "<div class=\"post\">"
             posts += "<div>" + textile.textile(item["content"]) + "</div>\n"
             posts += "<p>Posted on " + str(item["datetime"]) + "</p>\n"
+            posts += "<p><a href=\"/post/" + str(postID) + "\" title=\"comment on post\">Comments</a>\n"
+            posts += "</div>"
         posts += "</div>"
 
         return render.index(version, posts)
+
+class viewPost:
+    def GET(self, postID):
+        dbVars = dict(postID = postID)
+        results = webDB.select("posts", dbVars, where="pid = $postID", order="datetime DESC")
+        post = ""
+        for item in results:
+            postTitle = item["title"]
+            post += "<h2>" + item["title"] + "</h2>\n"
+            post += "<div>" + textile.textile(item["content"]) + "</div>\n"
+            post += "<p>Posted on " + str(item["datetime"]) + "</p>\n"
+
+        results = webDB.select("comments", dbVars, where="pid = $postID", order="datetime DESC")
+        comments = []
+        for item in results:
+            comments.append(item)
+        return render.post(postID, postTitle, post, comments)
+
+    def POST(self, postID):
+        form = web.input()
+
+        sequenceID = webDB.insert("comments", title=form['commentTitle'], content=form['commentText'], handle=form['commentName'], pid=form['postID'], datetime=web.SQLLiteral("NOW()"))
+
+        dbVars = dict(postID = postID)
+        results = webDB.select("posts", dbVars, where="pid = $postID", order="datetime DESC")
+        post = ""
+        for item in results:
+            postTitle = item["title"]
+            post += "<h2>" + item["title"] + "</h2>\n"
+            post += "<div>" + textile.textile(item["content"]) + "</div>\n"
+            post += "<p>Posted on " + str(item["datetime"]) + "</p>\n"
+
+        results = webDB.select("comments", dbVars, where="pid = $postID", order="datetime DESC")
+        comments = []
+        for item in results:
+            comments.append(item)
+        return render.post(postID, postTitle, post, comments)
 
 class adminIndex:
 
@@ -186,6 +231,21 @@ class adminView:
             items.append(item)
         return renderAdmin.adminView(items)
 
+class adminViewComments:
+    def GET(self):
+        if (session.loggedIn == False):
+            web.redirect("/admin/")
+        results = webDB.select("comments", order="datetime DESC")
+        items = []
+        for result in results:
+            item = []
+            item.append(result['cid'])
+            item.append(result['title'])
+            item.append(result['content'])
+            item.append(result['datetime'])
+            items.append(item)
+        return renderAdmin.adminViewComments(items)
+
 class adminEdit:
 
     def GET(self, postID):
@@ -214,13 +274,48 @@ class adminEdit:
             numRows = webDB.delete("posts", where="pid = " + postID)
         web.redirect("/admin/view")
 
+class adminEditComment:
+
+    def GET(self, commentID):
+        if (session.loggedIn == False):
+            web.redirect("/admin/")
+        dbVars = dict(commentID = commentID)
+        results = webDB.select("comments", dbVars, where="cid = $commentID", order="datetime DESC")
+        item = []
+        for result in results:
+            item.append(result['cid'])
+            item.append(result['pid'])
+            item.append(result['title'])
+            item.append(result['content'])
+            item.append(result['datetime'])
+
+        dbVars = dict(postID = item[1])
+        results = webDB.select("posts", dbVars, where="pid = $postID", order="datetime DESC")
+        for result in results:
+            item.append(result["title"])
+
+        return renderAdmin.adminEditComment(item)
+
+    def POST(self, commentID):
+        if (session.loggedIn == False):
+            web.redirect("/admin/")
+        
+        form = web.input()
+        print form
+        if form.has_key('submitButton'):
+            numRows = webDB.update("comments", "cid = " + commentID, title=form['title'], content=form['content'], datetime=web.SQLLiteral("NOW()"))
+        elif form.has_key('deleteButton'):
+            numRows = webDB.delete("comments", where="cid = " + commentID)
+        web.redirect("/admin/viewComments")
+
+
 class documentation:
     def GET(self):
         return render.documentation()
 
 class documentationInstall:
     def GET(self):
-        return render.documentationInstall()
+        return render.documentationInstall(config.currentExtensionPath)
 
 class documentationPreferences:
     def GET(self):
@@ -228,7 +323,7 @@ class documentationPreferences:
 
 class download:
     def GET(self):
-        return render.download()
+        return render.download(config.currentExtensionPath)
 
 class help:
     def GET(self):

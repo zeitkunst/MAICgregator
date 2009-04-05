@@ -93,7 +93,6 @@ div#content {
     /*background-color: #ef2121;*/
     background-image: url('/static/contentBackground.png');
     padding: 1em;
-    opacity: 0.9;
     width: 30em;
 }
 
@@ -118,15 +117,47 @@ li {
 }
 
 label {
-    width: 20em;
-    text-align: right;
+    width: 4em;
+    text-align: left;
+    margin-right: 1em;
+}
+
+textarea {
+    margin-top: 1em;
 }
 
 input, textarea {
-    border: 3px solid #444;
+    border: 1px solid #888;
     padding: 5px;
 }
 
 fieldset {
     border: none;
+}
+
+.post {
+    margin-left: 2em;
+}
+
+.comment {
+    float: left;
+    width: 100%;
+    margin-bottom: 3em;
+    clear: both;
+    border: 1px solid #dfef21;
+}
+
+.commentInfo {
+    width: 8em;
+    padding: 0.5em;
+    margin-right: 1em;
+    float: left;
+    color: #f66f5d;
+    background-color: #dfef21;
+
+}
+
+.commentText {
+    width: 20em;
+    margin-left: 10em;
 }

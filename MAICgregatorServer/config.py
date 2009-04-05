@@ -12,3 +12,6 @@ log_backups = 4
 
 # Are we in fastcgi mode?
 fastcgi = False
+
+# Path to the most up-to-date extension
+currentExtensionPath = "/static/MAICgregator.0.1.1.xpi"
