@@ -73,6 +73,7 @@ urls = (
     '/docs/preferences', 'documentationPreferences',
     '/docs', 'documentation',
     '/docs/install', 'documentationInstall',
+    '/docs/about', 'documentationAbout',
     '/download', 'download',
     '/download/current', 'downloadCurrent',
     '/faq', 'FAQ',
@@ -140,8 +141,9 @@ class viewPost:
 
     def POST(self, postID):
         form = web.input()
-
-        sequenceID = webDB.insert("comments", title=form['commentTitle'], content=form['commentText'], handle=form['commentName'], pid=form['postID'], datetime=web.SQLLiteral("NOW()"))
+        
+        if ((form['commentTitle'] != "") and (form['commentText'] != "") and (form['commentName'] != "")):
+            sequenceID = webDB.insert("comments", title=form['commentTitle'], content=form['commentText'], handle=form['commentName'], pid=form['postID'], datetime=web.SQLLiteral("NOW()"))
 
         dbVars = dict(postID = postID)
         results = webDB.select("posts", dbVars, where="pid = $postID", order="datetime DESC")
@@ -320,6 +322,10 @@ class documentationInstall:
 class documentationPreferences:
     def GET(self):
         return render.documentationPreferences()
+
+class documentationAbout:
+    def GET(self):
+        return render.documentationAbout()
 
 class download:
     def GET(self):

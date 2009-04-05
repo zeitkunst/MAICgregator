@@ -135,6 +135,17 @@ fieldset {
     border: none;
 }
 
+#footer {
+    margin-top: 4em;
+    color: #f66f5d;
+    background-color: #dfef21;
+    padding: 0.5em;
+
+}
+
+#footer p {
+    font-size: 0.8em;
+}
 .post {
     margin-left: 2em;
 }
