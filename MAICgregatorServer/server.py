@@ -67,12 +67,15 @@ urls = (
     '/MAICgregator/GoogleNews/(.*?)', 'GoogleNews',
     '/MAICgregator/Aggregate/(.*?)/(.*?)', 'Aggregate',
     '/MAICgregator/feed/rss/(.*?)/(.*?)', 'RSS',
-    '/RSS', 'RSSList',
+    '/RSSFeeds', 'RSSList',
+    '/feed/rss', 'PostsFeed',
+    '/feed/rss/', 'PostsFeed',
     '/FAQ', 'FAQ',
-    '/TrusteeInfo', 'TrusteeInfo',
+    '/UpdateTrusteeInfo', 'TrusteeInfo',
     '/docs/preferences', 'documentationPreferences',
     '/docs', 'documentation',
     '/docs/install', 'documentationInstall',
+    '/docs/screenshots', 'documentationScreenshots',
     '/docs/about', 'documentationAbout',
     '/download', 'download',
     '/download/current', 'downloadCurrent',
@@ -112,15 +115,17 @@ class index:
         posts += "<div id='posts'>"
         for item in results:
             postID = item["pid"]
+            posts += "<div id=\"post" + str(postID) + "\">\n"
             posts += "<h2>" + item["title"] + "</h2>\n"
-            posts += "<div class=\"post\">"
+            posts += "<div class=\"post\">\n"
             posts += "<div>" + textile.textile(item["content"]) + "</div>\n"
             posts += "<p>Posted on " + str(item["datetime"]) + "</p>\n"
-            posts += "<p><a href=\"/post/" + str(postID) + "\" title=\"comment on post\">Comments</a>\n"
-            posts += "</div>"
+            posts += "<p><a href=\"/post/" + str(postID) + "\" title=\"comment on post\">Comments</a></p>\n"
+            posts += "</div>\n"
+            posts += "</div>\n"
         posts += "</div>"
 
-        return render.index(version, posts)
+        return render.index(config.currentExtensionPath, posts)
 
 class viewPost:
     def GET(self, postID):
@@ -326,6 +331,10 @@ class documentationPreferences:
 class documentationAbout:
     def GET(self):
         return render.documentationAbout()
+
+class documentationScreenshots:
+    def GET(self):
+        return render.documentationScreenshots()
 
 class download:
     def GET(self):
@@ -772,7 +781,39 @@ class ProcessSingleton(ProcessBase):
 
 class statement:
     def GET(self):
-        return render.statement()
+        fp = open('data/statement.txt')
+        statement = textile.textile("".join(fp.readlines()))
+        fp.close()
+
+        return render.statement(statement)
+
+class PostsFeed:
+    def GET(self):
+        title = "MAICgregator"
+        link = "http://maicgregator.org/feed/rss"
+        description = "RSS feed of posts for http://maicgregator.org"
+
+        results = webDB.select("posts", limit=10, order="datetime DESC")
+        
+        items = []
+        for result in results:
+            url = "http://maicgregator.org/post/" + str(result["pid"])
+            item = PyRSS2Gen.RSSItem(title = result["title"],
+                    link = url,
+                    description = result["content"],
+                    guid = PyRSS2Gen.Guid(url),
+                    categories = ["maicgregator.org"],
+                    author = "info@maicgregator.org",
+                    pubDate = result["datetime"])
+            items.append(item)
+
+        rss = PyRSS2Gen.RSS2(title = title,
+                    link = link,
+                    description = description,
+                    lastBuildDate = items[0].pubDate,
+                    items = items)
+
+        return rss.to_xml()
 
 class process:
     def GET(self, data):

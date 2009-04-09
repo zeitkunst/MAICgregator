@@ -59,6 +59,7 @@ qFinancialCrisis !@# What do you think of the current "financial crisis"? !@#
     <p>to write</p>
 #@!
 qDataMining !@# What is "data mining"? !@#
+    <p>See the <a href="/statement" title="statement">statement</a>.</p>
     <p><a href="http://www.antidatamining.net/"><img width="450" src="/static/dataMining.png" /></a></p>
     <p><a href="http://journal.fibreculture.org/issue11/issue11_whitelaw.html"><img width="450" src="/static/dataMining.png" /></a></p>
     <p><a href="http://transition.turbulence.org/Works/mypocket/"><img width="450" src="/static/dataMining.png" /></a></p>

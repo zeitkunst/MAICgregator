@@ -2,7 +2,13 @@ $def with (content)
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
     <link rel="stylesheet" type="text/css" href="/static/MAICgregator.css"/>
+    <link rel="stylesheet" type="text/css" media="print" href="/static/MAICgregatorPrint.css" />
+
+    <link rel="alternate" type="application/rss+xml" title="MAICgregator RSS" href="/feed/rss" />
+
     <script type="text/javascript" src="/static/MAICgregatorSite.js"></script>
     <title>$content.title</title>
 </head>
@@ -17,7 +23,7 @@ $def with (content)
         <li><a href="/docs" title="docs">documentation</a></li>
         <li><a href="/download" title="download">download</a></li>
         <li><a href="/FAQ" title="FAQ">faq</a></li>
-        <li><a href="/RSS" title="automatically generated RSS feeds">rss feeds</a></li>
+        <li><a href="/RSSFeeds" title="automatically generated RSS feeds">rss feeds</a></li>
     </ul>
 </div>
 <!--<div id="header">

@@ -1,0 +1,14 @@
+body {
+    background: white;
+    color: black;
+}
+
+#menu {
+    display: none;
+}
+
+#content {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}

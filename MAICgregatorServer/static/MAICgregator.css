@@ -96,6 +96,11 @@ div#content {
     width: 30em;
 }
 
+div#content ul li {
+    margin-left: 2em;
+    list-style-type: disc;
+}
+
 div#content .downloadImage a, div#content .downloadImage a:hover {
     background-color: transparent;
 }
@@ -171,4 +176,17 @@ fieldset {
 .commentText {
     width: 20em;
     margin-left: 10em;
+}
+
+h2 {
+    color: #f66f5d;
+    background-color: #dfef21;
+
+}
+
+.imageBox {
+    border: 1px solid #dfef21;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    width: 20em;
 }

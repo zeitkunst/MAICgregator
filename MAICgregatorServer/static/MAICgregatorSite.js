@@ -52,7 +52,7 @@ function processTrustees() {
     trusteeResults = trusteeResults.split("\n");
     if (trusteeResults[1] == "None") {
         fieldsetNode = document.getElementById("TrusteeInfoFieldset");
-        fieldsetNode.style.display = "inline";
+        fieldsetNode.style.display = "block";
         buttonNode = document.getElementById("submitTrusteeInfo");
         buttonNode.onclick = processInfo;
 
@@ -67,7 +67,7 @@ function processTrustees() {
             trusteeSelectNode.appendChild(optionNode);
         }
         fieldsetNode = document.getElementById("TrusteeUpdateInfoFieldset");
-        fieldsetNode.style.display = "inline";
+        fieldsetNode.style.display = "block";
         buttonNode = document.getElementById("submitTrusteeInfoUpdate");
         buttonNode.onclick = processUpdateInfo;
 
@@ -88,9 +88,8 @@ function processUpdateInfo() {
     // Wow, this is an equaion...programming using CS and web standards really gets you sometimes...
     human = human.value;
 
-    // This really needs to be done using an AJAX post request...
     params = "hostname=" + escape(hostname) + "&trusteeResource=" + escape(trusteeResource) + "&trusteeURL=" + escape(trusteeURL) + "&trusteeBio=" + escape(trusteeBio) + "&human=" + escape(human);
-    url = "http://localhost:8080/TrusteeInfo";
+    url = "http://localhost:8080/UpdateTrusteeInfo";
     request.open("POST", url, true);
 
     //Send the proper header information along with the request
@@ -113,7 +112,7 @@ function processInfo() {
 
     // This really needs to be done using an AJAX post request...
     params = "hostname=" + escape(hostname) + "&trusteeInfo=" + escape(trusteeInfo) + "&human=" + escape(human);
-    url = "http://localhost:8080/TrusteeInfo";
+    url = "http://localhost:8080/UpdateTrusteeInfo";
     request.open("POST", url, true);
     //Send the proper header information along with the request
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
