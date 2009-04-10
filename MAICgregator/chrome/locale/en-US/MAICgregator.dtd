@@ -36,8 +36,9 @@
 <!ENTITY preferences.infoStatus "Status of data requests">
 <!ENTITY preferences.infoStatusTooltip "Whether or not we show info at the top of the page as to how the data requests are being processed.  This should be turned off if you install MAICgregator in a public computer.">
 
-<!ENTITY preferences.Info "This will be some more information about MAICgregator and more and more and more and more and more and more">
+<!ENTITY preferences.Info "MAICgregator is a Firefox extension that aggregates information about colleges and universities embedded in the military-academic-industrial complex (MAIC).  It searches government funding databases, private news sources, private press releases, and public information about trustees to try and produce a radical cartography of  the modern university via the replacement or overlay of this information on academic websites.  This is a necessary activity in light of the contemporary financial 'crisis'.">
 <!ENTITY preferences.FAQLink "MAICgregator FAQ">
+<!ENTITY preferences.statementLink "Read the MAICgregator statement">
 
 <!ENTITY preferences.serverURLGroup "Server information">
 <!ENTITY preferences.serverURLLabel "Server URL:">
