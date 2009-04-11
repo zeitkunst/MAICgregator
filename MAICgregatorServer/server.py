@@ -76,6 +76,7 @@ urls = (
     '/docs', 'documentation',
     '/docs/install', 'documentationInstall',
     '/docs/screenshots', 'documentationScreenshots',
+    '/docs/graphics', 'documentationGraphics',
     '/docs/about', 'documentationAbout',
     '/download', 'download',
     '/download/current', 'downloadCurrent',
@@ -335,6 +336,10 @@ class documentationAbout:
 class documentationScreenshots:
     def GET(self):
         return render.documentationScreenshots()
+
+class documentationGraphics:
+    def GET(self):
+        return render.documentationGraphics()
 
 class download:
     def GET(self):
