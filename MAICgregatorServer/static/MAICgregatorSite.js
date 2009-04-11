@@ -20,7 +20,7 @@ function initialize() {
 
 function selectItemSelected() {
 	//if (this.keyCode == 8) return;
-	var url="http://localhost:8080/MAICgregator/Aggregate/" + escape(this.value) + "/TrusteeRelationshipSearch";
+	var url="http://maicgregator.org/MAICgregator/Aggregate/" + escape(this.value) + "/TrusteeRelationshipSearch";
  
 	request.open("GET",url,true);
 	request.onreadystatechange = processTrustees;
@@ -89,7 +89,7 @@ function processUpdateInfo() {
     human = human.value;
 
     params = "hostname=" + escape(hostname) + "&trusteeResource=" + escape(trusteeResource) + "&trusteeURL=" + escape(trusteeURL) + "&trusteeBio=" + escape(trusteeBio) + "&human=" + escape(human);
-    url = "http://localhost:8080/UpdateTrusteeInfo";
+    url = "http://maicgregator.org/UpdateTrusteeInfo";
     request.open("POST", url, true);
 
     //Send the proper header information along with the request
@@ -112,7 +112,7 @@ function processInfo() {
 
     // This really needs to be done using an AJAX post request...
     params = "hostname=" + escape(hostname) + "&trusteeInfo=" + escape(trusteeInfo) + "&human=" + escape(human);
-    url = "http://localhost:8080/UpdateTrusteeInfo";
+    url = "http://maicgregator.org/UpdateTrusteeInfo";
     request.open("POST", url, true);
     //Send the proper header information along with the request
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
