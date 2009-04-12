@@ -804,7 +804,7 @@ class PostsFeed:
             url = "http://maicgregator.org/post/" + str(result["pid"])
             item = PyRSS2Gen.RSSItem(title = result["title"],
                     link = url,
-                    description = result["content"],
+                    description = textile.textile(result["content"]),
                     guid = PyRSS2Gen.Guid(url),
                     categories = ["maicgregator.org"],
                     author = "info@maicgregator.org",
