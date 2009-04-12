@@ -326,7 +326,10 @@ def TrusteeImage(personName, withQuotes = True):
     parser = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
     soup = parser.parse(results)
     script = soup.findAll("script")
-    imgScript = str(script[2])
+
+    # TODO
+    # Make this less brittle; go through each script tag and only accept it if we can find the imgres value
+    imgScript = str(script[4])
     imgList = imgScript.split("imgres?imgurl\\x3d")
 
     imgSrc = None
@@ -335,7 +338,8 @@ def TrusteeImage(personName, withQuotes = True):
         if (img.find("muckety") == -1):
             imgSrc = img
             break
-    
+    #print "imgSrc IS: " + imgSrc
+
     if (imgSrc != None):
         return imgSrc.split("\\x26")[0]
     else:
