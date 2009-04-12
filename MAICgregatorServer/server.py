@@ -20,7 +20,6 @@ import textile
 from MAICgregator import post
 from MAICgregator import whois
 from MAICgregator import db
-from MAICgregator import smartypants
 import config
 
 version = "0.01"
