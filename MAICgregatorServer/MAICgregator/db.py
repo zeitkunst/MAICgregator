@@ -231,7 +231,10 @@ class SchoolData(object):
             returnValue = self.dbManager.putDocument(schoolNameCompactGrants, grants)
             if (returnValue == False):
                 print "%s already exists" % schoolNameCompactGrants
-
+            
+            if (contracts.find("No records found for this search criteria") != -1):
+                contracts = r"<results>no results found</results>"
+            
             returnValue = self.dbManager.putDocument(schoolNameCompactContracts, contracts)
             if (returnValue == False):
                 print "%s already exists" % schoolNameCompactContracts
@@ -258,11 +261,15 @@ class SchoolData(object):
     where contains($record/purchaser_information/maj_agency_cat, "Defense")
     order by $fed_funding_amount descending
     return <result>{$project_description,$delim,$federal_award_id,$delim,$agency_name,$delim,$fed_funding_amount}</result>"""
-           
-            DoDGrants = self.dbManager.query(grantsQuery % (DB_XML_NAME, schoolNameCompactGrants))
-    
-            DoDContracts = self.dbManager.query(contractsQuery % (DB_XML_NAME, schoolNameCompactContracts))
-    
+            try:
+                DoDGrants = self.dbManager.query(grantsQuery % (DB_XML_NAME, schoolNameCompactGrants))
+            except XmlDatabaseError:
+                DoDGrants = []
+            try:
+                DoDContracts = self.dbManager.query(contractsQuery % (DB_XML_NAME, schoolNameCompactContracts))
+            except XmlDatabaseError:
+                DoDContracts = []
+
             finalResults = []
             regex = re.compile("<result>(.+?)</result")
             for item in DoDGrants:
