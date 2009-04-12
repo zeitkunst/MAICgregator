@@ -98,7 +98,7 @@ div#content {
 
 div#content ul li {
     margin-left: 2em;
-    list-style-type: disc;
+    list-style-type: square;
 }
 
 div#content .downloadImage a, div#content .downloadImage a:hover {
