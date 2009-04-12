@@ -327,9 +327,16 @@ def TrusteeImage(personName, withQuotes = True):
     soup = parser.parse(results)
     script = soup.findAll("script")
 
-    # TODO
-    # Make this less brittle; go through each script tag and only accept it if we can find the imgres value
-    imgScript = str(script[4])
+    # go through each script tag and only accept it if we can find the imgres value
+    imgScript = None
+    for scriptTag in script:
+        if (str(scriptTag).find("imgres?imgurl\\x3d") != -1):
+            imgScript = str(scriptTag)
+    
+    # If we weren't able to find anything, just take the tag that has been the most useful, just so the following code works...
+    if (imgScript is None):
+        imgScript = str(script[4])
+
     imgList = imgScript.split("imgres?imgurl\\x3d")
 
     imgSrc = None
