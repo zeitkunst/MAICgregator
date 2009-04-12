@@ -352,7 +352,7 @@ class help:
 class FAQ:
     def GET(self):
         fp = open('data/FAQ.txt')
-        FAQlist = smartypants.smartyPants("".join(fp.readlines()))
+        FAQlist = textile.textile("".join(fp.readlines()))
         fp.close()
         FAQs = FAQlist.split('#@!')
         FAQs = [FAQ.split('!@#') for FAQ in FAQs]
