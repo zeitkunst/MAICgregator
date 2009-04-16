@@ -27,19 +27,11 @@ var MAICgregator = {
 
         // Setup event listeners for page load
         var appcontent = document.getElementById("appcontent");   // browser
+        updateMAICgregatorButton();
         if(appcontent)
             appcontent.addEventListener("DOMContentLoaded", MAICgregator.onPageLoad, true);
 
     },
-
-    toggleMAICgregator: function() {
-        var stateNow = MAICgregator.currentState;
-        MAICgregator.interject = MAICgregator.previousState;
-        MAICgregator.currentState = MAICgregator.previousState;
-        MAICgregator.previousState = stateNow;
-        MAICgregator.doc.location.reload();
-    },
-
 
     onPageLoad: function(aEvent) {
         MAICgregator.doc = aEvent.originalTarget;
@@ -1083,6 +1075,27 @@ function testAJAX() {
     this.doc.body.appendChild(p);
 }
 
+function updateMAICgregatorButton() {
+    MAICgregator._readPrefs();
+    currentState = MAICgregator.interject;
+    var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
+    var enumerator = wm.getEnumerator("navigator:browser");
+
+    if (currentState == "None") {
+        buttonStyle = "url('chrome://MAICgregator/skin/icon24Disabled.png')";
+    } else {
+        buttonStyle = "url('chrome://MAICgregator/skin/icon24.png')";
+
+    }
+
+    while(enumerator.hasMoreElements()) {
+        var win = enumerator.getNext();
+        buttonNode = win.document.getElementById("MAICgregatorToolbarButton");
+        buttonNode.style.listStyleImage = buttonStyle;
+    }
+
+}
+
 function toggleMAICgregator() {
     currentState = MAICgregator.interject;
     var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
@@ -1108,6 +1121,7 @@ function toggleMAICgregator() {
         buttonStyle = "url('chrome://MAICgregator/skin/icon24Disabled.png')";
 
     }
+
     while(enumerator.hasMoreElements()) {
         var win = enumerator.getNext();
         buttonNode = win.document.getElementById("MAICgregatorToolbarButton");

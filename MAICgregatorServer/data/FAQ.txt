@@ -39,6 +39,9 @@ qTrusteeLists !@# Why are the trustee lists out of date? !@#
 qGetImages !@# How do you get trustee images? !@#
     <p>We do a Google Image search of the trustee's name (in quotes) and take the first result, absent some cases where we have other heuristics.  If we don't find any results, we then search using the name without quotes.</p>
 #@!
+qNoImages !@# Why are there no trustee images? !@#
+    <p>This could be for three reasons.  First, we may not have been able to find any matching images for that particular trustee.  Second, we might not have been able to find any trustees at all.  Third, we might not be finished searching for the trustee images in the first place.  In order to not get banned by the search engines, we stagger our searches over a relatively (in computer terms) long period of time.  This means that if there are trustee images to be found&mdash;but we haven't stored them yet&mdash;it might take upwards of 15 minutes after the first request for the images for our server to have collected them all.</p>
+#@!
 qImageName !@# Why does the trustee image not match the name? !@#
     <p>Blame Google.  While we do our best to find the most relevant image, search engine databases are (of course!) not perfect instruments.  In fact, we can see this as a partial critique of the use of data mining techniques---ones that are admittedly quite simple, indeed, but are comparable to what people use everyday to search for information.  Therefore, as many others have mentioned, we should be <em>highly</em> suspicious of any data mining effort (including this one) given the severe difficulties in providing "accurate" results, not only because of "limitations" in technology itself, but also due to fundamental issues in the representation of information that have been the topic of interest to philosophers, primarily in the Continental tradition, for the last century.</p>
 #@!
