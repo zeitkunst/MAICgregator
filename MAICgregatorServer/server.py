@@ -350,12 +350,14 @@ class help:
 
 class FAQ:
     def GET(self):
-        fp = open('data/FAQ.txt')
-        FAQlist = textile.textile("".join(fp.readlines()))
-        fp.close()
-        FAQs = FAQlist.split('#@!')
-        FAQs = [FAQ.split('!@#') for FAQ in FAQs]
-        return render.FAQ(FAQs)
+        process = ProcessSingleton.getProcess()
+        if (process.faq is None):
+            fp = open('data/FAQ.txt')
+            FAQlist = textile.textile("".join(fp.readlines()))
+            fp.close()
+            FAQs = FAQlist.split('#@!')
+            process.faq = [FAQ.split('!@#') for FAQ in FAQs]
+        return render.FAQ(process.faq)
 
 class RSSList:
     def GET(self):
@@ -419,6 +421,10 @@ class ProcessBase(object):
         self.dbManager = dbManager
         self.schoolMapping = {}
         self.whoisStore = None
+
+        # Setup our processed data
+        self.statement = None
+        self.faq = None
 
     def getWhois(self):
         if (self.whoisStore == None):
@@ -785,11 +791,13 @@ class ProcessSingleton(ProcessBase):
 
 class statement:
     def GET(self):
-        fp = open('data/statement.txt')
-        statement = textile.textile("".join(fp.readlines()))
-        fp.close()
+        process = ProcessSingleton.getProcess()
+        if (process.statement is None):
+            fp = open('data/statement.txt')
+            process.statement = textile.textile("".join(fp.readlines()))
+            fp.close()
 
-        return render.statement(statement)
+        return render.statement(process.statement)
 
 class PostsFeed:
     def GET(self):
