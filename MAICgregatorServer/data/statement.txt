@@ -1,3 +1,7 @@
+h1.  Mining the Military-Academic-Industrial Complex in a Poetic-Serious Fashion
+
+h3. 16 April 2009
+
 MAICgregator is a Firefox "extension":http://www.artwarez.org/femext/index.html that aggregates information about colleges and universities embedded in the military-academic-industrial (MAIC) complex.  It searches government funding databases, private news sources, private press releases, and public information about trustees to try and produce a radical cartography of the modern university via the replacement or overlay of this information on academic websites. This is a necessary activity in light of the contemporary financial "crisis".
 
 h3.  net.art that will not be version numbered
