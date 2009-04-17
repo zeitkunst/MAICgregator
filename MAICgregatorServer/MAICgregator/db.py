@@ -48,6 +48,8 @@ class DBManager(object):
     def createDBXMLEnvironment(self):
         self.dbXMLEnvironment = DBEnv()
         self.dbXMLEnvironment.set_flags(DB_AUTO_COMMIT, True)
+        self.dbXMLEnvironment.set_cachesize(0, 256*1024*1024)
+        self.dbXMLEnvironment.set_lk_max_locks(250000)
         self.dbXMLEnvironment.open(self.dbHome + "xml/", DB_ENV_CREATE_FLAGS, 0)
         self.dbXMLEnvironment.log_archive(DB_ARCH_REMOVE)
         self.mgr = XmlManager(self.dbXMLEnvironment, 0)
@@ -228,14 +230,26 @@ class SchoolData(object):
             grants = data[0]
             contracts = data[1]
             
-            returnValue = self.dbManager.putDocument(schoolNameCompactGrants, grants)
+            try:
+                returnValue = self.dbManager.putDocument(schoolNameCompactGrants, grants)
+            except XmlDatabaseError, inst:
+                print "XMLException (", inst.exceptionCode, "):", inst.what
+                if inst.exceptionCode == DATABASE_ERROR:
+                    print "Database error code:", inst.dbError
+
             if (returnValue == False):
                 print "%s already exists" % schoolNameCompactGrants
             
             if (contracts.find("No records found for this search criteria") != -1):
                 contracts = r"<results>no results found</results>"
             
-            returnValue = self.dbManager.putDocument(schoolNameCompactContracts, contracts)
+            try:
+                returnValue = self.dbManager.putDocument(schoolNameCompactContracts, contracts)
+            except XmlDatabaseError, inst:
+                print "XMLException (", inst.exceptionCode, "):", inst.what
+                if inst.exceptionCode == DATABASE_ERROR:
+                    print "Database error code:", inst.dbError
+
             if (returnValue == False):
                 print "%s already exists" % schoolNameCompactContracts
 
