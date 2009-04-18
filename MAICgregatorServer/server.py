@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+# The code in MAICgregator is available under the GNU GPL V3 (http://www.gnu.org/copyleft/gpl.html) with the following modifications:
+
+# The words "you", "licensee", and "recipient" are redefined to be as follows: "You", "licensee", and "recipient" is defined as anyone as long as s/he is not an EXCLUDED PERSON. An EXCLUDED PERSON is any individual, group, unit, component, synergistic amalgamation, cash-cow, chunk, CEO, CFO, worker, or organization of a corporation that is a member, as of the date of acquisition of this software, of the Fortune 1000 list of the world's largest businesses. (See http://money. cnn.com/magazines/fortune/global500/2008/full_list/ for an example of the top 500.) An EXCLUDED PERSON shall also include anyone working in a contractor, subcontractor, slave, or freelance capacity for any member of the Fortune 1000 list of the world's largest businesses.
+
+# Please see http://maicgregator.org/license.
 
 import urllib
 import urllib2
@@ -70,6 +75,7 @@ urls = (
     '/feed/rss', 'PostsFeed',
     '/feed/rss/', 'PostsFeed',
     '/FAQ', 'FAQ',
+    '/license', 'license',
     '/UpdateTrusteeInfo', 'TrusteeInfo',
     '/docs/preferences', 'documentationPreferences',
     '/docs', 'documentation',
@@ -343,6 +349,10 @@ class documentationGraphics:
 class download:
     def GET(self):
         return render.download(config.currentExtensionPath)
+
+class license:
+    def GET(self):
+        return render.license()
 
 class help:
     def GET(self):

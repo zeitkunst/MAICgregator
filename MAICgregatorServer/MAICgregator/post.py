@@ -1,3 +1,10 @@
+# The code in MAICgregator is available under the GNU GPL V3 (http://www.gnu.   org/copyleft/gpl.html) with the following modifications:
+
+# The words "you", "licensee", and "recipient" are redefined to be as follows:  "You", "licensee", and "recipient" is defined as anyone as long as s/he is not  an EXCLUDED PERSON. An EXCLUDED PERSON is any individual, group, unit,          component, synergistic amalgamation, cash-cow, chunk, CEO, CFO, worker, or      organization of a corporation that is a member, as of the date of acquisition   of this software, of the Fortune 1000 list of the world's largest businesses.   (See http://money. cnn.com/magazines/fortune/global500/2008/full_list/ for an   example of the top 500.) An EXCLUDED PERSON shall also include anyone working   in a contractor, subcontractor, slave, or freelance capacity for any member of  the Fortune 1000 list of the world's largest businesses.
+
+# Please see http://maicgregator.org/license.
+
+
 import cookielib
 import os
 import urllib
@@ -127,12 +134,16 @@ def parseSTTRResult(result):
 
     return parsedResults
 
-def USASpendingQuery(query):
+def USASpendingQuery(query, zipCode = None):
     # TODO
     # * Save this to our XML database
     # * Update so that after July 30 we move to current year (last fiscal year)
     faadsQuery = "http://www.usaspending.gov/faads/faads.php?datype=X&detail=4&sortby=f&recipient_name=%s&fiscal_year=2008" % urllib.quote(query)
-    fpdsQuery = "http://www.usaspending.gov/fpds/fpds.php?datype=X&detail=4&sortby=f&fiscal_year=2008&company_name=%s" % urllib.quote(query)
+
+    if (zipCode is not None):
+        fpdsQuery = "http://www.usaspending.gov/fpds/fpds.php?datype=X&detail=4&sortby=f&fiscal_year=2008&company_name=%s" % urllib.quote(query)
+    else:
+        fpdsQuery = "http://www.usaspending.gov/fpds/fpds.php?datype=X&detail=4&sortby=f&fiscal_year=2008&company_name=%s" % urllib.quote(query)
 
     cj = cookielib.LWPCookieJar()
 
