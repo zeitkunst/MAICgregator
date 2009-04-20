@@ -153,11 +153,17 @@ def USASpendingQuery(query, zipCode = None):
     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
     response = opener.open(faadsQuery)
     faads = response.read()
- 
+
+    if (faads.find("No records found for the search criteria") != -1):
+        faads = ""
+
     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
     response = opener.open(fpdsQuery)
     fpds = response.read()
-   
+ 
+    if (fpds.find("No records found for the search criteria") != -1):
+        fpds = ""
+  
     return (faads, fpds)
 
 def TrusteeSearch(query):
