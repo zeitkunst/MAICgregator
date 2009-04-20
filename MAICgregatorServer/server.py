@@ -457,7 +457,7 @@ class ProcessBase(object):
         # TODO
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
         # This means we need to come up with a REST api, as well as return error messages
-        print schoolName + " || MAICgregator server || Getting Google News"
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting Google News"
         results = schoolData.getGoogleNews()
         #schoolData.close()
         return results
@@ -467,7 +467,7 @@ class ProcessBase(object):
         schoolName = whoisStore.getSchoolName(hostname)
         schoolData = self.getSchoolData(schoolName)
 
-        print schoolName + " || MAICgregator server || Getting Google News RSS"
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting Google News RSS"
         results = schoolData.getGoogleNews()
         soup = BeautifulSoup(results)
 
@@ -501,7 +501,7 @@ class ProcessBase(object):
         schoolName = whoisStore.getSchoolName(hostname)
         schoolData = self.getSchoolData(schoolName)
 
-        print schoolName + " || MAICgregator server || Getting Trustee data"
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting Trustee data"
         results = schoolData.getTrustees()
 
         class UpdateImagesThread(threading.Thread):
@@ -539,7 +539,7 @@ class ProcessBase(object):
         schoolName = whoisStore.getSchoolName(hostname)
         schoolData = self.getSchoolData(schoolName)
 
-        print schoolName + " || MAICgregator server || Getting Trustee RSS data"
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting Trustee RSS data"
         results = schoolData.getTrustees()
 
         resultList = results.split("\n")
@@ -571,7 +571,7 @@ class ProcessBase(object):
         # TODO
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
         # This means we need to come up with a REST api, as well as return error messages
-        print schoolName + " || MAICgregator server || Getting DoDBR data"
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting DoDBR data"
         
         results = schoolData.getXML()
         
@@ -589,7 +589,7 @@ class ProcessBase(object):
         # TODO
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
         # This means we need to come up with a REST api, as well as return error messages
-        print schoolName + " || MAICgregator server || Getting DoDBR RSS data"
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting DoDBR RSS data"
         results = schoolData.getXML()
         
         resultList = results.split("\n")
@@ -624,7 +624,7 @@ class ProcessBase(object):
         # TODO
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
         # This means we need to come up with a REST api, as well as return error messages
-        print schoolName + " || MAICgregator server || Getting PR data"
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting PR data"
         web.header('Content-Encoding', 'utf-8')
         results = u"\n".join(unicode(item, "utf-8") for item in schoolData.getPRNews())
         
@@ -642,7 +642,7 @@ class ProcessBase(object):
         # TODO
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
         # This means we need to come up with a REST api, as well as return error messages
-        print schoolName + " || MAICgregator server || Getting PR data"
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting PR data"
         #web.header('Content-Encoding', 'utf-8')
         #results = u"\n".join(unicode(item, "utf-8") for item in schoolData.getPRNews())
         results = schoolData.getPRNews()
@@ -678,7 +678,7 @@ class ProcessBase(object):
         schoolName = whoisStore.getSchoolName(hostname)
         schoolData = self.getSchoolData(schoolName)
 
-        print schoolName + " || MAICgregator server || Getting STTR data"
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting STTR data"
         STTRData = schoolData.getSTTR()
         
         output = ""
@@ -702,7 +702,7 @@ class ProcessBase(object):
         schoolName = whoisStore.getSchoolName(hostname)
         schoolData = self.getSchoolData(schoolName)
 
-        print schoolName + " || MAICgregator server || Getting STTR RSS data"
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting STTR RSS data"
         STTRData = schoolData.getSTTR()
         
         items = []
