@@ -346,6 +346,9 @@ class SchoolData(object):
                 trusteeResults = self.getTrusteeNamesFromModel()
                 trusteeImages = self.getTrusteeImagesFromModel()
             else:
+                self.schoolMetadata['Trustees']['timestamp'] = time.time()
+                schoolMetadataDirty = True
+
                 trusteeResults = []
                 trusteeImages = []
         else:
