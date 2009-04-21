@@ -371,7 +371,8 @@ class FAQ:
 
 class RSSList:
     def GET(self):
-        whoisStore = whois.WhoisStore()
+        process = ProcessSingleton.getProcess()
+        whoisStore = process.getWhois()
         schoolNamesList = list(zip(whoisStore.whois.keys(), whoisStore.whois.values()))
         schoolNamesList.sort(key=operator.itemgetter(1))
         
