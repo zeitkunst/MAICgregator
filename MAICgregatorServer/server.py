@@ -152,7 +152,10 @@ class viewPost:
 
     def POST(self, postID):
         form = web.input()
-        
+
+        if (form['human'].lower().find("maicgregator") == -1):
+            return "NotHuman"
+
         if ((form['commentTitle'] != "") and (form['commentText'] != "") and (form['commentName'] != "")):
             sequenceID = webDB.insert("comments", title=form['commentTitle'], content=form['commentText'], handle=form['commentName'], pid=form['postID'], datetime=web.SQLLiteral("NOW()"))
 
