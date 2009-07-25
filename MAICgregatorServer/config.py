@@ -5,7 +5,7 @@
 # Please see http://maicgregator.org/license.
 
 # Cache requests?
-cache = False
+cache = True
 
 # Logfile location
 log_file = "logs/maicgregator.log"
@@ -17,7 +17,7 @@ log_interval = 'w0'
 log_backups = 4
 
 # Are we in fastcgi mode?
-fastcgi = False
+fastcgi = True
 
 # Path to the most up-to-date extension
-currentExtensionPath = "/static/MAICgregator.0.1.1.xpi"
+currentExtensionPath = "/static/MAICgregator.0.1.4.xpi"

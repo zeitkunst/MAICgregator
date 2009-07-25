@@ -38,6 +38,10 @@ def getEduWHOIS(domain, whoisServer = "whois.educause.net", port = 43):
     # HEINOUS, but the WHOIS entry doesn't help us here
     if (domain == "umich.edu"):
         result = "University of Michigan"
+
+    if (domain == "umt.edu"):
+        result = "University of Montana"
+
     return result
 
 # Sometimes we need to have the zip code in order to pare down some of the data that we get, like with the USASpending queries...

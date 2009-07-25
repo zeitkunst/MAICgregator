@@ -187,17 +187,17 @@ class adminIndex:
 class adminLogout:
     def GET(self):
         session.kill()
-        web.redirect("/")
+        web.redirect("http://maicgregator.org/")
 
 class adminPost:
     def GET(self):
         if (session.loggedIn == False):
-            web.redirect("/admin/")
+            web.redirect("http://maicgregator.org/admin/")
         return renderAdmin.adminPost(session, False)
 
     def POST(self):
         if (session.loggedIn == False):
-            web.redirect("/admin/")
+            web.redirect("http://maicgregator.org/admin/")
 
         form = web.input()
         sequenceID = webDB.insert("posts", title=form['title'], content=form['content'], datetime=web.SQLLiteral("NOW()"), username=session.username)
@@ -206,7 +206,7 @@ class adminPost:
 class adminTrusteeView:
     def GET(self):
         if (session.loggedIn == False):
-            web.redirect("/admin/")
+            web.redirect("http://maicgregator.org/admin/")
 
         process = ProcessSingleton.getProcess()
         whoisStore = process.getWhois()
@@ -232,7 +232,7 @@ class adminTrusteeView:
 class adminView:
     def GET(self):
         if (session.loggedIn == False):
-            web.redirect("/admin/")
+            web.redirect("http://maicgregator.org/admin/")
         results = webDB.select("posts", order="datetime DESC")
         items = []
         for result in results:
@@ -247,7 +247,7 @@ class adminView:
 class adminViewComments:
     def GET(self):
         if (session.loggedIn == False):
-            web.redirect("/admin/")
+            web.redirect("http://maicgregator.org/admin/")
         results = webDB.select("comments", order="datetime DESC")
         items = []
         for result in results:
@@ -263,7 +263,7 @@ class adminEdit:
 
     def GET(self, postID):
         if (session.loggedIn == False):
-            web.redirect("/admin/")
+            web.redirect("http://maicgregator.org/admin/")
         dbVars = dict(postID = postID)
         results = webDB.select("posts", dbVars, where="pid = $postID", order="datetime DESC")
         item = []
@@ -277,7 +277,7 @@ class adminEdit:
 
     def POST(self, postID):
         if (session.loggedIn == False):
-            web.redirect("/admin/")
+            web.redirect("http://maicgregator.org/admin/")
         
         form = web.input()
         print form
@@ -285,13 +285,13 @@ class adminEdit:
             numRows = webDB.update("posts", "pid = " + postID, title=form['title'], content=form['content'], datetime=web.SQLLiteral("NOW()"), username=session.username)
         elif form.has_key('deleteButton'):
             numRows = webDB.delete("posts", where="pid = " + postID)
-        web.redirect("/admin/view")
+        web.redirect("http://maicgregator.org/admin/view")
 
 class adminEditComment:
 
     def GET(self, commentID):
         if (session.loggedIn == False):
-            web.redirect("/admin/")
+            web.redirect("http://maicgregator.org/admin/")
         dbVars = dict(commentID = commentID)
         results = webDB.select("comments", dbVars, where="cid = $commentID", order="datetime DESC")
         item = []
@@ -311,7 +311,7 @@ class adminEditComment:
 
     def POST(self, commentID):
         if (session.loggedIn == False):
-            web.redirect("/admin/")
+            web.redirect("http://maicgregator.org/admin/")
         
         form = web.input()
         print form
@@ -319,7 +319,7 @@ class adminEditComment:
             numRows = webDB.update("comments", "cid = " + commentID, title=form['title'], content=form['content'], datetime=web.SQLLiteral("NOW()"))
         elif form.has_key('deleteButton'):
             numRows = webDB.delete("comments", where="cid = " + commentID)
-        web.redirect("/admin/viewComments")
+        web.redirect("http://maicgregator.org/admin/viewComments")
 
 
 class documentation:
