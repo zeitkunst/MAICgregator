@@ -671,7 +671,8 @@ class ProcessBase(object):
 
     def DoDSTTR(self, hostname):
         # Interesting keys to return in our result
-        usefulKeys = ["PK_AWARDS", "AGENCY", "CONTRACT", "AWARD_AMT", "PI_NAME", "FIRM", "URL", "PRO_TITLE", "WholeAbstract"]
+        usefulKeysUppercase = ["PK_AWARDS", "AGENCY", "CONTRACT", "AWARD_AMT", "PI_NAME", "FIRM", "URL", "PRO_TITLE", "WholeAbstract"]
+        usefulKeysLowercase = ["pk_awards", "agency", "contract", "award_amt", "pi_name", "firm", "url", "pro_title", "wholeabstract"]
         # TODO
         # Deal with case when we don't get a school name back
         #whoisStore = whois.WhoisStore()
@@ -687,6 +688,25 @@ class ProcessBase(object):
         
         output = ""
         for contract in STTRData:
+            # 2009.08.27
+            # The following are a bunch of hacks due to recent problems with the returned STTR data that put everything into a tizzy
+            if (contract.has_key('CONTRACT') is False):
+                usefulKeys = usefulKeysLowercase
+            else:
+                usefulKeys = usefulKeysUppercase
+
+            if (contract.has_key('PK_AWARDS') is False):
+                contract['PK_AWARDS'] = "0"
+                contract['pk_awards'] = "0"
+            if (contract.has_key('pk_awards') is False):
+                contract['PK_AWARDS'] = "0"
+                contract['pk_awards'] = "0"
+
+            if (contract['PK_AWARDS'] == ""):
+                contract['PK_AWARDS'] = "0"
+            if (contract['pk_awards'] == ""):
+                contract['pk_awards'] = "0"
+
             output += "\t".join(unicode(contract[key], errors='ignore') for key in usefulKeys) + "\n"
         
         output = output.replace("<", "&lt;")
@@ -778,10 +798,12 @@ class Aggregate(ProcessBase):
     def GET(self, hostname, params):
         process = ProcessSingleton.getProcess()
 
+        params = params.split("/")[-1]
         paramList = params.split("+")
 
         outputString = u"<?xml version=\"1.0\"?>\n"
         outputString += u"<results>\n"
+        
         for param in paramList:
             outputString += u"\t<%s>\n" % param
             resultFunction = getattr(process, param)
