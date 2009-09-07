@@ -34,9 +34,18 @@ var MAICgregator = {
     },
 
     onPageLoad: function(aEvent) {
+        //$jq("#wrapper").css("background-color", "#000000");
+        //$jq = jQuery.noConflict();
         MAICgregator.doc = aEvent.originalTarget;
-    var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
-    var enumerator = wm.getEnumerator("navigator:browser");
+
+        // Load jquery into the page
+        $jq = jQuery.noConflict();
+
+        // For each jquery call we have to provide the context, which is MAICgregator.doc (i.e., the currently loaded page)
+        //$jq("#wrapper", MAICgregator.doc).css("color", "#00FF00");
+
+        var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
+        var enumerator = wm.getEnumerator("navigator:browser");
 
         // Update the preferences in case something has changed
         MAICgregator._readPrefs();
