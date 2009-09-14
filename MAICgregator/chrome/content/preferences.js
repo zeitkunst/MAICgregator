@@ -68,6 +68,10 @@ function populatePreferences() {
     if (textbox != null)
         textbox.setAttribute("value", MAICgregator.serverURL);
 
+    checkbox = document.getElementById("animation");
+    if (checkbox != null)
+        checkbox.setAttribute("checked", MAICgregator.animation);
+
 
 }
 
@@ -144,6 +148,10 @@ function savePreferences() {
     textbox = document.getElementById("serverURL");
     if (textbox != null)
         MAICgregator.serverURL = textbox.value;
+
+    checkbox = document.getElementById("animation");
+    if (checkbox != null)
+        MAICgregator.animation = checkbox.checked;
 
     MAICgregator._savePreferences();
 }

@@ -141,6 +141,11 @@ var MAICgregator = {
 
             }
 
+            //$jq("#news", MAICgregator.doc).css("color", "#00FF00");
+            //$jq("a.MAICgregatorDoDBR", MAICgregator.doc).click(function() {
+            //    $jq("#MAICgregatorDoDBR", MAICgregator.doc).css("display", "block");
+            //    $jq("#MAICgregatorDoDBR", MAICgregator.doc).slideDown("slow")
+            //});
         }
     },
 
@@ -170,7 +175,19 @@ var MAICgregator = {
             }
 
             // Otherwise, start processing the divs
-            newsNode.innerHTML = "";
+            if (MAICgregator.animation) {
+                $jq = jQuery.noConflict();
+                //$jq("#news", MAICgregator.doc).slideUp(2000);
+                $jq("#news", MAICgregator.doc).children().each(
+                    function() {
+                        $jq($jq(this, MAICgregator.doc), MAICgregator.doc).slideUp(200);
+                    }
+                );
+                // What we need to do here is to make each item underneath disappear over time
+                //newsNode.innerHTML = "";
+            } else {
+                newsNode.innerHTML = "";
+            }
             h2Node = MAICgregator.doc.createElement("h2");
             h2Node.appendChild(MAICgregator.doc.createTextNode("Current Alternative News:"));
             newsNode.appendChild(h2Node);
@@ -293,17 +310,32 @@ var MAICgregator = {
             aNode.href = "#" + dataType;
             aNode.className = "MAICgregator" + dataType;
             aNode.addEventListener("click", function() {
-                divNodeToDisplay = MAICgregator.doc.getElementById(this.className);
+                if (MAICgregator.animation) {
+                    // jQuery way of doing things
+                    // Need to fix "jumping problem; maybe this will help?
+                    // http://blog.pengoworks.com/index.cfm/2009/4/21/Fixing-jQuerys-slideDown-effect-ie-Jumpy-Animation
+                    $jq = jQuery.noConflict();
+                    idName = "#" + this.className;
+                    if ($jq(idName, MAICgregator.doc).is(":hidden")) {
+                        $jq(idName, MAICgregator.doc).slideDown(1500);
+                    } else {
+                        $jq(idName, MAICgregator.doc).slideUp(1500);
+                    }
 
-                if (divNodeToDisplay == null) {
-                    return;
-                }
+                } else {
+                    // Standard way of doing things
+                    divNodeToDisplay = MAICgregator.doc.getElementById(this.className);
+                    if (divNodeToDisplay == null) {
+                        return;
+                    }
 
-                if (divNodeToDisplay.style.display == "block") {
-                    divNodeToDisplay.style.display = "none";
-                } else if (divNodeToDisplay.style.display == "none") {
-                    divNodeToDisplay.style.display = "block";
+                    if (divNodeToDisplay.style.display == "block") {
+                        divNodeToDisplay.style.display = "none";
+                    } else if (divNodeToDisplay.style.display == "none") {
+                        divNodeToDisplay.style.display = "block";
+                    }
                 }
+               
             }, false);
 
             aNodeText = MAICgregator.doc.createTextNode(linkNameMapping[dataType]);
@@ -646,8 +678,48 @@ var MAICgregator = {
         ulNode = MAICgregator.doc.createElement("ul");
 
         currentImageList = MAICgregator.doc.getElementsByTagName("img");
+        // Get CSS images using jQuery
+        //$jq = jQuery.noConflict();
+        //$jq("body", MAICgregator.doc).each(function() {
+        //    alert($jq($jq(this, MAICgregator.doc), MAICgregator.doc).css("backgroundImage"));
+        //});
+
+        // Begin the process of getting all of the css background images...
+        currentCSS = MAICgregator.doc.styleSheets;
+        numStyleSheets = currentCSS.length;
+        cssImageRules = new Array();
+
+        // This mess goes through and picks out all of the CSS images, including those that are found in @import'ed style sheets
+        // Ugh.
+        for (styleSheetIndex = 0; styleSheetIndex <= numStyleSheets; styleSheetIndex++) {
+            if (currentCSS[styleSheetIndex]) {
+                //alert(currentCSS[styleSheetIndex].media.mediaText);
+                for (ruleIndex = 0; ruleIndex < currentCSS[styleSheetIndex].cssRules.length; ruleIndex++) {
+                    // If we have import rules...
+                    if(currentCSS[styleSheetIndex].cssRules[ruleIndex].cssText.search("@import") != -1) {
+                        // Then we need to go through this as if it's another style sheet
+                        var importedStyleSheet = currentCSS[styleSheetIndex].cssRules[ruleIndex].styleSheet;
+                        for (importedRuleIndex = 0; importedRuleIndex < importedStyleSheet.cssRules.length; importedRuleIndex++) {
+                            if (importedStyleSheet.cssRules[importedRuleIndex].cssText.search("url") != -1) {
+                                cssImageRules.push(importedStyleSheet.cssRules[importedRuleIndex]);
+                            }
+
+                        }
+                    } else {
+                        if(currentCSS[styleSheetIndex].cssRules[ruleIndex].cssText.search("url") != -1) {
+                            cssImageRules.push(currentCSS[styleSheetIndex].cssRules[ruleIndex]);
+                        }
+
+                    }
+                }
+            }
+        }
         currentObjectList = MAICgregator.doc.getElementsByTagName("object");
         currentEmbedList = MAICgregator.doc.getElementsByTagName("embed");
+
+        // Create a new array that contains only the links to trustee images
+        trusteeImages = new Array();
+        
         for (index in itemArray) {
             liNode = MAICgregator.doc.createElement("ul");
             trusteeInfo = itemArray[index].split("\t");
@@ -656,18 +728,14 @@ var MAICgregator = {
             // Do we have an image?            
             if (trusteeInfo.length > 1) {
                 if (trusteeInfo[1] != "") {
+                    trusteeImages.push(trusteeInfo[1]);
 
                     if (MAICgregator.trusteeImages == "Random") {
                         // Use the following for placing the random divs of images
+                        // Here all we care about is tiling an equal number of divs for an equal number of trustees
                         imgNode = MAICgregator._createImageNode(trusteeInfo[0], trusteeInfo[1]);
                         MAICgregator.doc.body.appendChild(imgNode); 
-                    } else if (MAICgregator.trusteeImages == "Replace") {
-                        // Otherwise, replace images inline
-                        // Get all Images on the page
-                        randomIndex = Math.floor(Math.random() * currentImageList.length);
-                        currentImageList[randomIndex].src = trusteeInfo[1];
-                        currentImageList[randomIndex].alt = trusteeInfo[0];
-                    }
+                    }                 
                 }
             }
 
@@ -680,6 +748,28 @@ var MAICgregator = {
             ulNode.appendChild(liNode);
         }
         divNode.appendChild(ulNode);
+
+        if (MAICgregator.trusteeImages == "Replace") {
+            // If we're meant to replace images, let's loop through things
+            // First, the CSS images
+            for (cssImageIndex = 0; cssImageIndex < cssImageRules.length; cssImageIndex++) {
+                randomIndex = Math.floor(Math.random() * trusteeImages.length);
+                cssImageRules[cssImageIndex].style.backgroundImage = "url('" + trusteeImages[randomIndex] + "')";
+                cssImageRules[cssImageIndex].style.backgroundRepeat = "no-repeat";
+
+
+            }
+
+            // Next, the images in img tags
+            for (imageIndex = 0; imageIndex < currentImageList.length; imageIndex++) {
+                randomIndex = Math.floor(Math.random() * trusteeImages.length);
+                currentImageList[imageIndex].src = trusteeImages[randomIndex];
+
+            }
+            //currentImageList[randomIndex].alt = trusteeInfo[0];
+
+        }
+
 
         //newsNode.innerHTML = "";
         //newsNode.appendChild(divNode);
@@ -978,6 +1068,7 @@ var MAICgregator = {
         this.TrusteeRelationshipSearch = prefs.getBoolPref("TrusteeRelationshipSearch");
         this.randomize = prefs.getBoolPref("randomize");
         this.infoStatus = prefs.getBoolPref("infoStatus");
+        this.animation = prefs.getBoolPref("animation");
         this.serverURL = prefs.getCharPref("serverURL");
         
     },
@@ -999,6 +1090,7 @@ var MAICgregator = {
         prefs.setBoolPref("TrusteeRelationshipSearch", this.TrusteeRelationshipSearch);
         prefs.setBoolPref("randomize", this.randomize);
         prefs.setBoolPref("infoStatus", this.infoStatus);
+        prefs.setBoolPref("animation", this.animation);
     },
     
     _foo: function() {

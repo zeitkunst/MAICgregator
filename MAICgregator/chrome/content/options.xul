@@ -93,6 +93,13 @@
         </radiogroup>
         </hbox>
     </groupbox>
+    <groupbox id="MAICgregatorAdvancedAnimationGroupbox">
+        <caption label="&preferences.animationGroup;"/>
+        <hbox>
+           <checkbox label="&preferences.animation;" checked="false" tooltiptext="&preferences.animationTooltip;" id="animation" />
+        </hbox>
+    </groupbox>
+
     </vbox>
 
 </tabpanel>
