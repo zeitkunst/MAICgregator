@@ -15,6 +15,8 @@
                    em:homepageURL="http://maicgregator.org"
                    em:optionsURL="chrome://MAICgregator/content/options.xul"
                    em:iconURL="chrome://MAICgregator/skin/icon.png"
+                   em:updateURL="http://maicgregator.org/static/update.rdf"
+                   em:updateKey="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDUhtw/63VMA2Sc0vM72Xr+ZiyDlVdSswbO5IAVCXw/W4XdHZ8IdZCSiCWq8/2d8sOlgyzY82/HoToCvb3qdeH/21XveJS+f6yGgkDqTLr9XdWIyQp3IH6WV8JuC9yl4tNEgPfTPrHB85mApUKk5VIaEda1YqT2mQ5D6+mlTnDP0QIDAQAB">
                    >
     <em:targetApplication RDF:resource="rdf:#$db.xm1"/>
   </RDF:Description>
