@@ -9,3 +9,4 @@ pref("extensions.MAICgregator.PRNewsSearch", true);
 pref("extensions.MAICgregator.TrusteeRelationshipSearch", true);
 pref("extensions.MAICgregator.randomize", true);
 pref("extensions.MAICgregator.infoStatus", false);
+pref("extensions.MAICgregator.animation", false);

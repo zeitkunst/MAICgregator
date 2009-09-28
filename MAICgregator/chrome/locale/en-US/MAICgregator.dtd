@@ -49,6 +49,10 @@
 <!ENTITY preferences.imagesDiv "Display images randomly">
 <!ENTITY preferences.imagesNone "Don't replace any images">
 
+<!ENTITY preferences.animationGroup "Fancy animation">
+<!ENTITY preferences.animation "Use fancy, unnecessary, over-the-top animations">
+<!ENTITY preferences.animationTooltip "Determines whether or not we use extraneous CPU resources to make MAICgregator look all Web 2.0-ey">
+
 <!ENTITY preferences.save "Save">
 <!ENTITY preferences.cancel "Cancel">
 <!--
