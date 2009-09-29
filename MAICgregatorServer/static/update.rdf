@@ -75,5 +75,5 @@
                    em:maxVersion="5.*"
                    em:updateLink="http://maicgregator.org/static/MAICgregator.0.1.5.1.xpi"
                    em:updateInfoURL="http://maicgregator.org/static/MAICgregator.0.1.5.1.xhtml"
-                   em:updateHash="sha1:cc61fae05e7ad7179a275c586011590b04777720" />
+                   em:updateHash="sha1:00068d7098ae81aea44422f00487ee8e4bdbf558" />
 </RDF:RDF>
