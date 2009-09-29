@@ -9,7 +9,7 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="maicgregator@maicgregator.org"
                    em:name="MAICgregator"
-                   em:version="0.1.5"
+                   em:version="0.1.5.1"
                    em:creator="MAICgregator; info@maicgregator.org"
                    em:description="MAICgregator"
                    em:homepageURL="http://maicgregator.org"

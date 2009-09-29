@@ -1192,7 +1192,9 @@ function updateMAICgregatorButton() {
     while(enumerator.hasMoreElements()) {
         var win = enumerator.getNext();
         buttonNode = win.document.getElementById("MAICgregatorToolbarButton");
-        buttonNode.style.listStyleImage = buttonStyle;
+        if (buttonNode != null) {
+            buttonNode.style.listStyleImage = buttonStyle;
+        }
     }
 
 }
@@ -1209,8 +1211,10 @@ function toggleMAICgregator() {
             MAICgregator.interject = MAICgregator.previousState;
         }
         buttonNode = document.getElementById("MAICgregatorToolbarButton");
-        //buttonNode.style.listStyleImage = "url('chrome://MAICgregator/skin/icon24.png')";
-        buttonStyle = "url('chrome://MAICgregator/skin/icon24.png')";
+        if (buttonNode != null) {
+            //buttonNode.style.listStyleImage = "url('chrome://MAICgregator/skin/icon24.png')";
+            buttonStyle = "url('chrome://MAICgregator/skin/icon24.png')";
+        }
     } else {
         if (MAICgregator.previousState == null) {
             MAICgregator.interject = "None";
@@ -1218,15 +1222,19 @@ function toggleMAICgregator() {
             MAICgregator.interject = MAICgregator.previousState;
         }
         buttonNode = document.getElementById("MAICgregatorToolbarButton");
-        //buttonNode.style.listStyleImage = "url('chrome://MAICgregator/skin/icon24Disabled.png')";
-        buttonStyle = "url('chrome://MAICgregator/skin/icon24Disabled.png')";
+        if (buttonNode != null) {
+            //buttonNode.style.listStyleImage = "url('chrome://MAICgregator/skin/icon24Disabled.png')";
+            buttonStyle = "url('chrome://MAICgregator/skin/icon24Disabled.png')";
+        }
 
     }
 
     while(enumerator.hasMoreElements()) {
         var win = enumerator.getNext();
         buttonNode = win.document.getElementById("MAICgregatorToolbarButton");
-        buttonNode.style.listStyleImage = buttonStyle;
+        if (buttonNode != null) {
+            buttonNode.style.listStyleImage = buttonStyle;
+        }
     }
 
     MAICgregator.previousState = currentState;
