@@ -691,7 +691,12 @@ class ProcessBase(object):
 
         print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting STTR data"
         STTRData = schoolData.getSTTR()
-        
+
+        for contract in STTRData:
+            if (type(contract) != type({})): 
+                if (contract.find("Failed") != -1):
+                    return ""
+
         output = ""
         for contract in STTRData:
             # 2009.08.27

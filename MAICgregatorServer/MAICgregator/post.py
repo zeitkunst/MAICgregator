@@ -71,12 +71,22 @@ def STTRQuery(query):
         cj.load(COOKIEFILE)
 
     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
-    response = opener.open('http://www.dodsbir.net/Awards/Default.asp')
+    try:
+        response = opener.open('http://www.dodsbir.net/Awards/Default.asp')
+    except urllib2.HTTPError, e:
+        print e
+        return ["Failed to connect...are we being blocked?"]
+
     opener.close()
 
     url = 'http://www.dodsbir.net/Awards/SrchResultsDtlsList.asp'
     request = urllib2.Request(url, paramsEncoded, headers)
-    handle = opener.open(request)
+    try:
+        handle = opener.open(request)
+    except urllib2.HTTPError, e:
+        print e
+        return ["Failed to connect...are we being blocked?"]
+
 
     response = opener.open('http://www.dodsbir.net/Awards/PrintSelection.asp?FromBorC=B&Cnt=30')
     opener.close()
