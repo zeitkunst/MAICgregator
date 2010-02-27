@@ -76,6 +76,7 @@ urls = (
     '/feed/rss/', 'PostsFeed',
     '/FAQ', 'FAQ',
     '/license', 'license',
+    '/SLSA2009', 'SLSA2009',
     '/UpdateTrusteeInfo', 'TrusteeInfo',
     '/docs/preferences', 'documentationPreferences',
     '/docs', 'documentation',
@@ -356,6 +357,11 @@ class download:
 class license:
     def GET(self):
         return render.license()
+
+class SLSA2009:
+    def GET(self):
+        return render.SLSA2009()
+
 
 class help:
     def GET(self):
