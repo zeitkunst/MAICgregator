@@ -53,11 +53,11 @@ AWARD_AMT = re.compile("AWARD_AMT:(.+?)\r\n")
 def STTRQuery(query):
     params = {'CRITERIA': query,
               'Program': 'STTR',
-              'PICK LIST': 4,
+              'PICKLIST': 4,
               'SEARCH': 'Search',
               'STATE': 'All States',
               'SortIt': 1,
-              'WhereFrom': 'FromHere',
+              'WhereFrom': 'basicAward',
               'agency': 'All DoD'}
     headers = {'User-Agent': 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.6) Gecko/2009020911 Ubuntu/8.04 (hardy) Firefox/3.0.6',
                'Referer': 'http://www.dodsbir.net/Awards/Default.asp',
@@ -71,6 +71,7 @@ def STTRQuery(query):
         cj.load(COOKIEFILE)
 
     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+    print "opening default page"
     try:
         response = opener.open('http://www.dodsbir.net/Awards/Default.asp')
     except urllib2.HTTPError, e:
@@ -82,8 +83,24 @@ def STTRQuery(query):
 
     opener.close()
 
-    url = 'http://www.dodsbir.net/Awards/SrchResultsDtlsList.asp'
+    url = 'http://www.dodsbir.net/Awards/SrchSetCriteria.asp'
     request = urllib2.Request(url, paramsEncoded, headers)
+    print "setting search criteria"
+    try:
+        handle = opener.open(request)
+    except urllib2.HTTPError, e:
+        try:
+            handle = opener.open(request)
+        except urllib2.HTTPError, e:
+            try:
+                handle = opener.open(request)
+            except urllib2.HTTPError, e:
+                print "unable to set search criteria"
+                return ["Failed to connect...are we being blocked?"]
+
+    url = 'http://www.dodsbir.net/Awards/SrchResultsDtlsList.asp'
+    request = urllib2.Request(url, None, headers)
+    print "opening results list page"
     try:
         handle = opener.open(request)
     except urllib2.HTTPError, e:
@@ -96,6 +113,7 @@ def STTRQuery(query):
                 print "unable to open results list page"
                 return ["Failed to connect...are we being blocked?"]
 
+    print "opening print selection page"
     try:
         response = opener.open('http://www.dodsbir.net/Awards/PrintSelection.asp?FromBorC=B&Cnt=30')
     except urllib2.HTTPError, e:
@@ -107,6 +125,7 @@ def STTRQuery(query):
 
     opener.close()
 
+    print "downloading file"
     try:
         response = opener.open('http://www.dodsbir.net/Awards/PrintFile1.asp?FromBorC=B')
     except urllib2.HTTPError, e:
