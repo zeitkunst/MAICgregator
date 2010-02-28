@@ -585,6 +585,7 @@ class SchoolData(object):
         schoolMetadataDirty = False 
 
         if ((timestamp is None) or (time.time() >= (timestamp + 4 * self.MONTH))):
+        #if (timestamp is not None):
             data = post.STTRQuery(self.schoolName)
 
             self.schoolMetadata['STTR']['data'] = data 

@@ -74,8 +74,11 @@ def STTRQuery(query):
     try:
         response = opener.open('http://www.dodsbir.net/Awards/Default.asp')
     except urllib2.HTTPError, e:
-        print e
-        return ["Failed to connect...are we being blocked?"]
+        try:
+            response = opener.open('http://www.dodsbir.net/Awards/Default.asp')
+        except urllib2.HTTPError, e:
+            print "unable to open default.asp"
+            return ["Failed to connect...are we being blocked?"]
 
     opener.close()
 
@@ -84,14 +87,35 @@ def STTRQuery(query):
     try:
         handle = opener.open(request)
     except urllib2.HTTPError, e:
-        print e
-        return ["Failed to connect...are we being blocked?"]
+        try:
+            handle = opener.open(request)
+        except urllib2.HTTPError, e:
+            try:
+                handle = opener.open(request)
+            except urllib2.HTTPError, e:
+                print "unable to open results list page"
+                return ["Failed to connect...are we being blocked?"]
 
+    try:
+        response = opener.open('http://www.dodsbir.net/Awards/PrintSelection.asp?FromBorC=B&Cnt=30')
+    except urllib2.HTTPError, e:
+        try:
+            response = opener.open('http://www.dodsbir.net/Awards/PrintSelection.asp?FromBorC=B&Cnt=30')
+        except urllib2.HTTPError, e:
+            print "unable to open print selection page"
+            return ["Failed to connect...are we being blocked?"]
 
-    response = opener.open('http://www.dodsbir.net/Awards/PrintSelection.asp?FromBorC=B&Cnt=30')
     opener.close()
 
-    response = opener.open('http://www.dodsbir.net/Awards/PrintFile1.asp?FromBorC=B')
+    try:
+        response = opener.open('http://www.dodsbir.net/Awards/PrintFile1.asp?FromBorC=B')
+    except urllib2.HTTPError, e:
+        try:
+            response = opener.open('http://www.dodsbir.net/Awards/PrintFile1.asp?FromBorC=B')
+        except urllib2.HTTPError, e:
+            print "unable to open file page"
+            return ["Failed to connect...are we being blocked?"]
+
     result = response.read()
     opener.close()
     
