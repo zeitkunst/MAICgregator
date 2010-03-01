@@ -766,7 +766,30 @@ class ProcessBase(object):
             items.append(item)
 
         return items
-   
+
+    def ClinicalTrials(self, hostname):
+        whoisStore = self.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+        schoolData = self.getSchoolData(schoolName)
+
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting Clinical Trials data"
+        clinicalTrials = schoolData.getClinicalTrials()
+
+        output = ""
+        for trial in clinicalTrials:
+            contents = trial["contents"]
+            href = trial["href"]
+            institutions = trial["institutions"]
+            institutionList = ""
+            for institution in institutions:
+                institutionList += "%s+" % institution
+            output += "%s\t%s\t%s\n" % (contents, href, institutionList)
+
+        output = output.replace("<", "&lt;")
+        output = output.replace(">", "&gt;")
+        return output
+
+
 class RSS(ProcessBase):
      def GET(self, hostname, params):
         process = ProcessSingleton.getProcess()

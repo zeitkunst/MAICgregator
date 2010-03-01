@@ -422,6 +422,95 @@ def TrusteeImage(personName, withQuotes = True):
     else:
         return None
 
+def ClinicalTrialQuery(query):
+    url = "http://clinicaltrials.gov/ct2/results?term=&recr=&rslt=&type=&cond=&intr=&outc=&lead=&spons=%s&spons_ex=Y&id=&state1=&cntry1=&state2=&cntry2=&state3=&cntry3=&locn=&gndr=&rcv_s=&rcv_e=&lup_s=&lup_e="
+    url = url % urllib.quote(query)
+
+    headers = {'User-Agent': 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0. 6) Gecko/2009020911 Ubuntu/8.04 (hardy) Firefox/3.0.6'}
+
+    cj = cookielib.LWPCookieJar()
+
+    if os.path.isfile(COOKIEFILE):
+        cj.load(COOKIEFILE)
+
+    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+    request = urllib2.Request(url, None, headers)
+
+    # TODO
+    # HEINOUS
+    # For some reason when using urllib2, when I try and do a query that returns no results, I get a 404 here, when in the browser I get an error message.  Something is strange here, but we'll have to let it sit for the moment.
+    try:
+        response = opener.open(request)
+    except urllib2.HTTPError:
+        return None
+
+        #notFound = soup.findAll(text=re.compile("Found no studies with search of"))
+        #return notFound
+
+        #if (notFound):
+        #    return False
+
+
+    clinicalTrialData = response.read()
+    opener.close()
+
+    soup = BeautifulSoup(clinicalTrialData)
+
+    dataTable = soup.findAll("table", {"class": "data_table"})
+    links = dataTable[0].findAll("a")
+
+    allLinks = []
+    for link in links:
+        href = link["href"]
+        contents = link.contents[0]
+        allLinks.append({'href': u"http://clinicaltrials.gov" + href, 'contents': contents})
+    
+    counter = 0
+    for link in allLinks:
+
+        url = link['href']
+        response = opener.open(url)
+        specificTrialData = response.read()
+    
+        soup = BeautifulSoup(specificTrialData)
+        data = soup.findAll("table")
+    
+        institutions = []    
+        def remove_html_tags(data):
+            p = re.compile(r'<.*?>')
+            return p.sub('', data)
+    
+        sponsors = data[8].findAll("tr")[0].findAll("td")[0].contents
+        collaborators = data[8].findAll("tr")[1].findAll("td")[0].contents
+    
+        institutionsUnformatted = []
+    
+        # Do the sponsors first...
+        for sponsor in sponsors:
+            institutionsUnformatted.append(str(sponsor))
+    
+        institutionsUnformatted = "".join(institutionsUnformatted)
+        institutionsUnformatted = institutionsUnformatted.split("<br />")
+    
+        for institution in institutionsUnformatted:
+            institutions.append(remove_html_tags(institution).strip())
+    
+        # And then the collaborators...
+        institutionsUnformatted = []
+        for collaborator in collaborators:
+            institutionsUnformatted.append(str(collaborator))
+    
+        institutionsUnformatted = "".join(institutionsUnformatted)
+        institutionsUnformatted = institutionsUnformatted.split("<br />")
+    
+        for institution in institutionsUnformatted:
+            institutions.append(remove_html_tags(institution).strip())
+    
+        allLinks[counter]['institutions'] = institutions
+        counter += 1
+
+    return allLinks
+
 """
 div = soup.findAll("div")
 imgDiv = div[10]

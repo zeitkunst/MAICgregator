@@ -601,6 +601,37 @@ class SchoolData(object):
 
         return data
 
+    def getClinicalTrials(self):
+        # TODO
+        # Need to follow at least one page of the STTR site so that we can refresh/get session cookies so that people won't be stymied by it
+        # Or, we need to figure out a better way of searching for these things...
+        try:
+            timestamp = self.schoolMetadata['ClinicalTrials']['timestamp']
+        except KeyError:
+            self.schoolMetadata['ClinicalTrials'] = {}
+            self.schoolMetadata['ClinicalTrials']['timestamp'] = None
+
+
+        # are our data dirty, mon?
+        schoolMetadataDirty = False 
+
+        if ((timestamp is None) or (time.time() >= (timestamp + self.MONTH))):
+            data = post.ClinicalTrialsQuery(self.schoolName)
+
+            self.schoolMetadata['ClinicalTrials']['data'] = data 
+            self.schoolMetadata['ClinicalTrials']['timestamp'] = time.time()
+
+            schoolMetadataDirty = True
+
+        else:
+            data = self.schoolMetadata['ClinicalTrials']['data']
+
+        if (schoolMetadataDirty is True):
+            self.dbManager.put(self.schoolName, self.schoolMetadata)
+
+        return data
+
+
     def getPRNews(self):
         timestamp = self.schoolMetadata['PRNews']['timestamp']
         
