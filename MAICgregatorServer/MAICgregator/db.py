@@ -610,6 +610,7 @@ class SchoolData(object):
         except KeyError:
             self.schoolMetadata['ClinicalTrials'] = {}
             self.schoolMetadata['ClinicalTrials']['timestamp'] = None
+            timestamp = None
 
 
         # are our data dirty, mon?
