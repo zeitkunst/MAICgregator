@@ -783,6 +783,9 @@ class ProcessBase(object):
             institutionList = ""
             for institution in institutions:
                 institutionList += "%s+" % institution
+            # HACK 
+            # To get rid of the last two pluses at the end of the list
+            institutionList = institutionList[:length(institutionList) - 2]
             output += "%s\t%s\t%s\n" % (contents, href, institutionList)
 
         output = output.replace("<", "&lt;")

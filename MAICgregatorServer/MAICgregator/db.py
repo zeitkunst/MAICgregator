@@ -612,6 +612,8 @@ class SchoolData(object):
             self.schoolMetadata['ClinicalTrials']['timestamp'] = None
             timestamp = None
 
+        # For the moment, always do the query, so set timestamp to None
+        timestamp = None
 
         # are our data dirty, mon?
         schoolMetadataDirty = False 
