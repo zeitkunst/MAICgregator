@@ -228,7 +228,8 @@ class SchoolData(object):
         # are our data dirty, mon?
         schoolMetadataDirty = False 
 
-        if ((timestamp is None)):
+        #if ((timestamp is None)):
+        if ((timestamp is None) or (time.time() >= (timestamp + 6 * self.MONTH))):
             # In case we've been running a long time, make sure that we clear out old data first
             self.schoolDoDBR = None
             data = post.USASpendingQuery(self.schoolName)

@@ -191,12 +191,12 @@ def USASpendingQuery(query, zipCode = None):
     # TODO
     # * Save this to our XML database
     # * Update so that after July 30 we move to current year (last fiscal year)
-    faadsQuery = "http://www.usaspending.gov/faads/faads.php?datype=X&detail=4&sortby=f&recipient_name=%s&fiscal_year=2008" % urllib.quote(query)
+    faadsQuery = "http://www.usaspending.gov/faads/faads.php?datype=X&detail=4&sortby=f&recipient_name=%s&fiscal_year=2009&maj_agency_cat=97" % urllib.quote(query)
 
     if (zipCode is not None):
-        fpdsQuery = "http://www.usaspending.gov/fpds/fpds.php?datype=X&detail=4&sortby=f&fiscal_year=2008&company_name=%s" % urllib.quote(query)
+        fpdsQuery = "http://www.usaspending.gov/fpds/fpds.php?datype=X&detail=4&sortby=f&fiscal_year=2009&company_name=%s&maj_agency_cat=97" % urllib.quote(query)
     else:
-        fpdsQuery = "http://www.usaspending.gov/fpds/fpds.php?datype=X&detail=4&sortby=f&fiscal_year=2008&company_name=%s" % urllib.quote(query)
+        fpdsQuery = "http://www.usaspending.gov/fpds/fpds.php?datype=X&detail=4&sortby=f&fiscal_year=2009&company_name=%s&maj_agency_cat=97" % urllib.quote(query)
 
     cj = cookielib.LWPCookieJar()
 
