@@ -884,20 +884,44 @@ var MAICgregator = {
 
         ulNode = MAICgregator.doc.createElement("ul");
 
+        universityRegex = new RegExp("University", "i");
+        collegeRegex = new RegExp("College", "i");
+        hospitalRegex = new RegExp("Hospital", "i");
+        departmentRegex = new RegExp("Department", "i");
+
         for (itemIndex in itemArray) {
             data = itemArray[itemIndex].split("\t");
+            if (data.length != 3) {
+                continue;
+            }
             title = data[0];
             href = data[1];
             institutions = data[2];
+            institutionsArray = institutions.split("+");
+            modifiedInstitutionsArray = new Array();
             
+          
+            for (institutionsIndex in institutionsArray) {
+                universityTest = universityRegex.test(institutionsArray[institutionsIndex]);
+                collegeTest = collegeRegex.test(institutionsArray[institutionsIndex]);
+                hospitalTest = hospitalRegex.test(institutionsArray[institutionsIndex]);
+                departmentTest = departmentRegex.test(institutionsArray[institutionsIndex]);
+
+                if ((universityTest || collegeTest) || (hospitalTest || departmentTest)) {
+                    modifiedInstitutionsArray.push(institutionsArray[institutionsIndex]);
+                } else {
+                    modifiedInstitutionsArray.push("<strong>" + institutionsArray[institutionsIndex] + "</strong>");
+                }
+            }
+
+            modifiedInstitutions = modifiedInstitutionsArray.join(", ");
             pNode = MAICgregator.doc.createElement("p");
-            textToAdd = "<a href='" + href + "' title='" + title + "'>" + title + "</a> with institutions and/or companies " + institutions;
+            textToAdd = "<a href='" + href + "' title='" + title + "'>" + title + "</a> with institutions and/or companies " + modifiedInstitutions;
             pNode.innerHTML = textToAdd;
             ulNode.appendChild(pNode);
 
         }                
         divNode.appendChild(ulNode);
-
         return divNode;
     },
 
