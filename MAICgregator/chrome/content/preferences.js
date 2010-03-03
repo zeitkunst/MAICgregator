@@ -56,6 +56,14 @@ function populatePreferences() {
     if (checkbox != null)
         checkbox.setAttribute("checked", MAICgregator.TrusteeRelationshipSearch);
 
+    checkbox = document.getElementById("ClinicalTrials");
+    if (checkbox != null)
+        checkbox.setAttribute("checked", MAICgregator.ClinicalTrials);
+
+    checkbox = document.getElementById("HighlightWords");
+    if (checkbox != null)
+        checkbox.setAttribute("checked", MAICgregator.HighlightWords);
+
     checkbox = document.getElementById("randomize");
     if (checkbox != null)
         checkbox.setAttribute("checked", MAICgregator.randomize);
@@ -136,6 +144,15 @@ function savePreferences() {
     checkbox = document.getElementById("TrusteeRelationshipSearch");
     if (checkbox != null)
         MAICgregator.TrusteeRelationshipSearch = checkbox.checked;
+
+    checkbox = document.getElementById("ClinicalTrials");
+    if (checkbox != null)
+        MAICgregator.ClinicalTrials = checkbox.checked;
+
+    checkbox = document.getElementById("HighlightWords");
+    if (checkbox != null)
+        MAICgregator.HighlightWords = checkbox.checked;
+
 
     checkbox = document.getElementById("randomize");
     if (checkbox != null)

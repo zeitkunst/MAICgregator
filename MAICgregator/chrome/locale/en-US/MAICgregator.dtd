@@ -27,6 +27,10 @@
 <!ENTITY preferences.PRTooltip "'Official' press releases that mention the college or university">
 <!ENTITY preferences.Trustees "Trustee Relationship Search">
 <!ENTITY preferences.TrusteesTooltip "Attempts to lookup information about trustees in public data sources via universities' IRS 990 filings">
+<!ENTITY preferences.ClinicalTrials "FDA Clinical Trials">
+<!ENTITY preferences.ClinicalTrialsTooltip "List of FDA-approved clinical trials and university and corporate collaborators">
+<!ENTITY preferences.HighlightWords "Key Words Highlighting">
+<!ENTITY preferences.HighlightWordsTooltip "Highlight key corporate and military words on the page">
 
 <!ENTITY preferences.randomizeGroup "Randomize...">
 <!ENTITY preferences.randomize "Randomize Links">

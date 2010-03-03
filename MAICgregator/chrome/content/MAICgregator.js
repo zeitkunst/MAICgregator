@@ -9,7 +9,7 @@ var MAICgregator = {
     logDisabled: false,
     previousState: null,
     currentState: null,
-    dataTypeList: new Array("DoDBR", "DoDSTTR", "GoogleNewsSearch", "PRNewsSearch", "TrusteeRelationshipSearch"), 
+    dataTypeList: new Array("DoDBR", "DoDSTTR", "GoogleNewsSearch", "PRNewsSearch", "TrusteeRelationshipSearch", "ClinicalTrials"), 
 
     // Return a preferences instance
     _getPrefs: function() {
@@ -104,8 +104,18 @@ var MAICgregator = {
             }
 
             if (MAICgregator.TrusteeRelationshipSearch) {
-                queryString += "TrusteeRelationshipSearch";
+                queryString += "TrusteeRelationshipSearch+";
                 dataTypes.push("TrusteeRelationshipSearch");
+            }
+
+            if (MAICgregator.ClinicalTrials) {
+                queryString += "ClinicalTrials";
+                dataTypes.push("ClinicalTrials");
+            }
+
+            // Do our little highlighting thing, if desired
+            if (MAICgregator.HighlightWords) {
+                MAICgregator.processWords();
             }
 
             // Check if we have a + at the end of the query string
@@ -119,27 +129,30 @@ var MAICgregator = {
                 MAICgregator.request.open("GET", MAICgregator.serverURL + "Aggregate/" + schoolHost + "/" + queryString, true);
                 MAICgregator.request.onreadystatechange = MAICgregator.processAggregate;
                 MAICgregator.request.send(null);
-            }
-           
-            // Are we showing status messages?
-            if (MAICgregator.infoStatus) {
-                infoDivNode = MAICgregator.doc.createElement("div");
-                infoDivNode.id = "MAICgregatorInfo";
-                infoDivNode.style.styleFloat = "left";
-                infoDivNode.style.clear = "both";
-                infoDivNode.style.position = "absolute";
-                infoDivNode.style.top = "0em";
-                infoDivNode.style.left = "0em";
+
+                // Are we showing status messages?
+                if (MAICgregator.infoStatus) {
+                    infoDivNode = MAICgregator.doc.createElement("div");
+                    infoDivNode.id = "MAICgregatorInfo";
+                    infoDivNode.style.styleFloat = "left";
+                    infoDivNode.style.clear = "both";
+                    infoDivNode.style.position = "absolute";
+                    infoDivNode.style.top = "0em";
+                    infoDivNode.style.left = "0em";
+        
+                    spanNode = MAICgregator.doc.createElement("span");
+                    spanNode.style.backgroundColor = "#DF1111";
+                    spanNode.style.color = "#EFEF11";
+                    spanNode.appendChild(MAICgregator.doc.createTextNode("Making data request..."));
+                    infoDivNode.appendChild(spanNode);
+                    MAICgregator.doc.body.insertBefore(infoDivNode, MAICgregator.doc.body.childNodes[0]);
+                    MAICgregator.infoDivNode = infoDivNode;
     
-                spanNode = MAICgregator.doc.createElement("span");
-                spanNode.style.backgroundColor = "#DF1111";
-                spanNode.style.color = "#EFEF11";
-                spanNode.appendChild(MAICgregator.doc.createTextNode("Making data request..."));
-                infoDivNode.appendChild(spanNode);
-                MAICgregator.doc.body.insertBefore(infoDivNode, MAICgregator.doc.body.childNodes[0]);
-                MAICgregator.infoDivNode = infoDivNode;
+                }
 
             }
+           
+
 
             //$jq("#news", MAICgregator.doc).css("color", "#00FF00");
             //$jq("a.MAICgregatorDoDBR", MAICgregator.doc).click(function() {
@@ -147,6 +160,26 @@ var MAICgregator = {
             //    $jq("#MAICgregatorDoDBR", MAICgregator.doc).slideDown("slow")
             //});
         }
+
+
+    },
+
+    processWords: function() {
+        // Try and replace some substrings...
+        body = MAICgregator.doc.body;
+        bodyHTML = body.innerHTML;
+        bodyHTML = new String(bodyHTML);
+        words = new Array("press",  "management", "cash", "money", "capital", "military", "profit", "bomb", "efficient", "weapon", "soldier", "defense", "radar", "company", "corporate",  "commercial", "product", "business", "profit", "innovation", "economy", "finance", "financial", "innovating",  "DARPA", "economic", "economics", "economist", "bank", "cost", "crisis");
+        for (wordIndex in words) {
+            // TODO
+            // this regex is a little slow; it would be good to figure out if there is a way to speed it up
+            // it also seems to miss some words for some reason; should try and figure out why that is
+            wordRegExp = new RegExp("(>.*)(" + words[wordIndex] + ")(.*<)", "gi");
+            bodyHTML = bodyHTML.replace(wordRegExp, "$1<span style='text-transform: uppercase; font-weight: bold; font-size: 200%'><blink>$2</blink></span>$3");
+
+        }
+        MAICgregator.doc.body.innerHTML = bodyHTML.toString();
+
     },
 
     processAggregate: function() {
@@ -229,6 +262,7 @@ var MAICgregator = {
             var newaTags = processResults[1];
 
             divNode = MAICgregator.doc.createElement("div");
+            divNode.setAttribute("id", "MAICgregatorOverlay");
             divNode.style.position = "absolute";
             divNode.style.top = "3em";
             divNode.style.left = "3em";
@@ -237,17 +271,62 @@ var MAICgregator = {
             divNode.style.padding = "0.5em 0.5em";
             divNode.style.backgroundColor = "#333";
             divNode.style.zIndex = "55";
+            
+
+            //h2Node = MAICgregator.doc.createElement("2");
+            //h2Node.appendChild(MAICgregator.doc.createTextNode("Current Alternative News:"));
 
             newsDivNode = MAICgregator.doc.createElement("div");
             newsDivNode.style.opacity = "1.0";
             newsDivNode.style.padding = "0.5em";
             newsDivNode.style.backgroundColor = "#eee";
+            
+            containerDivNode = MAICgregator.doc.createElement("div");
+            containerDivNode.setAttribute("id", "MAICgregatorNews");
+            containerDivNode.style.display = "block";
+
+            hideNode = MAICgregator.doc.createElement("div");
+            aNode = MAICgregator.doc.createElement("a");
+            aNode.appendChild(MAICgregator.doc.createTextNode("[hide]"));
+            aNode.addEventListener("click", function() {
+                if (MAICgregator.animation) {
+                    // jQuery way of doing things
+                    // Need to fix "jumping problem; maybe this will help?
+                    // http://blog.pengoworks.com/index.cfm/2009/4/21/Fixing-jQuerys-slideDown-effect-ie-Jumpy-Animation
+                    $jq = jQuery.noConflict();
+                    idName = "#MAICgregatorNews";
+                    if ($jq(idName, MAICgregator.doc).is(":hidden")) {
+                        $jq(idName, MAICgregator.doc).slideDown(1500);
+                    } else {
+                        $jq(idName, MAICgregator.doc).slideUp(1500);
+                    }
+
+                } else {
+                    // Standard way of doing things
+                    divNodeToDisplay = MAICgregator.doc.getElementById("MAICgregatorNews");
+                    if (divNodeToDisplay == null) {
+                        return;
+                    }
+
+                    if (divNodeToDisplay.style.display == "block") {
+                        divNodeToDisplay.style.display = "none";
+                    } else if (divNodeToDisplay.style.display == "none") {
+                        divNodeToDisplay.style.display = "block";
+                    }
+                }
+               
+            }, false);
+            hideNode.appendChild(aNode);
+            newsDivNode.appendChild(hideNode);
+
+
             h2Node = MAICgregator.doc.createElement("h2");
             h2Node.appendChild(MAICgregator.doc.createTextNode("Current Alternative News:"));
-            newsDivNode.appendChild(h2Node);
+            containerDivNode.appendChild(h2Node);
             for (addIndex = 0; addIndex < nodesToAdd.length; addIndex++) {
-                newsDivNode.appendChild(nodesToAdd[addIndex]);
+                containerDivNode.appendChild(nodesToAdd[addIndex]);
             }
+            newsDivNode.appendChild(containerDivNode);
             divNode.appendChild(newsDivNode);
 
             if (MAICgregator.randomize) {
@@ -268,6 +347,7 @@ var MAICgregator = {
             }
 
         }
+
     },
     
     _processXMLResults: function(results) {
@@ -276,7 +356,8 @@ var MAICgregator = {
             'DoDSTTR': MAICgregator.processDoDSTTRResults,
             'GoogleNewsSearch': MAICgregator.processGoogleNewsResults,
             'PRNewsSearch': MAICgregator.processPRNewsResults,
-            'TrusteeRelationshipSearch': MAICgregator.processTrusteeRelationshipSearchResults
+            'TrusteeRelationshipSearch': MAICgregator.processTrusteeRelationshipSearchResults,
+            'ClinicalTrials': MAICgregator.processClinicalTrialsResults,
         };
 
         var linkNameMapping = {
@@ -284,7 +365,8 @@ var MAICgregator = {
             'DoDSTTR': "DoD STTR Grants",
             'GoogleNewsSearch': "Google News Search",
             'PRNewsSearch': "PR News Search",
-            'TrusteeRelationshipSearch': "Trustee Relationship Search" 
+            'TrusteeRelationshipSearch': "Trustee Relationship Search",
+            'ClinicalTrials': "FDA Clincal Trials Search" 
         };
 
         returnArray = new Array();
@@ -776,6 +858,50 @@ var MAICgregator = {
         return divNode;
     },
 
+    processClinicalTrialsResults: function(results) {
+        var results = getNodeValue(results);
+        results = new String(results);
+        results = results.trim();
+        // Parse our formatted STTR data
+        itemArray = results.split("\n");
+        
+        if (itemArray[0] == "") {
+            divNode = MAICgregator.doc.createElement("div");
+            divNode.setAttribute("id", "MAICgregatorClinicalTrials");
+            h3Node = MAICgregator.doc.createElement("h3");
+            h3Node.appendChild(MAICgregator.doc.createTextNode("No Results"));
+            divNode.appendChild(h3Node);
+
+            return divNode;
+        } 
+
+
+        divNode = MAICgregator.doc.createElement("div");
+        divNode.setAttribute("id", "MAICgregatorClinicalTrials");
+        h3Node = MAICgregator.doc.createElement("h3");
+        h3Node.appendChild(MAICgregator.doc.createTextNode("FDA Clinical Trials"));
+        divNode.appendChild(h3Node);
+
+        ulNode = MAICgregator.doc.createElement("ul");
+
+        for (itemIndex in itemArray) {
+            data = itemArray[itemIndex].split("\t");
+            title = data[0];
+            href = data[1];
+            institutions = data[2];
+            
+            pNode = MAICgregator.doc.createElement("p");
+            textToAdd = "<a href='" + href + "' title='" + title + "'>" + title + "</a> with institutions and/or companies " + institutions;
+            pNode.innerHTML = textToAdd;
+            ulNode.appendChild(pNode);
+
+        }                
+        divNode.appendChild(ulNode);
+
+        return divNode;
+    },
+
+
 
     findNewsNode: function() {
         var newsNode = MAICgregator.doc.getElementById("news");
@@ -1018,6 +1144,7 @@ var MAICgregator = {
         // onhover event handler that would raise the div?
         divNode = MAICgregator.doc.createElement("div");
         divNode.style.position = "absolute";
+
         randomTop = Math.floor(Math.random() * 50);
         randomTop = randomTop.toString();
         randomLeft = Math.floor(Math.random() * 50);
@@ -1046,6 +1173,13 @@ var MAICgregator = {
         imgContainerNode.appendChild(aNode);
         divNode.appendChild(imgContainerNode);
         divNode.appendChild(pNode);
+        divNode.addEventListener("mouseover", function() {
+            this.style.zIndex = "300";
+        }, false);
+        divNode.addEventListener("mouseout", function() {
+            this.style.zIndex = "1";
+        }, false);
+
         return divNode;
     },    
 
@@ -1066,6 +1200,8 @@ var MAICgregator = {
         this.GoogleNewsSearch = prefs.getBoolPref("GoogleNewsSearch");
         this.PRNewsSearch = prefs.getBoolPref("PRNewsSearch");
         this.TrusteeRelationshipSearch = prefs.getBoolPref("TrusteeRelationshipSearch");
+        this.ClinicalTrials = prefs.getBoolPref("ClinicalTrials");
+        this.HighlightWords = prefs.getBoolPref("HighlightWords");
         this.randomize = prefs.getBoolPref("randomize");
         this.infoStatus = prefs.getBoolPref("infoStatus");
         this.animation = prefs.getBoolPref("animation");
@@ -1088,6 +1224,8 @@ var MAICgregator = {
         prefs.setBoolPref("GoogleNewsSearch", this.GoogleNewsSearch);
         prefs.setBoolPref("PRNewsSearch", this.PRNewsSearch);
         prefs.setBoolPref("TrusteeRelationshipSearch", this.TrusteeRelationshipSearch);
+        prefs.setBoolPref("ClinicalTrials", this.ClinicalTrials);
+        prefs.setBoolPref("HighlightWords", this.HighlightWords);
         prefs.setBoolPref("randomize", this.randomize);
         prefs.setBoolPref("infoStatus", this.infoStatus);
         prefs.setBoolPref("animation", this.animation);

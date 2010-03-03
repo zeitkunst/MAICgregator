@@ -7,6 +7,8 @@ pref("extensions.MAICgregator.DHS", false);
 pref("extensions.MAICgregator.GoogleNewsSearch", true);
 pref("extensions.MAICgregator.PRNewsSearch", true);
 pref("extensions.MAICgregator.TrusteeRelationshipSearch", true);
+pref("extensions.MAICgregator.ClinicalTrials", true);
+pref("extensions.MAICgregator.HighlightWords", true);
 pref("extensions.MAICgregator.randomize", true);
 pref("extensions.MAICgregator.infoStatus", false);
 pref("extensions.MAICgregator.animation", false);

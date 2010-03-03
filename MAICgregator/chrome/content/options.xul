@@ -55,6 +55,13 @@
         <hbox>
             <checkbox label="&preferences.Trustees;" checked="false" tooltiptext="&preferences.TrusteesTooltip;" id="TrusteeRelationshipSearch" preference="TrusteeRelationshipSearch" onsynctopreference="return saveTrusteeRelationshipSearch"/>
         </hbox>
+        <hbox>
+            <checkbox label="&preferences.ClinicalTrials;" checked="false" tooltiptext="&preferences.ClinicalTrialsTooltip;" id="ClinicalTrials" preference="ClinicalTrials" onsynctopreference="return saveClinicalTrials"/>
+        </hbox>
+        <hbox>
+            <checkbox label="&preferences.HighlightWords;" checked="false" tooltiptext="&preferences.HighlightWordsTooltip;" id="HighlightWords" preference="HighlightWords" onsynctopreference="return saveHighlightWords"/>
+        </hbox>
+
     </groupbox>
     <groupbox id="MAICgregatorRandomizeGroupbox">
         <caption label="&preferences.randomizeGroup;"/>
