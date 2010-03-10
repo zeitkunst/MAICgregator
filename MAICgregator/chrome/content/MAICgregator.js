@@ -169,16 +169,48 @@ var MAICgregator = {
         body = MAICgregator.doc.body;
         bodyHTML = body.innerHTML;
         bodyHTML = new String(bodyHTML);
-        words = new Array("press",  "management", "cash", "money", "capital", "military", "profit", "bomb", "efficient", "weapon", "soldier", "defense", "radar", "company", "corporate",  "commercial", "product", "business", "profit", "innovation", "economy", "finance", "financial", "innovating",  "DARPA", "economic", "economics", "economist", "bank", "cost", "crisis");
+        words = new Array("press",  "management", "cash", "money", "capital", "military", "profit", "bomb", "efficient", "weapon", "soldier", "defense", "radar", "company", "corporate",  "commercial", "product", "business", "profit", "innovation", "startup", "technology transfer", "economy", "innovator", "finance", "financial", "innovating",  "DARPA", "economic", "economics", "economist", "bank", "cost", "crisis");
         for (wordIndex in words) {
             // TODO
             // this regex is a little slow; it would be good to figure out if there is a way to speed it up
             // it also seems to miss some words for some reason; should try and figure out why that is
             wordRegExp = new RegExp("(>.*)(" + words[wordIndex] + ")(.*<)", "gi");
-            bodyHTML = bodyHTML.replace(wordRegExp, "$1<span style='text-transform: uppercase; font-weight: bold; font-size: 200%'><blink>$2</blink></span>$3");
+            if (MAICgregator.animation) {
+                bodyHTML = bodyHTML.replace(wordRegExp, "$1<span class='changeHue' style='text-transform: uppercase; font-weight: bold;'>$2</span>$3");
+            } else {
+                bodyHTML = bodyHTML.replace(wordRegExp, "$1<span class='changeHue' style='text-transform: uppercase; font-size: 200%; font-weight: bold;'><blink>$2</blink></span>$3");
+
+            }
+            //bodyHTML = bodyHTML.replace(wordRegExp, "$1<span class='changeHue' style='text-transform: uppercase; font-weight: bold;'><blink>$2</blink></span>$3");
 
         }
         MAICgregator.doc.body.innerHTML = bodyHTML.toString();
+
+        if (MAICgregator.animation) {
+            // Completely unnecessary :-)
+            $jq = jQuery.noConflict();
+            setInterval(function() {
+                $jq(".changeHue", MAICgregator.doc).each(
+                    function() {
+                        var hue = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';  
+                        $jq(this, MAICgregator.doc).css('color', hue);
+                    }
+                );
+
+            }, 500);
+
+            setTimeout(function() {
+                    $jq(".changeHue", MAICgregator.doc).animate({fontSize: "300%"}, {queue: false, duration:1000});
+            }, 8000);                    
+            setTimeout(function() {
+                $jq(".changeHue", MAICgregator.doc).each(
+                    function() {
+                        var contents = $jq(this, MAICgregator.doc).html()
+                        $jq(this, MAICgregator.doc).html("<blink>" + contents + "</blink>");
+                    }
+                );
+            }, 11000);
+        }
 
     },
 
