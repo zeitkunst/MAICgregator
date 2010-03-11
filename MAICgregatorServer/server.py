@@ -77,6 +77,7 @@ urls = (
     '/FAQ', 'FAQ',
     '/license', 'license',
     '/SLSA2009', 'SLSA2009',
+    '/video', 'MAICgregatorVideo',
     '/UpdateTrusteeInfo', 'TrusteeInfo',
     '/docs/preferences', 'documentationPreferences',
     '/docs', 'documentation',
@@ -361,6 +362,10 @@ class license:
 class SLSA2009:
     def GET(self):
         return render.SLSA2009()
+
+class MAICgregatorVideo:
+    def GET(self):
+        return render.MAICgregatorVideo()
 
 
 class help:

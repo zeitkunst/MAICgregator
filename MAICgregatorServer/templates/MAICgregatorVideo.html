@@ -1,0 +1,21 @@
+$def with ()
+$var title: MAICgregator Video
+
+<h2>MAICgregator Video</h2>
+
+<script type='text/javascript' src='http://maicgregator.org/static/swfobject.js'></script>
+ 
+<div id='mediaspace'>This text will be replaced</div>
+ 
+<script type='text/javascript'>
+      var so = new SWFObject('http://maicgregator.org/static/player.swf','mpl','320','240','9');
+        so.addParam('allowfullscreen','true');
+          so.addParam('allowscriptaccess','always');
+            so.addParam('wmode','opaque');
+              so.addVariable('file','http://maicgregator.org/static/SLSA2009.flv');
+                so.addVariable('frontcolor','ffffff');
+                  so.addVariable('lightcolor','cc9900');
+                    so.addVariable('skin','http://www.longtailvideo.com/jw/upload/overlay.swf');
+                      so.addVariable('controlbar','over');
+                        so.write('mediaspace');
+</script>
