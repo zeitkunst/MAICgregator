@@ -234,7 +234,7 @@ def TrusteeSearch(query):
               'action': 'Find',
               'ei': '',
               'fn': query,
-              'fy': '2007',
+              'fy': '2008',
               'st': '',
               'zp': ''}
     # HEINOUSness for Harvard; search for the fellows instead, and go back to 2006 since they haven't uploaded anything more recent
@@ -442,7 +442,7 @@ def ClinicalTrialsQuery(query):
     try:
         response = opener.open(request)
     except urllib2.HTTPError:
-        return None
+        return []
 
         #notFound = soup.findAll(text=re.compile("Found no studies with search of"))
         #return notFound

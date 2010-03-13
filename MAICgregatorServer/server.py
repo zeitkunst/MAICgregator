@@ -790,12 +790,46 @@ class ProcessBase(object):
                 institutionList += "%s+" % institution
             # HACK 
             # To get rid of the last two pluses at the end of the list
-            institutionList = institutionList[:length(institutionList) - 2]
+            institutionList = institutionList[:len(institutionList) - 2]
             output += "%s\t%s\t%s\n" % (contents, href, institutionList)
 
         output = output.replace("<", "&lt;")
         output = output.replace(">", "&gt;")
         return output
+
+    def ClinicalTrialsRSS2(self, hostname):
+        whoisStore = self.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+        schoolData = self.getSchoolData(schoolName)
+
+        # TODO
+        # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
+        # This means we need to come up with a REST api, as well as return error messages
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting Clinical Trials RSS data"
+        clinicalTrials = schoolData.getClinicalTrials()
+       
+        items = []
+        for trial in clinicalTrials:
+            timestamp = schoolData.schoolMetadata['ClinicalTrials']['timestamp']
+            contents = trial["contents"]
+            href = trial["href"]
+            institutions = trial["institutions"]
+            institutionList = ""
+            for institution in institutions:
+                institutionList += "%s+" % institution
+            # HACK 
+            # To get rid of the last two pluses at the end of the list
+            institutionList = institutionList[:len(institutionList) - 2]
+
+            item = PyRSS2Gen.RSSItem(title = contents,
+                    link = href,
+                    description = "%s involving institutions and/or companies %s" % (contents, institutionList),
+                    guid = PyRSS2Gen.Guid(contents),
+                    categories = ["ClinicalTrials", "FDA"],
+                    pubDate = datetime.datetime.fromtimestamp(timestamp))
+            items.append(item)
+
+        return items
 
 
 class RSS(ProcessBase):
@@ -808,6 +842,7 @@ class RSS(ProcessBase):
                     'DoDBR': 'XML',
                     'TrusteeRelationshipSearch': 'Trustees',
                     'DoDSTTR': 'STTR',
+                    'ClinicalTrials': 'ClinicalTrials',
                     'PRNewsSearch': 'PRNews'}
 
         title = "MAICgregator feed for %s and data sources %s" % (schoolName, params)

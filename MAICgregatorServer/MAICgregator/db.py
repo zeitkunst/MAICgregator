@@ -169,6 +169,24 @@ class DBManager(object):
             if inst.exceptionCode == DATABASE_ERROR:
                 print "Database error code:", inst.dbError
 
+    def updateDocument(self, documentName, document):
+        try:
+            uc = self.mgr.createUpdateContext()
+            xtxn = self.mgr.createTransaction()
+            currentDoc = self.container.getDocument(documentName)
+            currentDoc.setContent(document)
+            self.container.updateDocument(xtxn, currentDoc, uc)
+            self.container.sync()
+            xtxn.commit()
+            del xtxn
+            del uc
+            return True
+        except XmlDatabaseError, inst:
+            print "XMLException (", inst.exceptionCode, "):", inst.what
+            if inst.exceptionCode == DATABASE_ERROR:
+                print "Database error code:", inst.dbError
+
+
     def getDocument(self, documentName):
         uc = self.mgr.createUpdateContext()
         xtxn = self.mgr.createTransaction()
@@ -228,6 +246,8 @@ class SchoolData(object):
         # are our data dirty, mon?
         schoolMetadataDirty = False 
 
+        # for the moment...
+        #timestamp = None
         #if ((timestamp is None)):
         if ((timestamp is None) or (time.time() >= (timestamp + 6 * self.MONTH))):
             # In case we've been running a long time, make sure that we clear out old data first
@@ -244,7 +264,19 @@ class SchoolData(object):
                     print "Database error code:", inst.dbError
 
             if (returnValue == False):
-                print "%s already exists" % schoolNameCompactGrants
+                print "%s already exists; trying to update" % schoolNameCompactGrants
+
+                try:
+                    returnValue = self.dbManager.updateDocument(schoolNameCompactGrants, grants)
+                except XmlDatabaseError, inst:
+                    print "XMLException (", inst.exceptionCode, "):", inst.what
+                    if inst.exceptionCode == DATABASE_ERROR:
+                        print "Database error code:", inst.dbError
+                
+                if (returnValue == False):
+                    print "%s: problem with updating document" % schoolNameCompactGrants
+
+
             
             if (contracts.find("No records found for this search criteria") != -1):
                 contracts = r"<results>no results found</results>"
@@ -257,7 +289,19 @@ class SchoolData(object):
                     print "Database error code:", inst.dbError
 
             if (returnValue == False):
-                print "%s already exists" % schoolNameCompactContracts
+                print "%s already exists; trying to update" % schoolNameCompactContracts
+
+                try:
+                    returnValue = self.dbManager.updateDocument(schoolNameCompactContracts, contracts)
+                except XMLDatabaseError, inst:
+                    print "XMLException (", inst.exceptionCode, "):", inst.what
+                    if inst.exceptionCode == DATABASE_ERROR:
+                        print "Database error code:", inst.dbError
+                
+                if (returnValue == False):
+                    print "%s: problem with updating document" % schoolNameCompactContracts
+
+
 
             self.schoolMetadata['XML']['timestamp'] = time.time()
             self.dbManager.put(self.schoolName, self.schoolMetadata)
@@ -585,7 +629,7 @@ class SchoolData(object):
         # are our data dirty, mon?
         schoolMetadataDirty = False 
 
-        if ((timestamp is None) or (time.time() >= (timestamp + 4 * self.MONTH))):
+        if ((timestamp is None) or (time.time() >= (timestamp + self.MONTH))):
         #if (timestamp is not None):
             data = post.STTRQuery(self.schoolName)
 
@@ -612,9 +656,6 @@ class SchoolData(object):
             self.schoolMetadata['ClinicalTrials'] = {}
             self.schoolMetadata['ClinicalTrials']['timestamp'] = None
             timestamp = None
-
-        # For the moment, always do the query, so set timestamp to None
-        timestamp = None
 
         # are our data dirty, mon?
         schoolMetadataDirty = False 
