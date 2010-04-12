@@ -18,6 +18,7 @@ import PyRSS2Gen
 from BeautifulSoup import BeautifulSoup
 from bsddb3.db import *
 from dbxml import *
+from lxml import etree
 import web
 from wsgilog import WsgiLog, LogIO
 import textile
@@ -70,6 +71,7 @@ urls = (
     '/MAICgregator/TrusteeRelationshipSearch/(.*?)', 'TrusteeSearch',
     '/MAICgregator/GoogleNews/(.*?)', 'GoogleNews',
     '/MAICgregator/Aggregate/(.*?)/(.*?)', 'Aggregate',
+    '/MAICgregator/Aggregate2/(.*?)/(.*?)', 'Aggregate20',
     '/MAICgregator/feed/rss/(.*?)/(.*?)', 'RSS',
     '/RSSFeeds', 'RSSList',
     '/feed/rss', 'PostsFeed',
@@ -831,6 +833,502 @@ class ProcessBase(object):
 
         return items
 
+class ProcessBase2(object):
+    def __init__(self, dbManager = None):
+        # Setup the school data object dictionary
+        self.dbManager = dbManager
+        self.schoolMapping = {}
+        self.whoisStore = None
+
+        # Setup our processed data
+        self.statement = None
+        self.faq = None
+
+    def getWhois(self):
+        if (self.whoisStore == None):
+            self.whoisStore = whois.WhoisStore(dbManager = self.dbManager)
+
+        return self.whoisStore
+
+    def getSchoolData(self, schoolName):
+        if not (self.schoolMapping.has_key(schoolName)):
+            self.schoolMapping[schoolName] = db.SchoolData(schoolName, dbManager = self.dbManager)
+        return self.schoolMapping[schoolName]
+
+    def GoogleNewsSearch(self, hostname):
+        whoisStore = self.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+
+        #schoolData = db.SchoolData(schoolName)
+        schoolData = self.getSchoolData(schoolName)
+
+        # TODO
+        # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
+        # This means we need to come up with a REST api, as well as return error messages
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting Google News"
+        results = schoolData.getGoogleNews()
+
+        googleNewsElement = etree.Element("GoogleNews")
+
+        for item in results.split("\n"):
+            soup = BeautifulSoup(item, fromEncoding="utf-8")
+            div = soup.findAll("div")
+            a = div[1].findAll("a")
+            font = div[1].findAll("font")
+            href = a[0]['href']
+            title = a[0].contents[0].string
+            description = ""
+            for content in font[2].contents:
+                description += content.string
+            #description = "".join(font[2].contents)
+
+            newsItem = etree.Element("newsItem")
+            newsItem.set("href", href)
+            titleElement = etree.Element("title")
+            titleElement.text = title
+            descriptionElement = etree.Element("description")
+            print description
+            descriptionElement.text = description
+
+            newsItem.append(titleElement)
+            newsItem.append(descriptionElement)
+            googleNewsElement.append(newsItem)
+
+        #schoolData.close()
+        return googleNewsElement
+
+    def GoogleNewsSearchRSS2(self, hostname):
+        whoisStore = self.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+        schoolData = self.getSchoolData(schoolName)
+
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting Google News RSS"
+        results = schoolData.getGoogleNews()
+        soup = BeautifulSoup(results)
+
+        tables = soup.findAll("table")
+        items = []
+        for table in tables:
+            timestamp = schoolData.schoolMetadata['GoogleNews']['timestamp']
+            
+            title = "".join(unicode(item) for item in table.a.contents)
+            description = unicode(table.findAll("font")[3])
+            url = table.a['href']
+
+            item = PyRSS2Gen.RSSItem(title = title,
+                    link = url,
+                    description = description,
+                    guid = PyRSS2Gen.Guid(url),
+                    categories = ["Google News"],
+                    author = "info@maicgregator.org (%s)" % schoolName,
+                    pubDate = datetime.datetime.fromtimestamp(timestamp))
+            items.append(item)
+
+        return items
+
+    def TrusteeRelationshipSearch(self, hostname):
+        #whoisStore = whois.WhoisStore()
+        #schoolName = whoisStore.getSchoolName(hostname)
+
+        #schoolData = db.SchoolData(schoolName)
+
+        whoisStore = self.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+        schoolData = self.getSchoolData(schoolName)
+
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting Trustee data"
+
+        trusteesElement = etree.Element("Trustees")
+        results = schoolData.getTrustees()
+
+        for trustee in schoolData.getTrustees().split("\n"):
+            trusteeInfo = trustee.split("\t")
+            trusteeElement = etree.Element("Trustee")
+            trusteeElement.text = trusteeInfo[0]
+            trusteeElement.set("imageURL", trusteeInfo[1])
+            trusteesElement.append(trusteeElement)
+
+        class UpdateImagesThread(threading.Thread):
+            def __init__(self, schoolData, dbManager):
+                threading.Thread.__init__(self)
+                self.schoolData = schoolData
+                self.dbManager = dbManager
+
+            def run(self):
+                self.schoolData.updateTrusteeImages()
+        
+        # This seems to work.  What we need to do is:
+        # * Make sure that we provide some sort of timestamp that prevents us from checking each time
+        # * Make sure that we don't try checking at the same time; setup some sort of "lock" that prevents us from doing so
+        updateImagesThread = UpdateImagesThread(schoolData, self.dbManager)
+        updateImagesThread.start()
+
+        return trusteesElement
+
+    def TrusteeImages(self, hostname):
+        whoisStore = self.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+        schoolData = self.getSchoolData(schoolName)
+        
+        trusteeImages = schoolData.getTrusteeImagesFromModel()
+        
+        output = ""
+        for image in trusteeImages:
+            output += "<img width='200' src='%s'/>" % image
+
+        return output
+
+    def TrusteeRelationshipSearchRSS2(self, hostname):
+        whoisStore = self.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+        schoolData = self.getSchoolData(schoolName)
+
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting Trustee RSS data"
+        results = schoolData.getTrustees()
+
+        resultList = results.split("\n")
+        items = []
+        for result in resultList:
+            timestamp = schoolData.schoolMetadata['Trustees']['timestamp']
+            url = "http://www.google.com/search?&q=" + urllib.quote(result + " trustee")
+            item = PyRSS2Gen.RSSItem(title = result,
+                    link = url,
+                    description = result,
+                    guid = PyRSS2Gen.Guid(url),
+                    categories = ["Trustee"],
+                    pubDate = datetime.datetime.fromtimestamp(timestamp))
+            items.append(item)
+
+        return items
+       
+        return results
+
+    def DoDBR(self, hostname):
+        #whoisStore = whois.WhoisStore()
+        #schoolName = whoisStore.getSchoolName(hostname)
+        #schoolData = db.SchoolData(schoolName)
+
+        whoisStore = self.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+        schoolData = self.getSchoolData(schoolName)
+
+        # TODO
+        # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
+        # This means we need to come up with a REST api, as well as return error messages
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting DoDBR data"
+        
+        results = schoolData.getXML()
+        
+        data = results.split("\n")
+        
+        DoDBRResults = etree.Element("DoDBR")
+
+        for item in data:
+            values = item.split("\t")
+
+            if (values[0] == "grant"):
+                newElement = etree.Element("grant")
+            elif (values[0] == "contract"):
+                newElement = etree.Element("contract")
+
+            description = values[1]
+            awardID = values[2]
+            agencyName = values[3]
+            amount = values[4]
+
+            newElement.set("awardID", awardID)
+            newElement.set("agencyName", agencyName)
+
+            descriptionElement = etree.Element("description")
+            descriptionElement.text = description
+
+            amountElement = etree.Element("amount")
+            amountElement.text = amount
+
+            newElement.append(descriptionElement)
+            newElement.append(amountElement)
+
+            DoDBRResults.append(newElement)
+
+        return DoDBRResults
+
+    def DoDBRRSS2(self, hostname):
+        #whoisStore = whois.WhoisStore()
+        #schoolName = whoisStore.getSchoolName(hostname)
+        #schoolData = db.SchoolData(schoolName)
+
+        whoisStore = self.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+        schoolData = self.getSchoolData(schoolName)
+
+        # TODO
+        # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
+        # This means we need to come up with a REST api, as well as return error messages
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting DoDBR RSS data"
+        results = schoolData.getXML()
+        
+        resultList = results.split("\n")
+        items = []
+        for result in resultList:
+            timestamp = schoolData.schoolMetadata['XML']['timestamp']
+            data = result.split("\t")
+            title = data[1]
+            type = data[0]
+            id = data[2]
+            agency = data[3]
+            amount = float(data[4])
+            item = PyRSS2Gen.RSSItem(title = title,
+                    link = "#",
+                    description = "%s from the %s in the amount of $%f with id %s" % (type, agency, amount, id),
+                    guid = PyRSS2Gen.Guid(title),
+                    categories = ["DoD", type],
+                    pubDate = datetime.datetime.fromtimestamp(timestamp))
+            items.append(item)
+
+        return items
+
+    def PRNewsSearch(self, hostname):
+        #whoisStore = whois.WhoisStore()
+        #schoolName = whoisStore.getSchoolName(hostname)
+        #schoolData = db.SchoolData(schoolName)
+
+        whoisStore = self.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+        schoolData = self.getSchoolData(schoolName)
+
+        # TODO
+        # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
+        # This means we need to come up with a REST api, as well as return error messages
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting PR data"
+        web.header('Content-Encoding', 'utf-8')
+
+        PRNewsElement = etree.Element("PRNews")
+
+        for item in schoolData.getPRNews():
+            linkElement = etree.Element("newsItem")
+            soup = BeautifulSoup("""%s""" % item, fromEncoding="utf-8")
+            a = soup.findAll("a")
+            href = a[0]['href']
+            title = a[0].contents[1]
+            print type(title)
+            linkElement.text = title
+            linkElement.set("href", href)
+            PRNewsElement.append(linkElement)
+
+        #results = u"\n".join(unicode(item, "utf-8") for item in schoolData.getPRNews())
+        
+        return PRNewsElement
+
+    def PRNewsSearchRSS2(self, hostname):
+        #whoisStore = whois.WhoisStore()
+        #schoolName = whoisStore.getSchoolName(hostname)
+        #schoolData = db.SchoolData(schoolName)
+
+        whoisStore = self.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+        schoolData = self.getSchoolData(schoolName)
+
+        # TODO
+        # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
+        # This means we need to come up with a REST api, as well as return error messages
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting PR data"
+        #web.header('Content-Encoding', 'utf-8')
+        #results = u"\n".join(unicode(item, "utf-8") for item in schoolData.getPRNews())
+        results = schoolData.getPRNews()
+        items = []
+        for result in results:
+            timestamp = schoolData.schoolMetadata['PRNews']['timestamp']
+            soup = BeautifulSoup(result)
+            title = soup.a.contents[1].strip()
+            description = title
+            url = soup.a['href']
+
+            item = PyRSS2Gen.RSSItem(title = title,
+                    link = url,
+                    description = description,
+                    guid = PyRSS2Gen.Guid(url),
+                    categories = ["PR News"],
+                    author = "info@maicgregator.org (%s)" % schoolName,
+                    pubDate = datetime.datetime.fromtimestamp(timestamp))
+            items.append(item)
+
+        return items
+
+    def DoDSTTR(self, hostname):
+        # Interesting keys to return in our result
+        usefulKeysUppercase = ["PK_AWARDS", "AGENCY", "CONTRACT", "AWARD_AMT", "PI_NAME", "FIRM", "URL", "PRO_TITLE", "WholeAbstract"]
+        usefulKeysLowercase = ["pk_awards", "agency", "contract", "award_amt", "pi_name", "firm", "url", "pro_title", "wholeabstract"]
+        # TODO
+        # Deal with case when we don't get a school name back
+        #whoisStore = whois.WhoisStore()
+        #schoolName = whoisStore.getSchoolName(hostname)
+        #schoolData = db.SchoolData(schoolName)
+
+        whoisStore = self.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+        schoolData = self.getSchoolData(schoolName)
+
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting STTR data"
+        STTRData = schoolData.getSTTR()
+
+        for contract in STTRData:
+            if (type(contract) != type({})): 
+                if (contract.find("Failed") != -1):
+                    return ""
+
+        STTRElement = etree.Element("DoDSTTR")
+        for contract in STTRData:
+            # 2009.08.27
+            # The following are a bunch of hacks due to recent problems with the returned STTR data that put everything into a tizzy
+            if (contract.has_key('CONTRACT') is False):
+                usefulKeys = usefulKeysLowercase
+            else:
+                usefulKeys = usefulKeysUppercase
+
+            if (contract.has_key('PK_AWARDS') is False):
+                contract['PK_AWARDS'] = "0"
+                contract['pk_awards'] = "0"
+            if (contract.has_key('pk_awards') is False):
+                contract['PK_AWARDS'] = "0"
+                contract['pk_awards'] = "0"
+
+            if (contract['PK_AWARDS'] == ""):
+                contract['PK_AWARDS'] = "0"
+            if (contract['pk_awards'] == ""):
+                contract['pk_awards'] = "0"
+
+            contractElement = etree.Element("contract")
+
+            keys = contract.keys()
+
+            for key in keys:
+                keyElement = etree.Element(key.lower())
+                keyElement.text = unicode(contract[key], errors='ignore')
+                contractElement.append(keyElement)
+            STTRElement.append(contractElement)
+
+            #output += "\t".join(unicode(contract[key], errors='ignore') for key in usefulKeys) + "\n"
+        
+        #output = output.replace("<", "&lt;")
+        #output = output.replace(">", "&gt;")
+        return STTRElement
+
+    def DoDSTTRRSS2(self, hostname):
+        # Interesting keys to return in our result
+        usefulKeys = ["PK_AWARDS", "AGENCY", "CONTRACT", "AWARD_AMT", "PI_NAME", "FIRM", "URL", "PRO_TITLE", "WholeAbstract"]
+        # TODO
+        # Deal with case when we don't get a school name back
+        #whoisStore = whois.WhoisStore()
+        #schoolName = whoisStore.getSchoolName(hostname)
+        #schoolData = db.SchoolData(schoolName)
+
+        whoisStore = self.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+        schoolData = self.getSchoolData(schoolName)
+
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting STTR RSS data"
+        STTRData = schoolData.getSTTR()
+        
+        items = []
+        for contract in STTRData:
+            timestamp = schoolData.schoolMetadata['STTR']['timestamp']
+            title = contract["PRO_TITLE"]
+            abstract = contract["WholeAbstract"]
+            amount = float(contract["AWARD_AMT"])
+            piName = contract["PI_NAME"]
+            firm = contract["FIRM"]
+            url = contract["URL"]
+            agency = contract["AGENCY"]
+            
+            description = """%f from the %s to %s and %s
+            <br/>
+            <br/>
+            %s""" % (amount, agency, piName, firm, abstract)
+
+            item = PyRSS2Gen.RSSItem(title = title,
+                    link = "http://" + url,
+                    description = description,
+                    guid = PyRSS2Gen.Guid(url),
+                    categories = ["DoD", "STTR"],
+                                         author = "info@maicgregator.org (%s)" % schoolName,
+                    pubDate = datetime.datetime.fromtimestamp(timestamp))
+            items.append(item)
+
+        return items
+
+    def ClinicalTrials(self, hostname):
+        whoisStore = self.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+        schoolData = self.getSchoolData(schoolName)
+
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting Clinical Trials data"
+        clinicalTrials = schoolData.getClinicalTrials()
+
+        output = ""
+        clinicalTrialsElement = etree.Element("ClinicalTrials")
+        for trial in clinicalTrials:
+            clinicalTrialElement = etree.Element("ClinicalTrial")
+            contents = trial["contents"]
+            href = trial["href"]
+            institutions = trial["institutions"]
+            institutionList = ""
+
+            for institution in institutions:
+                institutionList += "%s+" % institution
+            # HACK 
+            # To get rid of the last two pluses at the end of the list
+            institutionList = institutionList[:len(institutionList) - 2]
+
+            clinicalTrialElement.set("href", href)
+            institutionsElement = etree.Element("institutions")
+            institutionsElement.text = institutionList
+            titleElement = etree.Element("title")
+            titleElement.text = contents
+            clinicalTrialElement.append(titleElement)
+            clinicalTrialElement.append(institutionsElement)
+
+            clinicalTrialsElement.append(clinicalTrialElement)
+            #output += "%s\t%s\t%s\n" % (contents, href, institutionList)
+
+        #output = output.replace("<", "&lt;")
+        #output = output.replace(">", "&gt;")
+        return clinicalTrialsElement
+
+    def ClinicalTrialsRSS2(self, hostname):
+        whoisStore = self.getWhois()
+        schoolName = whoisStore.getSchoolName(hostname)
+        schoolData = self.getSchoolData(schoolName)
+
+        # TODO
+        # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
+        # This means we need to come up with a REST api, as well as return error messages
+        print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting Clinical Trials RSS data"
+        clinicalTrials = schoolData.getClinicalTrials()
+       
+        items = []
+        for trial in clinicalTrials:
+            timestamp = schoolData.schoolMetadata['ClinicalTrials']['timestamp']
+            contents = trial["contents"]
+            href = trial["href"]
+            institutions = trial["institutions"]
+            institutionList = ""
+            for institution in institutions:
+                institutionList += "%s+" % institution
+            # HACK 
+            # To get rid of the last two pluses at the end of the list
+            institutionList = institutionList[:len(institutionList) - 2]
+
+            item = PyRSS2Gen.RSSItem(title = contents,
+                    link = href,
+                    description = "%s involving institutions and/or companies %s" % (contents, institutionList),
+                    guid = PyRSS2Gen.Guid(contents),
+                    categories = ["ClinicalTrials", "FDA"],
+                    pubDate = datetime.datetime.fromtimestamp(timestamp))
+            items.append(item)
+
+        return items
+
+
 
 class RSS(ProcessBase):
      def GET(self, hostname, params):
@@ -894,6 +1392,28 @@ class Aggregate(ProcessBase):
         outputString = outputString.replace("&", "&amp;")
         return outputString
 
+class Aggregate20(ProcessBase2):
+    MAICGREGATOR_NAMESPACE = "http://maicgregator.org/ns/2.0/#"
+    MAICNS = "{%s}" % MAICGREGATOR_NAMESPACE
+    NSMAP = {None : MAICGREGATOR_NAMESPACE}
+
+    def GET(self, hostname, params):
+        process = ProcessSingleton2.getProcess()
+
+        params = params.split("/")[-1]
+        paramList = params.split("+")
+
+        results = etree.Element(self.MAICNS + "results", nsmap = self.NSMAP)
+
+        for param in paramList:
+            resultFunction = getattr(process, param)
+            paramResults = resultFunction(hostname)
+            results.append(paramResults)
+
+        web.header("Content-Type", "text/xml; charset=utf-8")
+        return etree.tostring(results)
+
+
 class ProcessSingleton(ProcessBase):
     process = None
     def getProcess():
@@ -901,6 +1421,15 @@ class ProcessSingleton(ProcessBase):
             ProcessSingleton.process = ProcessBase(dbManager = db.DBManager())
         return ProcessSingleton.process
     getProcess = staticmethod(getProcess)
+
+class ProcessSingleton2(ProcessBase2):
+    process = None
+    def getProcess():
+        if ProcessSingleton2.process == None:
+            ProcessSingleton2.process = ProcessBase2(dbManager = db.DBManager())
+        return ProcessSingleton2.process
+    getProcess = staticmethod(getProcess)
+
 
 class statement:
     def GET(self):
