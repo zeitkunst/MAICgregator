@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0"  datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+    <start>
+        <ref name="MAICgregator" />
+    </start>
+
+    <define name="MAICgregator">
+        <element name="MAICgregator" ns="http://maicgregator.org/ns/2.0/#">
+            <interleave>
+                <optional>
+                    <ref name="Trustees" />                
+                </optional>            
+                <optional>
+                    <ref name="GoogleNews" />
+                </optional>
+                <optional>
+                    <ref name="DoDBR" />
+                </optional>
+                <optional>
+                    <ref name="PRNews" />
+                </optional>
+                <optional>
+                    <ref name="ClinicalTrials" />
+                </optional>
+                <optional>
+                    <ref name="DoDSTTR" />
+                </optional>
+            </interleave>
+        </element>
+    </define>
+
+    <define name="GoogleNews">
+        <element name="GoogleNews" ns="http://maicgregator.org/ns/2.0/#">
+            <oneOrMore>
+                <element name="newsItem">
+                    <attribute name="href">
+                        <data type="anyURI" />
+                    </attribute>
+                    <interleave>
+                        <element name="title">
+                            <text />                        
+                        </element>                    
+                        <element name="description">
+                            <text />
+                        </element>
+                    </interleave>                
+                </element>            
+            </oneOrMore>        
+        </element>    
+    </define>
+
+    <define name="Trustees">
+        <element name="Trustees" ns="http://maicgregator.org/ns/2.0/#">
+            <oneOrMore>
+                <element name="Trustee">
+                    <optional>
+                        <attribute name="imageURL">
+                            <data type="anyURI" />
+                        </attribute>                
+                    </optional>
+                    <text />
+                </element>            
+            </oneOrMore>        
+        </element>    
+    </define>
+
+
+    <define name="DoDBR">
+        <element name="DoDBR" ns="http://maicgregator.org/ns/2.0/#">
+            <optional>
+                <oneOrMore>
+                    <ref name="DoDBRContract" />                
+                </oneOrMore>            
+            </optional>
+            <optional>
+                <oneOrMore>
+                    <ref name="DoDBRGrant" />                
+                </oneOrMore>            
+            </optional>
+        </element>
+    </define>
+
+
+    <define name="DoDBRContract">
+        <element name="contract" ns="http://maicgregator.org/ns/2.0/#">
+            <attribute name="awardID">
+                <text />
+            </attribute>
+            <attribute name="agencyName">
+                <text />
+            </attribute>
+            <interleave>
+                <element name="description">
+                    <text />
+                </element>
+                <element name="amount">
+                    <text />            
+                </element>
+            </interleave>
+        </element>    
+    </define>
+
+    <define name="DoDBRGrant">
+        <element name="grant" ns="http://maicgregator.org/ns/2.0/#">
+            <attribute name="awardID">
+                <text />
+            </attribute>
+            <attribute name="agencyName">
+                <text />
+            </attribute>
+            <interleave>
+                <element name="description">
+                    <text />
+                </element>
+                <element name="amount">
+                    <text />            
+                </element>
+            </interleave>
+        </element>    
+    </define>
+
+    <define name="PRNews">
+        <element name="PRNews" ns="http://maicgregator.org/ns/2.0/#">
+            <oneOrMore>
+                <element name="newsItem">
+                    <attribute name="href">
+                        <data type="anyURI" />
+                    </attribute>        
+                    <text />
+                </element>
+            </oneOrMore>
+        </element>
+    </define>
+
+    <define name="ClinicalTrials">
+        <element name="ClinicalTrials" ns="http://maicgregator.org/ns/2.0/#">
+            <oneOrMore>
+                <element name="ClinicalTrial">
+                    <attribute name="href">
+                        <data type="anyURI" />
+                    </attribute>
+                    <element name="title">
+                        <text />
+                    </element>
+                    <element name="institutions">
+                        <text />
+                    </element>
+                </element>
+            </oneOrMore>        
+        </element>
+    </define>
+
+    <define name="DoDSTTR">
+        <element name="DoDSTTR" ns="http://maicgregator.org/ns/2.0/#">
+            <oneOrMore>
+                <ref name="DoDSTTRContract" />
+            </oneOrMore>
+        </element>    
+    </define>
+
+    <define name="DoDSTTRContract">
+        <element name="STTRContract" ns="http://maicgregator.org/ns/2.0/#">
+            <interleave>
+                <optional>
+                    <element name="co_name">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="award_amt">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="solc_no">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="field_off">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="keywords">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="top_no">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <oneOrMore>
+                        <element name="pk_awards">
+                            <text />
+                        </element>                    
+                    </oneOrMore>
+                </optional>                
+                <optional>
+                    <element name="city">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="wholeabstract">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="zip">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="fy_report">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="agency">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="co_phone">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="state">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="program">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="pro_title">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="co_email">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="firm">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="woman">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="minority">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="end_date">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="co_ext">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="fy">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="pi_ext">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="topic_no">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="pro_no">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="phase">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="cntrl_no">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="pi_phone">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="url">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="no_emps">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="contract">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="street">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="pi_email">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="pi_name">
+                        <text />
+                    </element>                    
+                </optional>                
+                <optional>
+                    <element name="awd_date">
+                        <text />
+                    </element>                    
+                </optional>                
+
+            </interleave>
+        </element>        
+    </define>
+</grammar>
