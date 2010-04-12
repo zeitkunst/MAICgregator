@@ -12,6 +12,8 @@ import threading
 import operator
 import logging
 import hashlib
+from xml.sax.saxutils import escape, quoteattr
+
 
 import feedparser
 import PyRSS2Gen
@@ -642,9 +644,12 @@ class ProcessBase(object):
         # Make this less atomic; allow the ability to return smaller chunks, random bits, etc.
         # This means we need to come up with a REST api, as well as return error messages
         print str(datetime.datetime.now()) + " || " + schoolName + " || MAICgregator server || Getting PR data"
-        web.header('Content-Encoding', 'utf-8')
-        results = u"\n".join(unicode(item, "utf-8") for item in schoolData.getPRNews())
-        
+        results = u"\n".join(unicode(item, "utf-8", errors="ignore") for item in schoolData.getPRNews())
+
+        # HACK
+        # TODO
+        # Some data that we get has unicode data that is invalid.  We replace that here.
+        results = results.replace("\x19", "'")
         return results
 
     def PRNewsSearchRSS2(self, hostname):
@@ -883,7 +888,7 @@ class ProcessBase2(object):
             #description = "".join(font[2].contents)
 
             newsItem = etree.Element("newsItem")
-            newsItem.set("href", href)
+            newsItem.set("href", escape(href))
             titleElement = etree.Element("title")
             titleElement.text = title
             descriptionElement = etree.Element("description")
@@ -945,7 +950,7 @@ class ProcessBase2(object):
             trusteeInfo = trustee.split("\t")
             trusteeElement = etree.Element("Trustee")
             trusteeElement.text = trusteeInfo[0]
-            trusteeElement.set("imageURL", trusteeInfo[1])
+            trusteeElement.set("imageURL", escape(trusteeInfo[1]))
             trusteesElement.append(trusteeElement)
 
         class UpdateImagesThread(threading.Thread):
@@ -1106,13 +1111,17 @@ class ProcessBase2(object):
 
         for item in schoolData.getPRNews():
             linkElement = etree.Element("newsItem")
+
+            # TODO, HACK
+            # replacing an invalid XML character...
+            item = item.replace("\x19", "'")
             soup = BeautifulSoup("""%s""" % item, fromEncoding="utf-8")
             a = soup.findAll("a")
             href = a[0]['href']
             title = a[0].contents[1]
             print type(title)
             linkElement.text = title
-            linkElement.set("href", href)
+            linkElement.set("href", escape(href))
             PRNewsElement.append(linkElement)
 
         #results = u"\n".join(unicode(item, "utf-8") for item in schoolData.getPRNews())
@@ -1197,13 +1206,13 @@ class ProcessBase2(object):
             if (contract['pk_awards'] == ""):
                 contract['pk_awards'] = "0"
 
-            contractElement = etree.Element("contract")
+            contractElement = etree.Element("STTRContract")
 
             keys = contract.keys()
 
             for key in keys:
                 keyElement = etree.Element(key.lower())
-                keyElement.text = unicode(contract[key], errors='ignore')
+                keyElement.text = unicode(escape(contract[key]), errors='ignore')
                 contractElement.append(keyElement)
             STTRElement.append(contractElement)
 
@@ -1376,7 +1385,7 @@ class Aggregate(ProcessBase):
         params = params.split("/")[-1]
         paramList = params.split("+")
 
-        outputString = u"<?xml version=\"1.0\"?>\n"
+        outputString = u"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
         outputString += u"<results>\n"
         
         for param in paramList:
@@ -1388,6 +1397,7 @@ class Aggregate(ProcessBase):
         outputString += u"</results>\n"
 
         web.header("Content-Type", "text/xml; charset=utf-8")
+        web.header('Content-Encoding', 'utf-8')
         # Simple replacement
         outputString = outputString.replace("&", "&amp;")
         return outputString
@@ -1403,7 +1413,7 @@ class Aggregate20(ProcessBase2):
         params = params.split("/")[-1]
         paramList = params.split("+")
 
-        results = etree.Element(self.MAICNS + "results", nsmap = self.NSMAP)
+        results = etree.Element(self.MAICNS + "MAICgregator", nsmap = self.NSMAP)
 
         for param in paramList:
             resultFunction = getattr(process, param)
