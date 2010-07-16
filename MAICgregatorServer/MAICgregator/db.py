@@ -6,6 +6,7 @@
 
 
 import cPickle
+import pickle
 import re
 import time
 import random
@@ -144,7 +145,13 @@ class DBManager(object):
         xtxn = self.dbEnvironment.txn_begin()
         pickledValue = self.db.get(key, txn = xtxn)
         xtxn.commit()
-        return cPickle.loads(pickledValue)
+        try:
+            data = cPickle.loads(pickledValue)
+            return data
+        except TypeError:
+            # There's some problem with the pickled value, so return None so that the caller knows it needs to remake everything
+            print "ERROR: Pickled data contains an error, redoing searches"
+            return None
 
     def syncDB(self):
         self.db.sync()
