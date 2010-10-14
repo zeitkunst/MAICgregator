@@ -395,27 +395,35 @@ def TrusteeImage(personName, withQuotes = True):
     results = response.read()
     parser = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
     soup = parser.parse(results)
-    script = soup.findAll("script")
 
-    # go through each script tag and only accept it if we can find the imgres value
-    imgScript = None
-    for scriptTag in script:
-        if (str(scriptTag).find("imgres?imgurl\\x3d") != -1):
-            imgScript = str(scriptTag)
+    # Find the div with the images
+    div = soup.findAll("div", id="ImgCont")
     
-    # If we weren't able to find anything, just take the tag that has been the most useful, just so the following code works...
-    if (imgScript is None):
-        imgScript = str(script[4])
+    # If there's nothing found, return None
+    if (len(div) == 0):
+        return None
 
-    imgList = imgScript.split("imgres?imgurl\\x3d")
+    # Get the links in the div
+    links = div[0].findAll("a")
 
-    imgSrc = None
-    imgList = imgList[1:]
-    for img in imgList:
-        if (img.find("muckety") == -1):
-            imgSrc = img
-            break
-    #print "imgSrc IS: " + imgSrc
+    # If there're no links, return None
+    if (len(links) == 0):
+        return None
+
+    # If we're here, then we're probably okay
+    # Get the first link
+    link = links[0]
+
+    # Create our regex
+    value = re.compile("imgurl=(.+)&imgrefurl")
+    m = value.search(link)
+    
+    # Our link should be the first returned result
+    imageLink = m.groups()[0]
+    print imageLink
+    return imageLink
+
+    # Check and see
 
     if (imgSrc != None):
         return imgSrc.split("\\x26")[0]
