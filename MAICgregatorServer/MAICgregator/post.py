@@ -396,6 +396,22 @@ def TrusteeImage(personName, withQuotes = True):
     parser = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
     soup = parser.parse(results)
 
+    # check for meta tag, if we have it we need to find the redirect
+    meta = soup.findAll("div", id="tphdr")
+    contents = meta[0].contents[0]
+    metaRE = re.compile("0;url=(.+)\"")
+    m = metaRE.search(str(contents))
+
+    # If we have a match, do the redirect
+    if (len(m.groups()) > 0):
+        redirectURL = m.groups()[0]
+        print redirectURL
+
+        request = urllib2.Request(redirectURL, None, headers)
+        response = opener.open(request)
+        results = response.read()
+        soup = parser.parse(results)
+
     # Find the div with the images
     div = soup.findAll("div", id="ImgCont")
     
