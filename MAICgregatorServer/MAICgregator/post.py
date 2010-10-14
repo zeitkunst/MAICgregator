@@ -432,19 +432,12 @@ def TrusteeImage(personName, withQuotes = True):
 
     # Create our regex
     value = re.compile("imgurl=(.+)&imgrefurl")
-    m = value.search(link)
+    m = value.search(link["href"])
     
     # Our link should be the first returned result
     imageLink = m.groups()[0]
     print imageLink
     return imageLink
-
-    # Check and see
-
-    if (imgSrc != None):
-        return imgSrc.split("\\x26")[0]
-    else:
-        return None
 
 def ClinicalTrialsQuery(query):
     url = "http://clinicaltrials.gov/ct2/results?term=&recr=&rslt=&type=&cond=&intr=&outc=&lead=&spons=%s&spons_ex=Y&id=&state1=&cntry1=&state2=&cntry2=&state3=&cntry3=&locn=&gndr=&rcv_s=&rcv_e=&lup_s=&lup_e="

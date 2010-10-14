@@ -97,6 +97,7 @@ class WhoisStore(object):
 
     def _getEduWHOIS(self, domain, whoisServer = "whois.educause.net", port = 43):
         # Make sure we're only looking up the root domain, not the entire domain name
+        print domain
         domainSplit = domain.split(".")
         host = domainSplit[-2] + "." + domainSplit[-1]
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
