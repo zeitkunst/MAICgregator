@@ -397,10 +397,12 @@ def TrusteeImage(personName, withQuotes = True):
     soup = parser.parse(results)
 
     # check for meta tag, if we have it we need to find the redirect
-    meta = soup.findAll("div", id="tphdr")
-    contents = meta[0].contents[0]
+    # From 3 March 2011, just need the regex
+    #meta = soup.findAll("div", id="tphdr")
+    #contents = meta[0].contents[0]
     metaRE = re.compile("0;url=(.+)\"")
-    m = metaRE.search(str(contents))
+    #m = metaRE.search(str(contents))
+    m = metaRE.search(str(results))
 
     # If we have a match, do the redirect
     if (len(m.groups()) > 0):
