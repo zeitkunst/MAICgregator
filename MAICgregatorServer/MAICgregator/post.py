@@ -146,10 +146,6 @@ def STTRQuery(query):
 def MarketwireQuery(query):
     #params = {'grpSearch': 'K',
     #          'params': query}
-    params = {"__EVENTARGUMENT": "",
-            "__EVENTTARGET": "",
-            "__EVENTVALIDATION": "",
-            "__VIEWSTATE": "","ctl00$p$WebPartContainer1$searchForm$txtSearchFor": query}
 
     headers = {'User-Agent': 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.6) Gecko/2009020911 Ubuntu/8.04 (hardy) Firefox/3.0.6',
                'Referer': 'http://www.defense.gov',
@@ -177,9 +173,25 @@ def MarketwireQuery(query):
     params = {"__EVENTARGUMENT": argument["value"],
             "__EVENTTARGET": target["value"],
             "__EVENTVALIDATION": validation["value"],
-            "__VIEWSTATE": viewstate["value"],"ctl00$p$WebPartContainer1$searchForm$txtSearchFor": query}
+            "__VIEWSTATE": viewstate["value"],
+              "ctl00$QuickSearch1$txtSearchFor": "",
+              "ctl00$QuickSearch1$rblSearchForOptions": "news",
+              "ctl00$QuickSearch1$hdnSelectedStocks": "",
+            "ctl00$p$WebPartContainer1$searchForm$hdnSelectedSubIndustries": "",
+            "ctl00$p$WebPartContainer1$searchForm$hdnSelectedStocks": "",
+            "ctl00$p$WebPartContainer1$searchForm$txtSearchFor": query,
+            "ctl00$p$WebPartContainer1$searchForm$rblSearchForOptions": "keyword",
+            "ctl00$p$WebPartContainer1$searchForm$drpLanguageOptions": "en-US",
+            "ctl00$p$WebPartContainer1$searchForm$rblTypeOptions": "all",
+            "ctl00$p$WebPartContainer1$searchForm$rblTimeOptions": "time",
+            "ctl00$p$WebPartContainer1$searchForm$drpTimeOptions": "month",
+            "ctl00$p$WebPartContainer1$searchForm$dtpTimeFrom$txtDateTime": "",
+            "ctl00$p$WebPartContainer1$searchForm$dtpTimeTo$txtDateTime": "",
+            "ctl00$p$WebPartContainer1$searchForm$btnSearch": "Search News",
+             }
+
     paramsEncoded = urllib.urlencode(params)
-    print viewstate.value
+
     url = 'http://www.marketwire.com/AdvancedSearch.aspx'
     request = urllib2.Request(url, paramsEncoded, headers)
     response = opener.open(request)
