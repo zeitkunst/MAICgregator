@@ -691,24 +691,27 @@ class SchoolData(object):
         schoolMetadataDirty = False 
 
         if ((timestamp is None) or (time.time() >= (timestamp + self.DAY))):
+        #if ((timestamp is None) or (time.time() >= 0)):
             data = post.MarketwireQuery(self.schoolName)
 
             soup = BeautifulSoup(data)
             
             # Get the links in the mainContent div
-            print soup
-            mainContent = soup.find("div", "lead")
-            print "mainContent" + mainContent
-            links = mainContent.findAll("a")
+            advancedSearch = soup.findAll("div", "AdvancedSearch")
+            links = advancedSearch[0].findAll("a")
             
             linksLength = len(links)
-            linksParsed = links[2:linksLength - 4]
+            linksParsed = links[4:]
             
             # Since each link has some newlines in it, this is going to screw up my responses later
             linksCleaned = []
             for item in linksParsed:
-                linksCleaned.append(str(item).replace("\n", ""))
-
+                item["href"] = "http://marketwire.com" + item["href"]
+                cleanedItem = str(item).replace("\n", "")
+                cleanedItem = str(cleanedItem.replace("\r", ""))
+                linksCleaned.append(cleanedItem)
+                #linksCleaned.append(str(item).replace("\n", ""))
+            
             self.schoolMetadata['PRNews']['data'] = linksCleaned
             self.schoolMetadata['PRNews']['timestamp'] = time.time()
             

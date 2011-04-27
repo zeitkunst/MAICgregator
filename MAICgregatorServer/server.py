@@ -672,7 +672,8 @@ class ProcessBase(object):
         for result in results:
             timestamp = schoolData.schoolMetadata['PRNews']['timestamp']
             soup = BeautifulSoup(result)
-            title = soup.a.contents[1].strip()
+            print soup
+            title = soup.a.contents[0].strip()
             description = title
             url = soup.a['href']
 
