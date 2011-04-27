@@ -144,13 +144,17 @@ def STTRQuery(query):
     #fp.close()
 
 def MarketwireQuery(query):
-    params = {'grpSearch': 'K',
-              'params': query}
+    #params = {'grpSearch': 'K',
+    #          'params': query}
+    params = {"__EVENTARGUMENT": "",
+            "__EVENTTARGET": "",
+            "__EVENTVALIDATION": "",
+            "__VIEWSTATE": "","ctl00$p$WebPartContainer1$searchForm$txtSearchFor": query}
+
     headers = {'User-Agent': 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.6) Gecko/2009020911 Ubuntu/8.04 (hardy) Firefox/3.0.6',
-               'Referer': 'http://www.dodsbir.net/Awards/Default.asp',
+               'Referer': 'http://www.defense.gov',
                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'}
 
-    paramsEncoded = urllib.urlencode(params)
 
     cj = cookielib.LWPCookieJar()
 
@@ -158,7 +162,25 @@ def MarketwireQuery(query):
         cj.load(COOKIEFILE)
 
     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
-    url = 'http://www.marketwire.com/mw/search.do'
+    url = 'http://www.marketwire.com/AdvancedSearch.aspx'
+    request = urllib2.Request(url, None, headers)
+    response = opener.open(request)
+    result = response.read()
+    opener.close()
+
+    soup = BeautifulSoup(result)
+    argument = soup.find(id="__EVENTARGUMENT")
+    target = soup.find(id="__EVENTTARGET")
+    validation = soup.find(id="__EVENTVALIDATION")
+    viewstate = soup.find(id="__VIEWSTATE")
+
+    params = {"__EVENTARGUMENT": argument["value"],
+            "__EVENTTARGET": target["value"],
+            "__EVENTVALIDATION": validation["value"],
+            "__VIEWSTATE": viewstate["value"],"ctl00$p$WebPartContainer1$searchForm$txtSearchFor": query}
+    paramsEncoded = urllib.urlencode(params)
+    print viewstate.value
+    url = 'http://www.marketwire.com/AdvancedSearch.aspx'
     request = urllib2.Request(url, paramsEncoded, headers)
     response = opener.open(request)
     result = response.read()

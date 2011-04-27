@@ -696,7 +696,9 @@ class SchoolData(object):
             soup = BeautifulSoup(data)
             
             # Get the links in the mainContent div
-            mainContent = soup.find("div", "mainContent")
+            print soup
+            mainContent = soup.find("div", "lead")
+            print "mainContent" + mainContent
             links = mainContent.findAll("a")
             
             linksLength = len(links)
