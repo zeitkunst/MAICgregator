@@ -2,18 +2,13 @@
 <RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
          xmlns:NC="http://home.netscape.com/NC-rdf#"
          xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <RDF:Description RDF:about="rdf:#$aNnZV"
-                   em:version="0.1.3">
-    <em:targetApplication RDF:resource="rdf:#$uNnZV"/>
-  </RDF:Description>
-  <RDF:Description RDF:about="rdf:#$dNnZV"
-                   em:version="0.1.5.1">
-    <em:targetApplication RDF:resource="rdf:#$yNnZV"/>
-  </RDF:Description>
-  <RDF:Description RDF:about="urn:mozilla:extension:maicgregator@maicgregator.org"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBABXRC2TpxbBiVuTALpsKaEe4w+JB7Q4lF5wy8vJ/A0Jv3ghj9epSJBwEUmwxfz8sqK4H3X8U60Nvn1Z/miiORdRZdQKr90mMp88UNd2BEtl7IZXbXUDmjwRGlAkvGuAPM7qzUrVB2XSGbKcpSdW68a5z8kshZOAFGYz/2D8kuny5">
-    <em:updates RDF:resource="rdf:#$eNnZV"/>
-  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$xNnZV"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="3.0"
+                   em:maxVersion="5.*"
+                   em:updateLink="http://maicgregator.org/static/MAICgregator.0.1.5.xpi"
+                   em:updateInfoURL="http://maicgregator.org/static/MAICgregator.0.1.5.xhtml"
+                   em:updateHash="sha1:1155ceb7634d3ff0409a0e68cd76a3b959123014" />
   <RDF:Description RDF:about="rdf:#$yNnZV"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="3.0"
@@ -21,9 +16,15 @@
                    em:updateLink="http://maicgregator.org/static/MAICgregator.0.1.5.1.xpi"
                    em:updateInfoURL="http://maicgregator.org/static/MAICgregator.0.1.5.1.xhtml"
                    em:updateHash="sha1:00068d7098ae81aea44422f00487ee8e4bdbf558" />
-  <RDF:Description RDF:about="rdf:#$fNnZV"
-                   em:version="0.1.2">
-    <em:targetApplication RDF:resource="rdf:#$iNnZV"/>
+  <RDF:Description RDF:about="rdf:#$iNnZV"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="3.0"
+                   em:maxVersion="5.*"
+                   em:updateLink="http://maicgregator.org/static/MAICgregator.0.1.2.xpi"
+                   em:updateHash="sha1:ca2fdaa56eea1cc89348c74a9faf20569aa8a1d8" />
+  <RDF:Description RDF:about="urn:mozilla:extension:maicgregator@maicgregator.org"
+                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAHJT3Y4T2p3oS2PeIi/FuQkpG8NL2phiOOU5Eqvu+ho0Rt9abJ2qOeTgadT/owXuTkR9N3SkV55oxaSQ0nSP/xIEsdsDXp2wj7inxQ6WNpRkJ2YR2x3sF+pj7LKWnFnpCDrU9DHGk2ru/3rh9a+NuawBgwDmcHRXM/4a2SdBxs2j">
+    <em:updates RDF:resource="rdf:#$eNnZV"/>
   </RDF:Description>
   <RDF:Seq RDF:about="rdf:#$eNnZV">
     <RDF:li RDF:resource="rdf:#$030Info"/>
@@ -35,56 +36,13 @@
     <RDF:li RDF:resource="rdf:#$fNnZV"/>
     <RDF:li RDF:resource="rdf:#$oNnZV"/>
   </RDF:Seq>
-  <RDF:Description RDF:about="rdf:#$iNnZV"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="3.0"
-                   em:maxVersion="5.*"
-                   em:updateLink="http://maicgregator.org/static/MAICgregator.0.1.2.xpi"
-                   em:updateHash="sha1:ca2fdaa56eea1cc89348c74a9faf20569aa8a1d8" />
-  <RDF:Description RDF:about="rdf:#$rNnZV"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="3.0"
-                   em:maxVersion="5.*"
-                   em:updateLink="http://maicgregator.org/static/MAICgregator.0.1.1.xpi"
-                   em:updateHash="sha1:e445463ad853e51c30cfe8bef5dcf1131571e8ae" />
-  <RDF:Description RDF:about="rdf:#$bNnZV"
-                   em:version="0.1.4">
-    <em:targetApplication RDF:resource="rdf:#$vNnZV"/>
-  </RDF:Description>
-  <RDF:Description RDF:about="rdf:#$030Info"
-                   em:version="0.3.0">
-    <em:targetApplication RDF:resource="rdf:#$030Data"/>
-  </RDF:Description>
-  <RDF:Description RDF:about="rdf:#$uNnZV"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="3.0"
-                   em:maxVersion="5.*"
-                   em:updateLink="http://maicgregator.org/static/MAICgregator.0.1.3.xpi"
-                   em:updateHash="sha1:c0e3f5c1b9827d6b1bcce94668bf58b8d2d08de0" />
-  <RDF:Description RDF:about="rdf:#$vNnZV"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="3.0"
-                   em:maxVersion="5.*"
-                   em:updateLink="http://maicgregator.org/static/MAICgregator.0.1.4.xpi"
-                   em:updateHash="sha1:289e2d71d9abbc0830c85bd066cb309bf70ddc97" />
-  <RDF:Description RDF:about="rdf:#$020Info"
-                   em:version="0.2.0">
-    <em:targetApplication RDF:resource="rdf:#$020Data"/>
-  </RDF:Description>
-  <RDF:Description RDF:about="rdf:#$xNnZV"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="3.0"
-                   em:maxVersion="5.*"
-                   em:updateLink="http://maicgregator.org/static/MAICgregator.0.1.5.xpi"
-                   em:updateInfoURL="http://maicgregator.org/static/MAICgregator.0.1.5.xhtml"
-                   em:updateHash="sha1:1155ceb7634d3ff0409a0e68cd76a3b959123014" />
   <RDF:Description RDF:about="rdf:#$oNnZV"
                    em:version="0.1.1">
     <em:targetApplication RDF:resource="rdf:#$rNnZV"/>
   </RDF:Description>
-  <RDF:Description RDF:about="rdf:#$cNnZV"
-                   em:version="0.1.5">
-    <em:targetApplication RDF:resource="rdf:#$xNnZV"/>
+  <RDF:Description RDF:about="rdf:#$030Info"
+                   em:version="0.3.0">
+    <em:targetApplication RDF:resource="rdf:#$030Data"/>
   </RDF:Description>
   <RDF:Description RDF:about="rdf:#$020Data"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
@@ -93,11 +51,53 @@
                    em:updateLink="http://maicgregator.org/static/MAICgregator.0.2.0.xpi"
                    em:updateInfoURL="http://maicgregator.org/static/MAICgregator.0.2.0.xhtml"
                    em:updateHash="sha1:4e4cc3f0e6929ebea0ebaf42ab74cd83559c3601" />
+  <RDF:Description RDF:about="rdf:#$020Info"
+                   em:version="0.2.0">
+    <em:targetApplication RDF:resource="rdf:#$020Data"/>
+  </RDF:Description>
   <RDF:Description RDF:about="rdf:#$030Data"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="3.0"
                    em:maxVersion="4.0.*"
                    em:updateLink="http://maicgregator.org/static/MAICgregator.0.3.0.xpi"
                    em:updateInfoURL="http://maicgregator.org/static/MAICgregator.0.3.0.xhtml"
-                   em:updateHash="sha1:14e6971281d4c1cd0fa59b03e648666f4653aca9" />
+                   em:updateHash="sha1:df6e9aacfaf84bbe163bed79ad4cf706decfc050" />
+  <RDF:Description RDF:about="rdf:#$fNnZV"
+                   em:version="0.1.2">
+    <em:targetApplication RDF:resource="rdf:#$iNnZV"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$cNnZV"
+                   em:version="0.1.5">
+    <em:targetApplication RDF:resource="rdf:#$xNnZV"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$aNnZV"
+                   em:version="0.1.3">
+    <em:targetApplication RDF:resource="rdf:#$uNnZV"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$bNnZV"
+                   em:version="0.1.4">
+    <em:targetApplication RDF:resource="rdf:#$vNnZV"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$rNnZV"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="3.0"
+                   em:maxVersion="5.*"
+                   em:updateLink="http://maicgregator.org/static/MAICgregator.0.1.1.xpi"
+                   em:updateHash="sha1:e445463ad853e51c30cfe8bef5dcf1131571e8ae" />
+  <RDF:Description RDF:about="rdf:#$uNnZV"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="3.0"
+                   em:maxVersion="5.*"
+                   em:updateLink="http://maicgregator.org/static/MAICgregator.0.1.3.xpi"
+                   em:updateHash="sha1:c0e3f5c1b9827d6b1bcce94668bf58b8d2d08de0" />
+  <RDF:Description RDF:about="rdf:#$dNnZV"
+                   em:version="0.1.5.1">
+    <em:targetApplication RDF:resource="rdf:#$yNnZV"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$vNnZV"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="3.0"
+                   em:maxVersion="5.*"
+                   em:updateLink="http://maicgregator.org/static/MAICgregator.0.1.4.xpi"
+                   em:updateHash="sha1:289e2d71d9abbc0830c85bd066cb309bf70ddc97" />
 </RDF:RDF>
