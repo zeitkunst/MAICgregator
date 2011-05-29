@@ -5,11 +5,11 @@
   <RDF:Description RDF:about="rdf:#$db.xm1"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="3.0"
-                   em:maxVersion="3.6a1pre" />
+                   em:maxVersion="4.0.*" />
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="maicgregator@maicgregator.org"
                    em:name="MAICgregator"
-                   em:version="0.1.5.1"
+                   em:version="0.3.0"
                    em:creator="MAICgregator; info@maicgregator.org"
                    em:description="MAICgregator"
                    em:homepageURL="http://maicgregator.org"
