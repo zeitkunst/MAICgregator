@@ -11,4 +11,4 @@ pref("extensions.MAICgregator.ClinicalTrials", true);
 pref("extensions.MAICgregator.HighlightWords", true);
 pref("extensions.MAICgregator.randomize", true);
 pref("extensions.MAICgregator.infoStatus", false);
-pref("extensions.MAICgregator.animation", false);
+pref("extensions.MAICgregator.animation", true);

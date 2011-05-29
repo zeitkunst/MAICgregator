@@ -706,7 +706,7 @@ var MAICgregator = {
             aNode = childNodes[index];
             
             href = aNode.getAttribute("href");
-            text = aNode.childNodes[1].nodeValue;
+            text = aNode.childNodes[0].nodeValue;
 
             aNodeNew = MAICgregator.doc.createElement("a");
             aNodeNew.setAttribute("href", href);
