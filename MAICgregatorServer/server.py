@@ -22,7 +22,7 @@ from bsddb3.db import *
 from dbxml import *
 from lxml import etree
 import web
-from wsgilog import WsgiLog, LogIO
+from wsgilog import WsgiLog
 import textile
 
 from MAICgregator import post
@@ -96,7 +96,7 @@ urls = (
 )
 
 app = web.application(urls, globals())
-webDB = web.database(dbn='mysql', db='MAICgregator', user='MAICgregator', pw='violas')
+webDB = web.database(dbn='mysql', db='MAICgregator', user='MAICgregator', pw='qC7pzcWzJ2DG65fs')
 if web.config.get('_session') is None:
     session = web.session.Session(app, web.session.DiskStore('sessions'),  initializer = {'loggedIn': False})
     web.config._session = session
@@ -113,12 +113,13 @@ class Log(WsgiLog):
             application,
             logformat = '%(message)s',
             tofile = True,
+            toprint = True,
             file = config.log_file,
             interval = config.log_interval,
             backups = config.log_backups
         )
-        sys.stdout = LogIO(self.logger, logging.INFO)
-        sys.stderr = LogIO(self.logger, logging.ERROR)
+        #sys.stdout = LogIO(self.logger, logging.INFO)
+        #sys.stderr = LogIO(self.logger, logging.ERROR)
 
 class index:
     def GET(self):
